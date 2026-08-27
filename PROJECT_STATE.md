@@ -23,24 +23,36 @@ Scripts: `dev`, `build` (`tsc -b && vite build`), `preview`, `lint`,
 | Route | Status | Purpose |
 |---|---|---|
 | `/` | Built | Homepage: Hero → Intro → Impact → LogoStrip → SelectedWork → Testimonials → Contact |
-| `/about` | **Scaffold only** | Renders `sections/About.tsx` + footer. Content exists, page design not started |
+| `/work` | Built | Work index: all three case studies as a linked list. `pages/WorkPage.tsx` |
+| `/about` | Built | Three-environment page (surface → shallows → depths) + life tiles. `pages/AboutPage.tsx` |
 | `/playground` | **Scaffold only** | Renders `sections/Playground.tsx` + footer. Content exists, page design not started |
 | `/work/:slug` | **Scaffold only** | Generic case-study template. Shows index/client/headline/impact/tags/hero image, then a literal placeholder: "Full case study … coming next" |
 
 Valid `:slug` values: `clean4wheels`, `niopractice`, `housing`. Unknown slugs render a
 "That case study isn't here." fallback.
 
-**Planned, does not exist:** a dedicated `/work` index page. Nav's "Work" link is
-still a hash jump to the `#work` section on the homepage, unlike About/Playground
-which are real routes.
+Every nav item is now a real route — the "Work" link points at `/work`, and the
+homepage-hash machinery (`goToSection`, the active-section observer) has been removed
+from `Nav.tsx`. The homepage keeps its `#work` sticky card stack; `/work` is a separate
+flat index. The case-study back link points to `/work`.
 
 ## 3. Current Implementation
 
-**Pages:** `pages/AboutPage.tsx`, `pages/PlaygroundPage.tsx`, `sections/CaseStudy.tsx`.
+**Pages:** `pages/WorkPage.tsx`, `pages/AboutPage.tsx`, `pages/PlaygroundPage.tsx`,
+`sections/CaseStudy.tsx`.
+
+**About page** — modelled on zainabkabira.com/about: one continuous descent through
+three water environments joined by `WaveDivider` (never a hard edge), each divider
+filled with the colour of the section arriving *underneath* it.
+`Surface` (white→aqua gradient, portrait in ripple rings, stats) →
+`Shallows` (white, experience timeline + education) →
+`Depths` (full-bleed `powder-blue`, six square life tiles + skills).
+`sections/About.tsx` was deleted — its skills/experience/education content is fully
+carried into the new page, and it had no importers left.
 
 **Homepage sections** (`src/sections/`): `Hero`, `Intro`, `Impact`, `LogoStrip`,
-`SelectedWork`, `Testimonials`, `Contact`, plus `About` / `Playground` (now used by
-their routes, not the homepage).
+`SelectedWork`, `Testimonials`, `Contact`, plus `Playground` (used by its route, not
+the homepage).
 
 **Reusable UI** (`src/components/ui.tsx`): `Container` (1200px max), `Button`
 (primary/secondary/ghost), `Card`, `Pill`, `SectionHeader`, `Reveal`, `Stagger` +
@@ -56,6 +68,7 @@ section-jumps per link. `ScrollToTop.tsx` — resets scroll on route change.
 - `FishTrail.tsx` — koi swimming a scroll-scrubbed path down the whole document.
 - `PondScene.tsx` — footer illustration: tabby cat with pointer-tracking pupils, submerged pads/lotuses, koi.
 - `Floaties.tsx` — decorative SVG objects (Cloud, Crayon, Envelope, Smiley, Bloom, IrisBlob, `Float` wrapper).
+- `Water.tsx` — **SVG-only** pond kit, no canvas: `WaveDivider`, `LilyPad`, `RippleRings`, `Koi`, `DriftingKoi`, `Caustics`, `Cue`. Built for `/about`; reusable anywhere off the critical path.
 - `scenes/mockups.tsx` — hand-built UI panels (`Clean4Wheels`, `NioPractice`, `Aumraa`, `Housing`) used as image fallbacks.
 
 **Utilities** (`src/lib/`): `camera.ts` (3D camera maths), `ripple.ts` (water sim),
@@ -63,7 +76,8 @@ section-jumps per link. `ScrollToTop.tsx` — resets scroll on route change.
 with Indian vs. Western digit-grouping detection).
 
 **Content:** all copy in `src/lib/content.ts` — `profile`, `companies`, `experience`,
-`selectedWork`, `projects`, `sideProjects`, `skills`, `education`, `testimonials`.
+`selectedWork`, `projects`, `sideProjects`, `skills`, `education`, `testimonials`,
+`workIndex`, `aboutPage`, `lifeTiles`.
 
 ## 4. Design System
 
@@ -113,12 +127,9 @@ All under `public/`, referenced by absolute path (`/work/...`).
 
 ## 7. Current Problems
 
-**Critical**
-- Not a git repository. No version control at all — `git status` fails. All work is unbacked.
-
 **Important**
-- `/about`, `/playground` and all three case-study pages are scaffolds with placeholder bodies. The case-study template says "Full case study … coming next" on screen.
-- Nav is inconsistent: About/Playground are routes, Work is a homepage hash jump. No `/work` index exists.
+- `/playground` and all three case-study pages are scaffolds with placeholder bodies. The case-study template says "Full case study … coming next" on screen.
+- Two About life tiles carry `TODO(kavita)` placeholder copy in `content.ts` (`lifeTiles.song`, `lifeTiles.quote`), and `lifeTiles.photos.images` is empty — the photo stack repeats `avatar.png` until real photos land in `public/life/`.
 - `components/ScrollWorld.tsx` is orphaned — imported nowhere, still shipped in `src/`. Its `camera.ts` + `camera.test.ts` exist only to serve it.
 - No SEO beyond a single `<meta description>` and `<title>`. No Open Graph, no per-route metadata (routes share one title).
 - Bundle is **431 kB / 137 kB gzip** with no code-splitting; hero canvas + fish trail + footer SVG all load upfront.
@@ -133,25 +144,22 @@ All under `public/`, referenced by absolute path (`/work/...`).
 
 ## 8. Remaining Work
 
-1. **Work page** — build a `/work` index route; repoint the Nav "Work" link from the `#work` hash to it.
-2. **Case study 1 (Clean4Wheels)** — replace the placeholder with the real write-up: problem, research, flows, outcomes.
-3. **Case study 2 (NioPractice)** — same.
-4. **Case study 3 (Housing.com)** — same; it already has three real screens to build around.
-5. **About page** — design the page; content (`skills`, `experience`, `education`) already exists.
-6. **Playground** — design the page; `sideProjects` exists. Motion reel / Medium posts still to be added.
-7. **Responsive refinement** — audit every section at mobile/tablet; even out breakpoint coverage.
-8. **Accessibility** — keyboard nav, focus states, alt text, contrast beyond hero/footer.
-9. **SEO** — per-route titles/meta, Open Graph, sitemap, robots.
-10. **Performance** — route-level code-splitting; lazy-load canvas/SVG work off the critical path.
-11. **GitHub** — `git init`, first commit, push (nothing is version-controlled yet).
-12. **Production deployment** — Vercel or Netlify; needs an SPA rewrite so `/about` etc. don't 404 on refresh.
-13. **Custom domain** — buy and point DNS.
+1. **Case study 1 (Clean4Wheels)** — replace the placeholder with the real write-up: problem, research, flows, outcomes.
+2. **Case study 2 (NioPractice)** — same.
+3. **Case study 3 (Housing.com)** — same; it already has three real screens to build around.
+4. **Playground** — design the page; `sideProjects` exists. Motion reel / Medium posts still to be added.
+5. **Responsive refinement** — audit every section at mobile/tablet; even out breakpoint coverage.
+6. **Accessibility** — keyboard nav, focus states, alt text, contrast beyond hero/footer.
+7. **SEO** — per-route titles/meta, Open Graph, sitemap, robots.
+8. **Performance** — route-level code-splitting; lazy-load canvas/SVG work off the critical path.
+9. **Production deployment** — Vercel or Netlify; needs an SPA rewrite so `/about` etc. don't 404 on refresh.
+10. **Custom domain** — buy and point DNS.
 
 ## 9. Deployment
 
 - **Local dev:** `npm run dev` on port 5173 (`.claude/launch.json` defines a `portfolio` config).
-- **Git:** none — not initialised.
-- **GitHub:** no remote.
+- **Git:** initialised, branch `main`.
+- **GitHub:** https://github.com/kavya-2709/kavita-portfolio (public).
 - **Hosting:** none. Never deployed.
 - **Domain:** none. Existing public site is the old Framer one at `kycanvas.framer.website` (separate, not this codebase).
 - **Environment variables:** none. No `.env` file, no secrets or API keys anywhere.
@@ -159,6 +167,6 @@ All under `public/`, referenced by absolute path (`/work/...`).
 
 ---
 
-**NEXT TASK: Initialise git and push to GitHub (`git init`, `.gitignore` is already present, first commit, create remote).**
+**NEXT TASK: Write the Clean4Wheels case study — replace the "coming next" placeholder in `sections/CaseStudy.tsx` with a real write-up (problem, research, flows, outcomes).**
 
-Everything built so far — the pond canvas, fish trail, footer scene, all content — exists only on this machine with no version control. Do this before writing any case study, so subsequent work is recoverable.
+`/work` now lists all three case studies and every card links into the template, so the placeholder body is the most visible gap on the site.

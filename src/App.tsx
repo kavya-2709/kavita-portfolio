@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import CaseStudy from "./sections/CaseStudy";
 import AboutPage from "./pages/AboutPage";
+import WorkPage from "./pages/WorkPage";
 import PlaygroundPage from "./pages/PlaygroundPage";
 import Loader from "./components/Loader";
 import Nav from "./components/Nav";
@@ -46,6 +47,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/playground" element={<PlaygroundPage />} />
+            <Route path="/work" element={<WorkPage />} />
             <Route path="/work/:slug" element={<CaseStudy />} />
           </Routes>
         </>

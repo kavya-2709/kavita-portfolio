@@ -72,7 +72,93 @@ export const experience = [
   },
 ];
 
+/* ── About page ──────────────────────────────────────────────────────
+   Three environments: the surface (hero), the shallows (career), the
+   depths (life tiles). Copy only — the page itself is pages/AboutPage.tsx. */
+export const aboutPage = {
+  eyebrow: "India · UTC+5:30",
+  /** The opening claim. Reframes the CS degree as the differentiator. */
+  statement: "I trained as an engineer. Now I design the products people have to live with.",
+  intro: [
+    "Four years of computer science taught me how systems break. Design taught me that people give up long before the system does — somewhere around step seven of a nine-step form.",
+    "I've spent that time shipping 10+ products end to end across car care, exam prep, faith-tech and property — research and problem framing through flows, design systems and developer handoff. Work that's reached over a lakh people.",
+    "What I'm actually good at: taking something tangled, sitting with it until the real problem surfaces, and making the next step obvious.",
+  ],
+  experienceTitle: "Where I've worked",
+  experienceLead: "Five teams, four industries, one throughline: shipping flows that measurably move.",
+  educationTitle: "How I got here",
+  skillsTitle: "What I work with",
+  depthsTitle: "Below the surface",
+  depthsLead: "The parts that don't fit on a CV.",
+  cue: "Everything below the waterline is true, and mostly unemployable.",
+};
+
+/**
+ * Square "life tiles" — the personal half of the About page.
+ *
+ * Only edit the strings; the page renders each `kind` as its own widget.
+ * TODO(kavita): the two tiles marked below are placeholders — swap in your
+ * real quote and the song, and drop photos into `public/life/` for the stack.
+ */
+export const lifeTiles = {
+  photos: {
+    label: "Off the clock",
+    year: "2026",
+    // TODO(kavita): add real photos to public/life/ and list them here, e.g.
+    // ["/life/one.jpg", "/life/two.jpg", "/life/three.jpg"].
+    // Empty renders the avatar three times; a missing file falls back to it too.
+    images: [] as string[],
+    fallback: "/avatar.png",
+  },
+  todo: {
+    day: "Saturday",
+    title: "This weekend",
+    // TODO(kavita): replace with your actual list.
+    items: [
+      "Finish the Clean4Wheels write-up",
+      "Redraw the koi, properly this time",
+      "Long walk, no podcast",
+      "Call home",
+    ],
+  },
+  song: {
+    label: "On repeat",
+    // TODO(kavita): your song and artist.
+    track: "Still not decided",
+    artist: "Ask me again tomorrow",
+    duration: "-3:12",
+  },
+  quote: {
+    // TODO(kavita): swap for the line you actually live by.
+    text: "Make the next step obvious.",
+    author: "The whole job, honestly",
+  },
+  coded: {
+    label: "Recently coded",
+    title: "A pond that ripples when you touch it",
+    detail: "Canvas water sim — domain-warped fBm, pointer trail, a koi that follows the scroll. It's the front page of this site.",
+    cta: "Go poke it",
+    href: "/",
+  },
+  status: {
+    label: "Currently",
+    title: "Available for work",
+    detail: "Product & UX design roles — remote or India.",
+    cta: "Let's talk",
+    href: "#contact",
+  },
+};
+
 /** Selected work cards — copy and imagery pulled from the Framer portfolio. */
+export const workIndex = {
+  eyebrow: "Case studies",
+  title: "Work",
+  subhead:
+    "Three products, three industries — car care, exam prep and property hunting. Different users, same job: making the next step obvious.",
+  cta: "Read case study",
+  outro: "More work — side projects, motion and experiments — lives in the Playground.",
+};
+
 export const selectedWork = [
   {
     index: "01",

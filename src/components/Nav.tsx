@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { EASE } from "./ui";
 
-/** `to` is a route; `hash` is a section on the homepage. */
+/** Every nav item is a real route — no homepage hash jumps. */
 const LINKS = [
-  { id: "work", label: "Work", hash: "work" },
+  { id: "work", label: "Work", to: "/work" },
   { id: "about", label: "About", to: "/about" },
   { id: "playground", label: "Playground", to: "/playground" },
 ] as const;
 
 export default function Nav() {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-  const onHome = pathname === "/";
-  const [active, setActive] = useState("work");
   const [scrolled, setScrolled] = useState(false);
   // while the header floats over the pond it has to invert to white
   const [overPond, setOverPond] = useState(true);
@@ -34,46 +31,6 @@ export default function Nav() {
       window.removeEventListener("resize", onScroll);
     };
   }, [pathname]);
-
-  /**
-   * Homepage sections are anchors, but the nav is global. From another route
-   * we have to land on "/" first and only then scroll — the target element
-   * doesn't exist until Home has mounted.
-   */
-  const goToSection = (hash: string) => {
-    if (onHome) {
-      document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    navigate("/");
-    // Home has to mount before the target exists, and ScrollToTop resets to 0
-    // on the way in. Poll briefly for the element, then jump instantly —
-    // a smooth scroll here races the reset and gets cancelled.
-    let tries = 0;
-    const seek = () => {
-      const el = document.getElementById(hash);
-      if (el) {
-        el.scrollIntoView({ behavior: "instant" as ScrollBehavior });
-      } else if (tries++ < 40) {
-        requestAnimationFrame(seek);
-      }
-    };
-    requestAnimationFrame(seek);
-  };
-
-  useEffect(() => {
-    if (!onHome) return;
-    const sections = LINKS.map((l) => document.getElementById(l.id)).filter(
-      Boolean
-    ) as HTMLElement[];
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
-      { rootMargin: "-40% 0px -50% 0px" }
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, [onHome]);
 
   return (
     <motion.header
@@ -147,8 +104,8 @@ export default function Nav() {
           className="hidden items-center gap-8 md:flex"
         >
           {LINKS.map((l) => {
-            const isActive =
-              "to" in l ? pathname === l.to : onHome && active === l.id;
+            // /work/:slug keeps Work lit while reading a case study
+            const isActive = pathname === l.to || pathname.startsWith(`${l.to}/`);
             const cls = `relative font-geist text-body transition-colors duration-500 ${
               overPond
                 ? "text-white/90 hover:text-white"
@@ -168,19 +125,10 @@ export default function Nav() {
               </>
             );
 
-            return "to" in l ? (
+            return (
               <Link key={l.id} to={l.to} className={cls}>
                 {label}
               </Link>
-            ) : (
-              <button
-                key={l.id}
-                type="button"
-                onClick={() => goToSection(l.hash)}
-                className={cls}
-              >
-                {label}
-              </button>
             );
           })}
         </motion.nav>

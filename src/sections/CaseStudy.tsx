@@ -34,7 +34,7 @@ export default function CaseStudy() {
     <main className="pt-28 pb-20 md:pt-36">
       <Container>
         <Link
-          to="/#work"
+          to="/work"
           className="font-geist text-body-sm text-graphite hover:text-ink transition-colors"
         >
           ← Selected works
