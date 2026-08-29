@@ -26,3 +26,15 @@ dist-ssr
 # Large media — exceeds GitHub's 100MB per-file limit
 CV Video.mp4
 *.mp4
+# No .mp4 is a production asset any more: the footer is a still image
+# (public/footer.webp). Reference clips live in assets-source/, outside
+# public/, so nothing video-sized is ever copied into dist.
+
+# Originals and retired media (~107MB). Kept on disk so nothing is
+# unrecoverable, but outside public/ so it never reaches dist, and
+# untracked so it never reaches GitHub.
+assets-source/
+
+# Superseded handoff docs from an earlier design pass. PROJECT_STATE.md is
+# the single source of truth now; these are kept locally for reference only.
+PORTFOLIO_PROJECT_STATE/

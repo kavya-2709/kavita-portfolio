@@ -1,172 +1,203 @@
 # PROJECT_STATE.md
 
-Handoff snapshot. Reflects the codebase as it actually is — not a plan.
+Handoff snapshot. Reflects the codebase as it actually is, not a plan.
+Read this and `CLAUDE.md` before starting work.
 
 ## 1. Project
 
-Personal portfolio for **Kavita Yadav**, Product & UX Designer (India). Single-page
-homepage plus routed sub-pages. Visual concept: an interactive **pond** — a canvas
-water simulation in the hero, a koi swimming the full page length, and an
-illustrated pond footer.
+Personal portfolio for **Kavita Yadav**, Product & UX Designer (India). A homepage
+plus routed sub-pages. Visual concept: a **pond** — a canvas water simulation in the
+hero, a koi swimming the page length, and a painted pond closing the footer.
 
 - **Framework:** React 19 + TypeScript, Vite 8
-- **Styling:** Tailwind CSS v4 via `@tailwindcss/vite` (tokens in `src/index.css` `@theme`)
+- **Styling:** Tailwind v4 via `@tailwindcss/vite`, tokens in `src/index.css` `@theme`
 - **Routing:** react-router-dom 7 (`BrowserRouter` in `src/main.tsx`)
 - **Animation:** framer-motion 13
-- **Lint:** oxlint. **No test runner** — three standalone `tsx` scripts instead.
+- **Lint:** oxlint (6 warnings, all pre-existing and benign)
 
-Scripts: `dev`, `build` (`tsc -b && vite build`), `preview`, `lint`,
-`test:camera`, `test:ripple`, `test:noise`.
+Scripts: `dev` (port 5173), `build` (`tsc -b && vite build`), `preview`, `lint`,
+`test:ripple`, `test:noise`.
 
-## 2. Current Routes
+> **`test:ripple` and `test:noise` currently fail**: they run through `tsx`, which
+> is not installed. Pre-existing, not caused by recent work. Either add `tsx` as a
+> devDependency or drop the scripts.
 
-| Route | Status | Purpose |
+## 2. Routes
+
+| Route | Status | Notes |
 |---|---|---|
-| `/` | Built | Homepage: Hero → Intro → Impact → LogoStrip → SelectedWork → Testimonials → Contact |
-| `/work` | Built | Work index: all three case studies as a linked list. `pages/WorkPage.tsx` |
-| `/about` | Built | Three-environment page (surface → shallows → depths) + life tiles. `pages/AboutPage.tsx` |
-| `/playground` | **Scaffold only** | Renders `sections/Playground.tsx` + footer. Content exists, page design not started |
-| `/work/:slug` | **Scaffold only** | Generic case-study template. Shows index/client/headline/impact/tags/hero image, then a literal placeholder: "Full case study … coming next" |
+| `/` | Built | Hero → Intro → Impact → LogoStrip → SelectedWork → Testimonials → Contact |
+| `/work` | Built | Index of all three case studies. `pages/WorkPage.tsx` |
+| `/about` | Built | Four sections. `pages/AboutPage.tsx` |
+| `/playground` | **Scaffold** | Renders `sections/Playground.tsx` + footer. Content exists, design not started |
+| `/work/:slug` | **Scaffold** | Generic template ending in a literal "Full case study … coming next" placeholder |
 
-Valid `:slug` values: `clean4wheels`, `niopractice`, `housing`. Unknown slugs render a
-"That case study isn't here." fallback.
+Valid slugs: `clean4wheels`, `niopractice`, `housing`. Unknown slugs get a fallback.
 
-Every nav item is now a real route — the "Work" link points at `/work`, and the
-homepage-hash machinery (`goToSection`, the active-section observer) has been removed
-from `Nav.tsx`. The homepage keeps its `#work` sticky card stack; `/work` is a separate
-flat index. The case-study back link points to `/work`.
+Every nav item is a real route. The homepage-hash machinery was removed from
+`Nav.tsx`; the homepage keeps its `#work` stack and `/work` is a separate flat index.
 
-## 3. Current Implementation
+## 3. Homepage
 
-**Pages:** `pages/WorkPage.tsx`, `pages/AboutPage.tsx`, `pages/PlaygroundPage.tsx`,
-`sections/CaseStudy.tsx`.
+**`SelectedWork`** is a sticky card stack. Each card parks 24px lower than the last
+(`NAV_OFFSET + i * STACK_STEP`) so the next slides up and settles on top.
+**Stacking is pure CSS `position: sticky`** — the scroll-driven scale/opacity is
+decoration on top, so if that never runs the cards still stack.
 
-**About page** — modelled on zainabkabira.com/about: one continuous descent through
-three water environments joined by `WaveDivider` (never a hard edge), each divider
-filled with the colour of the section arriving *underneath* it.
-`Surface` (white→aqua gradient, portrait in ripple rings, stats) →
-`Shallows` (white, experience timeline + education) →
-`Depths` (full-bleed `powder-blue`, six square life tiles + skills).
-`sections/About.tsx` was deleted — its skills/experience/education content is fully
-carried into the new page, and it had no importers left.
+- Two-column from `lg` (story left, work right), single column below. At tablet width
+  a 50/50 split set the headline three words to a line. Two columns cut card height
+  from ~855px to ~524px, which matters a lot in a stack.
+- Card surfaces are **solid, fully opaque tokens**: `--color-card-ivory #f4f1ea`,
+  `--color-card-sage #eaeee9`, `--color-card-stone #f1eae5`. Opacity tints are wrong
+  here — the cards physically overlap, so a translucent card shows the one beneath.
+- Image sits on a white plate inside the tinted card so mockups don't sink into it.
 
-**Homepage sections** (`src/sections/`): `Hero`, `Intro`, `Impact`, `LogoStrip`,
-`SelectedWork`, `Testimonials`, `Contact`, plus `Playground` (used by its route, not
-the homepage).
+**`Testimonials`** is an endless leftward marquee of compact quote cards.
 
-**Reusable UI** (`src/components/ui.tsx`): `Container` (1200px max), `Button`
-(primary/secondary/ghost), `Card`, `Pill`, `SectionHeader`, `Reveal`, `Stagger` +
-`Stagger.Item`, `EASE`, `fadeUp`, `stagger`.
+- Two identical runs and a `-50%` keyframe. **The gap must live inside each run**
+  (plus matching trailing padding), never on the track, or the runs are unequal,
+  `-50%` lands mid-card and the strip jumps every cycle. Verified
+  `run0 === run1 === scrollWidth / 2`.
+- Card is 560px (was 840), photo 130px (was 240). All card type is **Geist**: quote
+  and name at 14px, role at 10px. The serif is reserved for the section heading.
+- Section background is plain white. The powder-blue gradient underneath was removed.
 
-**Layout/nav:** `Nav.tsx` — fixed header, inverts white→ink when leaving the hero,
-morphs into an "Available for work" avatar chip on scroll, and routes vs.
-section-jumps per link. `ScrollToTop.tsx` — resets scroll on route change.
-`Loader.tsx` — Pacman-style intro loader gating first render.
+## 4. About page
 
-**Canvas / SVG systems:**
-- `Pond.tsx` — hero water. Domain-warped fBm liquid + ripple simulation, pointer trail, koi, lily pads. Used only by `Hero`.
-- `FishTrail.tsx` — koi swimming a scroll-scrubbed path down the whole document.
-- `PondScene.tsx` — footer illustration: tabby cat with pointer-tracking pupils, submerged pads/lotuses, koi.
-- `Floaties.tsx` — decorative SVG objects (Cloud, Crayon, Envelope, Smiley, Bloom, IrisBlob, `Float` wrapper).
-- `Water.tsx` — **SVG-only** pond kit, no canvas: `WaveDivider`, `LilyPad`, `RippleRings`, `Koi`, `DriftingKoi`, `Caustics`, `Cue`. Built for `/about`; reusable anywhere off the critical path.
-- `scenes/mockups.tsx` — hand-built UI panels (`Clean4Wheels`, `NioPractice`, `Aumraa`, `Housing`) used as image fallbacks.
+Four sections: `Surface` → `HowIWork` → `TrackRecord` → `OffTheClock`.
+Content is Kavita's real copy and photography, originally from the Framer site
+(`kycanvas.framer.website/about-me`).
 
-**Utilities** (`src/lib/`): `camera.ts` (3D camera maths), `ripple.ts` (water sim),
-`noise.ts` (value noise/fBm/domain warp), `useCountUp.ts` (scroll-triggered counter
-with Indian vs. Western digit-grouping detection).
+**`Surface`** opens on "Curious by nature / Intentional by design", surfacing word by
+word, then credential pills, a work CTA, and a **scattered pile of three photos**.
+Pile offsets are percentages of each photo's *own* size, so one set of numbers holds
+at every breakpoint; the 40%-across / 50%-down step leaves each photo ~70% visible.
 
-**Content:** all copy in `src/lib/content.ts` — `profile`, `companies`, `experience`,
-`selectedWork`, `projects`, `sideProjects`, `skills`, `education`, `testimonials`,
-`workIndex`, `aboutPage`, `lifeTiles`.
+**`HowIWork`** is the page's one genuinely interactive moment. Four paper cards lie
+overlapping; hovering or tapping one lifts it 20px, straightens it toward 0°, raises
+it to `z-50`, nudges neighbours ±26px away and drops them to 0.72 opacity. Driven by
+one `focused: number | null` state and **transform + z-index only**, so nothing
+re-lays-out. `onHoverStart`/`onTapStart`/`tabIndex` cover mouse, touch and keyboard.
 
-## 4. Design System
+> **Card paddings are load-bearing and were set by measurement.** A tilted 104px
+> sticker has a ~130px bounding box, and a rotated card's text sits ~23px lower than
+> its flat padding implies. That is why `pt-20` / `pb-32` / `lg:pr-12` look oversized
+> and are only just enough. **If sticker size changes, re-measure** — every
+> intermediate value tried looked fine in the numbers and still clipped on screen.
+
+Stickers are Kavita's cat memes, all true alpha cut-outs, sized by **height not
+width** (`h-[92px] md:h-[104px]`) because the four images have different aspect
+ratios. `sticker-problem/repeat.png` are hers; `sticker-why/detail.webp` were cut
+in-browser by flood-filling alpha from the border, because those two PNGs never
+arrived. Swap them if the originals turn up.
+
+**`TrackRecord`** renders one row per role: years, role, org, engagement type, tags.
+It deliberately **does not render `points`** — six roles × 2–3 bullets flattened the
+hierarchy until nothing stood out.
+
+> **`experience` is ordered most-recent-first and that order is what renders.**
+> There is no sort step: the period strings mix formats, so parsing is more fragile
+> than keeping the array right by hand. **Add new roles at the top.**
+
+**`OffTheClock`** is a leftward photo marquee. Card heights are **240 / 288px
+specifically** so both aspect ratios divide into whole pixels (240→320/180,
+288→384/216); fractional widths accumulate and leave the `-50%` loop half a pixel
+short.
+
+## 5. Footer
+
+`Contact` → `FooterScene` → a thin black bar.
+
+- The heading is the page's one piece of sales copy: **"Let's build something worth
+  using"**. One line, conversion-focused, personal.
+- `FooterScene` is `public/footer.webp`, a still image (1672×563, 106KB). It replaced
+  a 25MB video of the same subject; the still says the same thing at a fraction of
+  the weight. **No video ships at all** — `dist` went 36MB → 12MB.
+- Source was a 1.4MB PNG. It needed no cropping (corners sample as sky and grass, not
+  white) and re-encoded to WebP q0.82, a 13× saving.
+- **Not lazy-loaded**: at 106KB the saving is negligible and it is the one image that
+  must never be missing when someone reaches it.
+- **Mobile crops in.** A 3:1 panorama is ~126px tall at 375px, shrinking the figures
+  to ~95px. Below `sm` it holds 200px with `object-cover` at `42% 58%`; from `sm` up
+  `h-auto` restores the full frame.
+- Blending is a white top fade plus side feathers. No border, no rounding.
+
+## 6. Design system
 
 Tokens live in `src/index.css` under `@theme`. Base element styles are inside
 `@layer base` — **required**, since unlayered rules outrank Tailwind utilities.
 
-- **Fonts:** Instrument Serif (`--font-serif-display`, display/hero), Geist
-  (`--font-geist`, UI/body), Inter (`--font-aeonik`, headings). Loaded from Google Fonts in `index.html`.
-- **Colors:** `--color-ink #0a0d12`, `--color-charcoal #181d27`, `--color-graphite #535862`,
-  `--color-fog #93979f`, `--color-iris-blue #0069e0`, `--color-mist-gray #f6f7f8`.
-  Washes: powder-blue, lavender, mint, solar, violet, aqua, peach.
-  **Page background is pure white** — `sky-tint`, `paper-white` and `bone-white` are all `#ffffff`.
-- **Type scale:** `caption 10` → `body-sm 14` → `body 16` → `body-lg 18` → `subheading 20`
-  → `heading-sm 24` → `heading 32` → `heading-lg 48` → `display 72` → `hero 148`, each with
-  its own line-height and letter-spacing.
-- **Spacing:** `Container` = `max-w-[1200px] px-6 md:px-10`. Sections use
-  `py-14 md:py-20`, giving a **uniform 112px mobile / 160px desktop** gap between every section.
-- **Radius:** `cards 32`, `images 24`, `cards-sm 16`, `inputs 16`, `buttons 32`, `banner 90`, pills `9999`.
-- **Buttons:** charcoal pill, iris-blue fill rising from the bottom on hover; ghost variant is a hairline outline.
-- **Cards:** white with `border-ink/[0.08]` hairline. **No shadows anywhere** — shadow tokens are `none` by design.
-- **Motion:** `--ease-genie: cubic-bezier(0.16,1,0.3,1)`, exported as `EASE`. Durations 0.3–0.9s. Marquee keyframes; global `prefers-reduced-motion` kill-switch.
-- **Cursor:** `.treat-cursor` — bone-shaped cat-treat cursor, scoped to the footer scene only.
+- **Fonts, two only in rendered UI:** Instrument Serif (`font-serif-display`) for
+  display and emotional beats, Geist (`font-geist`) for everything else.
+  `@layer base` sets `h1–h4` to `--font-aeonik` (Inter), so **every heading needs an
+  explicit font class** or Inter silently leaks back in.
+- **Colours:** `ink #0a0d12`, `charcoal #181d27`, `graphite #535862`, `fog #93979f`,
+  `iris-blue #0069e0`, `mist-gray #f6f7f8`. Pastel washes: powder-blue, lavender,
+  mint, solar, violet, aqua, peach. Solid card surfaces: card-ivory, card-sage,
+  card-stone. **Page background is pure white.**
+- **Radii:** cards 32, images 24, cards-sm 16, inputs 16, buttons 32, pills 9999.
+- **No shadows anywhere.** Cards get definition from a `border-ink/[0.08]` hairline.
+- **Motion:** `EASE = cubic-bezier(0.16,1,0.3,1)`, durations 0.3–0.9s, global
+  `prefers-reduced-motion` kill-switch.
 
-## 5. Portfolio Projects
+**Copy rules:** no em dashes in rendered copy (they read as an AI tell — rewrite the
+sentence rather than swapping in a comma), no trailing full stops on headings, and
+year ranges use `2024/25` rather than a dash. Re-check after any copy edit.
 
-The three in `selectedWork` are the intended case studies.
+## 7. Assets
 
-| Project | Current Status | Route | Assets Available | Case Study Status |
-|---|---|---|---|---|
-| Clean4Wheels | Card built | `/work/clean4wheels` | `public/work/clean4wheels.png` + built mockup fallback | Scaffold only |
-| NioPractice | Card built | `/work/niopractice` | `public/work/nio.png` + built mockup fallback | Scaffold only |
-| Housing.com | Card built | `/work/housing` | `public/work/housing.png` + 3 real screens | Scaffold only |
-| Aumraa | In `projects`/`experience` only — no card | none | Built mockup only | Not started |
-| Buzzr | In `sideProjects` (Playground) | none | none | Not planned |
-| Doorstep Beauty | In `sideProjects` (Playground) | none | `logos/companies/doorstep-beauty.png` | Not planned |
+Everything under `public/` ships to `dist` verbatim, so nothing unused belongs there.
 
-## 6. Assets
+- `public/footer.webp` — the footer scene
+- `public/life/` — 11 photos + 4 stickers for the About page
+- `public/logos/companies/` — 5 client marks for the logo strip
+- `public/people/` — 3 testimonial portraits
+- `public/work/` — 6 case-study images
+- `public/avatar.png`, `public/favicon.svg`
 
-All under `public/`, referenced by absolute path (`/work/...`).
+**`assets-source/` is deliberately outside `public/`** and holds originals and
+retired media so they are never built: `footer-panorama.png`, the earlier painted
+plate, `footer-scene.mp4` (25MB), `clouds.mp4` (19MB), `footer style.mp4` (51MB),
+`beyond the screen.mp4`, and `unused/kavita-portrait.png`. About 107MB, all
+untracked by git. **Don't delete without keeping a copy.**
 
-- `public/work/` — case-study hero images (`clean4wheels.png`, `nio.png`, `housing.png`), three Housing screens, `heart.png` bullet icon
-- `public/logos/` — tool SVGs (figma, framer, webflow, adobe, claude, gemini, linkedin, behance)
-- `public/logos/companies/` — client PNG marks (clean4wheels, nio, software-incubator, doorstep-beauty, thrift-guide)
-- `public/people/` — testimonial photos (harsh-kumar, harsh, manav-kothari)
-- `public/avatar.png` — nav chip avatar; `public/favicon.svg`
-- **Fonts:** CDN only (Google Fonts), not self-hosted. **No videos.**
+Deleted as genuinely unused: eight tool-logo SVGs and `work/heart.png`.
 
-## 7. Current Problems
+## 8. Known problems
 
-**Important**
-- `/playground` and all three case-study pages are scaffolds with placeholder bodies. The case-study template says "Full case study … coming next" on screen.
-- Two About life tiles carry `TODO(kavita)` placeholder copy in `content.ts` (`lifeTiles.song`, `lifeTiles.quote`), and `lifeTiles.photos.images` is empty — the photo stack repeats `avatar.png` until real photos land in `public/life/`.
-- `components/ScrollWorld.tsx` is orphaned — imported nowhere, still shipped in `src/`. Its `camera.ts` + `camera.test.ts` exist only to serve it.
-- No SEO beyond a single `<meta description>` and `<title>`. No Open Graph, no per-route metadata (routes share one title).
-- Bundle is **431 kB / 137 kB gzip** with no code-splitting; hero canvas + fish trail + footer SVG all load upfront.
+- `/playground` and all three case-study pages are scaffolds with placeholder bodies.
+- `test:ripple` / `test:noise` fail because `tsx` isn't installed.
+- Bundle is ~441kB / 140kB gzip with **no code splitting**; the hero canvas and fish
+  trail load upfront.
+- Unused `content.ts` exports kept on purpose because they are Kavita's writing, not
+  dead layout data: `capabilities`, `skills`, `education`. Decide whether to use or
+  drop them. (`heroStack`, `closingCards` and the `.treat-cursor` CSS rule were dead
+  layout, so they are gone.)
+- Accessibility audited only for hero and footer contrast.
+- No SEO beyond one `<title>` and `<meta description>`; all routes share them.
+- Never deployed. Needs an SPA rewrite so `/about` doesn't 404 on refresh.
 
-**Minor**
-- Responsive coverage is uneven — `Impact.tsx` has one `md:` breakpoint vs. six in `SelectedWork.tsx`. Not audited at small widths.
-- Clean4Wheels and NioPractice cards fall back to built HTML mockups if their hero images fail; real screen exports would be better.
-- `projects` in `content.ts` is legacy data from an earlier design, superseded by `selectedWork` but still exported.
-- Accessibility verified only for hero and footer contrast; the rest is unaudited.
+## 9. Remaining work
 
-**Verified working:** `tsc -b` clean, `vite build` succeeds, and all three test scripts pass.
+1. **Case studies** — replace the placeholder in `sections/CaseStudy.tsx` with real
+   write-ups for Clean4Wheels, NioPractice and Housing.
+2. **Playground** — design the page; `sideProjects` content exists.
+3. **Responsive audit** — even out breakpoint coverage across sections.
+4. **Accessibility** — keyboard nav, focus states, alt text, contrast beyond the hero.
+5. **SEO** — per-route titles and meta, Open Graph, sitemap, robots.
+6. **Performance** — route-level code splitting, lazy-load the canvas work.
+7. **Deploy** — Vercel or Netlify with an SPA rewrite, then a custom domain.
 
-## 8. Remaining Work
+## 10. Verification notes
 
-1. **Case study 1 (Clean4Wheels)** — replace the placeholder with the real write-up: problem, research, flows, outcomes.
-2. **Case study 2 (NioPractice)** — same.
-3. **Case study 3 (Housing.com)** — same; it already has three real screens to build around.
-4. **Playground** — design the page; `sideProjects` exists. Motion reel / Medium posts still to be added.
-5. **Responsive refinement** — audit every section at mobile/tablet; even out breakpoint coverage.
-6. **Accessibility** — keyboard nav, focus states, alt text, contrast beyond hero/footer.
-7. **SEO** — per-route titles/meta, Open Graph, sitemap, robots.
-8. **Performance** — route-level code-splitting; lazy-load canvas/SVG work off the critical path.
-9. **Production deployment** — Vercel or Netlify; needs an SPA rewrite so `/about` etc. don't 404 on refresh.
-10. **Custom domain** — buy and point DNS.
+The preview pane in this environment is unreliable and has produced several false
+conclusions. Verify with DOM measurements, not screenshots.
 
-## 9. Deployment
-
-- **Local dev:** `npm run dev` on port 5173 (`.claude/launch.json` defines a `portfolio` config).
-- **Git:** initialised, branch `main`.
-- **GitHub:** https://github.com/kavya-2709/kavita-portfolio (public).
-- **Hosting:** none. Never deployed.
-- **Domain:** none. Existing public site is the old Framer one at `kycanvas.framer.website` (separate, not this codebase).
-- **Environment variables:** none. No `.env` file, no secrets or API keys anywhere.
-- **Contact form/backend:** none — contact is a `mailto:` link plus social links. No server, no form handler.
-
----
-
-**NEXT TASK: Write the Clean4Wheels case study — replace the "coming next" placeholder in `sections/CaseStudy.tsx` with a real write-up (problem, research, flows, outcomes).**
-
-`/work` now lists all three case studies and every card links into the template, so the placeholder body is the most visible gap on the site.
+- It frequently **serves blank frames** and keeps `document.visibilityState: hidden`,
+  which also means **video never plays** there.
+- It throttles `requestAnimationFrame` to ~3fps, **fires no scroll events**, and
+  **IntersectionObserver callbacks never arrive**. Anything gated on those will look
+  broken when it is fine.
+- **The console buffer never clears** across reloads or navigations, so one old error
+  looks like it reproduces on every route. Log a marker, reload, and check the error
+  appears *after* it. Count entries: one error across a dozen reloads is stale.

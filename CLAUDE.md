@@ -11,10 +11,13 @@ scaffold vs. built, known problems, and the remaining-work order.
 ```bash
 npm run dev            # port 5173
 npm run build          # tsc -b && vite build — run before claiming done
-npm run test:camera    # standalone tsx scripts, not a test runner
-npm run test:ripple
+npm run lint           # oxlint — 6 pre-existing warnings
+npm run test:ripple    # standalone tsx scripts, not a test runner
 npm run test:noise
 ```
+
+`test:ripple` / `test:noise` **currently fail**: they run through `tsx`, which isn't
+installed. Pre-existing. Add `tsx` as a devDependency or drop the scripts.
 
 ## Conventions — do not break these
 
@@ -28,6 +31,13 @@ npm run test:noise
 - **Page background is pure white.** `sky-tint`, `paper-white`, `bone-white` are all `#ffffff`.
 - **All copy lives in `src/lib/content.ts`.** Don't inline strings in components.
   Don't paraphrase testimonials — they are people's real words.
+- **Copy rules:** no em dashes in *rendered* copy (they read as an AI tell — rewrite the
+  sentence rather than swapping in a comma), no trailing full stops on headings, year
+  ranges as `2024/25` not a dash. Re-check after any copy edit. This file and
+  `PROJECT_STATE.md` are notes, not rendered copy, so they're exempt.
+- **Overlapping surfaces must be fully opaque.** `--color-card-ivory/-sage/-stone` are
+  solid hexes because the `SelectedWork` cards physically overlap as they stack; an
+  alpha tint shows the card underneath. Never tint these with `/opacity`.
 - **Layout:** `Container` = `max-w-[1200px] px-6 md:px-10`. Sections use `py-14 md:py-20`,
   which produces a uniform 112px mobile / 160px desktop gap. Keep it uniform.
 - **Motion:** import `EASE` from `components/ui.tsx` (`cubic-bezier(0.16,1,0.3,1)`).
@@ -41,9 +51,11 @@ npm run test:noise
 `Stagger`/`Stagger.Item`, `EASE`. Use these instead of rebuilding.
 
 `components/` also has `Nav`, `ScrollToTop`, `Loader`, `Pond` (hero canvas),
-`FishTrail` (scroll-scrubbed koi), `PondScene` (footer), `Floaties`, `scenes/mockups`.
+`FishTrail` (scroll-scrubbed koi), `FooterScene` (the closing panorama image),
+`Scrapbook`, `Floaties`, `scenes/mockups`.
 
-`ScrollWorld.tsx` is **orphaned** — imported nowhere. Don't extend it; delete it if asked.
+`ScrollWorld.tsx`, `PondScene.tsx`, `DepthRail.tsx`, `CloudBand.tsx` and `lib/camera.ts`
+were all orphaned and have been **deleted**. Don't reintroduce them.
 
 ## Gotchas that already cost time
 
@@ -63,6 +75,17 @@ npm run test:noise
 - **Verify with measurements, not screenshots.** The preview pane frequently serves stale
   frames and throttles `requestAnimationFrame` to zero, which freezes every framer-motion
   value. Check `rafTicks` before concluding an animation is broken.
+- **The preview console buffer never clears.** It accumulates across reloads *and*
+  navigations, so one old error looks like it "reproduces on every route". This burned a
+  whole debugging cycle chasing a shell-wide `TypeError` that was really a single
+  transient HMR failure from mid-edit. Before believing an error is live: log a marker
+  (`console.log('MARKER')`), reload, and check the error appears *after* the marker. Count
+  entries too — one error across a dozen reloads is stale, not recurring.
+- **Marquee gaps go inside the run, not on the track.** Both marquees (`Testimonials`,
+  `OffTheClock`) duplicate a run and translate `-50%`. A gap on the flex *track* makes
+  the two runs unequal, so `-50%` lands mid-card and the strip jumps every cycle. Put
+  the gap inside each run with matching trailing padding, and verify
+  `run0.offsetWidth === run1.offsetWidth === track.scrollWidth / 2`.
 - **Don't script index-based string splices on `.tsx` files.** That corrupted
   `Contact.tsx` twice (once to 134k lines). Use the Edit tool, or rewrite the file whole.
 

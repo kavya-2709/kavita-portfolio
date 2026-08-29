@@ -28,7 +28,7 @@ export function useCountUp(display: string, duration = 1600) {
         done.current = true;
         io.disconnect();
 
-        const { value, prefix, suffix, grouped } = parse(display);
+        const { value, prefix, suffix, grouped, pad } = parse(display);
         const start = performance.now();
 
         const tick = (now: number) => {
@@ -36,7 +36,10 @@ export function useCountUp(display: string, duration = 1600) {
           // easeOutExpo — fast start, long settle, matches the site's motion
           const e = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
           const v = Math.round(value * e);
-          setOut(prefix + (grouped ? v.toLocaleString(grouped) : String(v)) + suffix);
+          const body = grouped
+            ? v.toLocaleString(grouped)
+            : String(v).padStart(pad, "0");
+          setOut(prefix + body + suffix);
           if (t < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
@@ -62,9 +65,11 @@ function parse(s: string): {
   value: number;
   suffix: string;
   grouped: false | "en-IN" | "en-US";
+  /** Original digit count, so "04+" doesn't finish as "4+". */
+  pad: number;
 } {
   const m = s.match(/([^\d]*)([\d,]+)(.*)/);
-  if (!m) return { value: 0, prefix: "", suffix: s, grouped: false };
+  if (!m) return { value: 0, prefix: "", suffix: s, grouped: false, pad: 1 };
 
   const digits = m[2];
   let grouped: false | "en-IN" | "en-US" = false;
@@ -79,10 +84,12 @@ function parse(s: string): {
     value: parseInt(digits.replace(/,/g, ""), 10) || 0,
     suffix: m[3],
     grouped,
+    pad: digits.replace(/,/g, "").length,
   };
 }
 
 function zeroed(s: string) {
-  const { prefix, suffix } = parse(s);
-  return prefix + "0" + suffix;
+  const { prefix, suffix, pad, grouped } = parse(s);
+  // match the final width so the number doesn't visibly reflow as it counts
+  return prefix + (grouped ? "0" : "0".padStart(pad, "0")) + suffix;
 }

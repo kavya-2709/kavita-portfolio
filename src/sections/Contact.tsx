@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { profile } from "../lib/content";
 import { Button, Container, EASE } from "../components/ui";
-import PondScene from "../components/PondScene";
+import FooterScene from "../components/FooterScene";
 
 const SOCIALS = [
   { name: "LinkedIn", href: profile.links.linkedin },
@@ -10,12 +10,20 @@ const SOCIALS = [
 ];
 
 /**
- * Closing section: the invitation on dry land, the pond scenery beneath it,
- * then a thin black bar carrying the footer links.
+ * Closing section: the hook, then the pond, then a thin black bar carrying
+ * the footer links.
+ *
+ * The heading is the one line on the page that has to do sales. It states
+ * the value rather than describing the service: the finished thing looking
+ * effortless is exactly what makes the work invisible, so naming that is
+ * what a hiring manager nods at. The invitation underneath stays plain.
+ *
+ * `FooterScene` closes the page on the same pond the hero opens on. The gap
+ * above it is deliberately tight because the image begins in white, so
+ * extra margin only reads as a hole.
  *
  * The links sit on the bar rather than on the water — over the pond they kept
- * crossing lily pads, which dropped contrast to the AA threshold. The treat
- * cursor is scoped to the scenery only, so real buttons keep their pointer.
+ * crossing lily pads, which dropped contrast to the AA threshold.
  */
 export default function Contact() {
   return (
@@ -29,8 +37,8 @@ export default function Contact() {
             transition={{ duration: 0.7, ease: EASE }}
             className="font-geist text-body-lg text-graphite"
           >
-            From first research call to pixel-accurate handoff, I help teams
-            ship products people actually get through.
+            Tell me what you are working on. I read every message and reply
+            to all of them.
           </motion.p>
 
           <motion.h2
@@ -40,7 +48,7 @@ export default function Contact() {
             transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}
             className="font-serif-display text-ink mt-6 text-[clamp(2.25rem,6.5vw,5rem)] leading-[1.02] tracking-[-0.03em]"
           >
-            Let's build your next idea
+            Let's build something worth using
           </motion.h2>
 
           <motion.div
@@ -48,7 +56,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.7, ease: EASE, delay: 0.18 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4"
+            className="mt-8 flex flex-wrap items-center justify-center gap-4"
           >
             <Button href={`mailto:${profile.email}`}>Email me</Button>
             <Button href={profile.links.linkedin} variant="ghost">
@@ -63,9 +71,9 @@ export default function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.15 }}
         transition={{ duration: 1, ease: EASE }}
-        className="relative mt-10 md:mt-12"
+        className="relative mt-2 md:mt-3"
       >
-        <PondScene />
+        <FooterScene />
 
         {/* thin black bar closing the page */}
         <div className="bg-[#08090b]">
