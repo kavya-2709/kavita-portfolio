@@ -522,3 +522,6 @@ export const testimonials = [
     photo: "/people/manav-kothari.png",
   },
 ];
+
+/** Clean4Wheels case study copy. Kept in its own module for length. */
+export { clean4Wheels } from "./clean4wheels";
