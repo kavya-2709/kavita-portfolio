@@ -30,9 +30,9 @@ installed. Pre-existing. Add `tsx` as a devDependency or drop the scripts.
   Cards get definition from a `border-ink/[0.08]` hairline, not elevation. The one
   sanctioned exception is the testimonial sheet and its photograph, which are meant to
   read as physical paper resting on the page. Don't generalise it.
-- **Fonts are two-plus-one.** Instrument Serif and Geist carry the site; `font-hand`
-  (Caveat) exists *only* for testimonial quotes, because those are other people's words
-  in their own voice. Don't use it elsewhere.
+- **Only the three system faces, everywhere.** Instrument Serif for display, Geist for
+  body and UI, Inter for headings. A handwriting face (Caveat) was tried on the
+  testimonial quotes and removed. Don't reintroduce a fourth face.
 - **Page background is pure white.** `sky-tint`, `paper-white`, `bone-white` are all `#ffffff`.
 - **All copy lives in `src/lib/content.ts`.** Don't inline strings in components.
   Don't paraphrase testimonials — they are people's real words.

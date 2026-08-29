@@ -58,7 +58,10 @@ earlier continuously-scrolling reel was removed deliberately.
 - Square corners, warm `--color-paper-sheet`, fine SVG-turbulence grain, and a two-part
   contact shadow. This is **the sanctioned exception to the no-shadow rule** — the sheet
   has to read as sitting on the page.
-- Quotes are set in `font-hand` (Caveat), the only place that face is used.
+- Type is the site's own: Geist for the quote, name and role, Instrument Serif for the
+  section heading. Quotes are vertically centred against the sheet, next to the print.
+- The clip bites the top edge of the photograph and is a child of the `figure`, so it
+  inherits the print's tilt and stays registered to it.
 - **All three sheets stay mounted**, positioned by a plain CSS transform at `-108% / 0 /
   108%`. Nothing mounts or unmounts, so there is no reset frame at the wrap and no
   presence to leak orphaned nodes. An earlier `AnimatePresence` version accumulated
@@ -67,12 +70,13 @@ earlier continuously-scrolling reel was removed deliberately.
   so with rAF throttled the sheets all collapse to `transform: none` in one stack.
 - The sheet wrapping round to the right gets `transition: none` so it jumps rather than
   travelling across frame. It is off-frame at both ends, so the jump is never seen.
-- 5s hold, 0.7s slide, paused on hover/focus. Auto-advance is off entirely under
+- 2.5s hold, 0.7s slide, paused on hover/focus. Auto-advance is off entirely under
   `prefers-reduced-motion`; the dot controls still reach every quote.
 - **Heights are fixed per breakpoint and were set by measuring the longest quote**
-  (532 chars): `650 / 640 / 540px`. The row layout starts at `md`, where the sheet is
-  still narrow, so photo, gap and padding step up again at `lg` — sizing them for the
-  wide sheet alone overflowed the quote by 154px at 768px.
+  (532 chars). The row layout starts at `md`, where the sheet is still narrow, so photo,
+  gap and padding step up again at `lg` — sizing them for the wide sheet alone
+  overflowed the quote by 154px at 768px. **Re-measure after any type change:** Geist is
+  materially wider per character than the handwriting face it replaced.
 
 ## 4. About page
 

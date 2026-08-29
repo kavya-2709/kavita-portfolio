@@ -17,7 +17,7 @@ import { Container, EASE } from "../components/ui";
  */
 
 /** Hold time before the current sheet is replaced. */
-const HOLD_MS = 5000;
+const HOLD_MS = 2500;
 /** Slide duration. Long enough to read as paper, short enough not to drag. */
 const SLIDE_S = 0.7;
 /**
@@ -130,15 +130,16 @@ function Sheet({ t }: { t: Testimonial }) {
 
       {/* The row layout starts at md, where the sheet is still fairly narrow,
           so the photo, gap and padding all step up again at lg. Sizing them
-          for the wide sheet alone overflows the quote column at 768px. */}
-      <div className="relative flex h-full flex-col gap-6 px-6 py-7 sm:gap-7 sm:px-10 sm:py-9 md:flex-row md:gap-8 md:px-10 md:py-12 lg:gap-12 lg:px-14 lg:py-14">
+          for the wide sheet alone overflows the quote column at 768px.
+          Both columns are centred against the sheet's vertical midline. */}
+      <div className="relative flex h-full flex-col items-center justify-center gap-6 px-6 py-7 sm:gap-7 sm:px-9 sm:py-8 md:flex-row md:gap-8 md:px-10 md:py-10 lg:gap-12 lg:px-12 lg:py-12">
         {/* Printed photograph, pinned slightly askew */}
         <figure
-          className="m-0 w-[128px] shrink-0 self-center sm:w-[150px] md:self-start lg:w-[196px]"
+          className="relative m-0 w-[116px] shrink-0 sm:w-[132px] lg:w-[172px]"
           style={{ rotate: "-2.2deg" }}
         >
           <div
-            className="bg-white p-2.5 pb-3"
+            className="bg-white p-2 pb-2.5"
             style={{
               boxShadow:
                 "0 1px 2px rgba(10,13,18,0.10), 0 6px 14px -8px rgba(10,13,18,0.28)",
@@ -150,19 +151,29 @@ function Sheet({ t }: { t: Testimonial }) {
               loading="lazy"
               className="aspect-[4/5] w-full object-cover object-top"
             />
-            <figcaption className="pt-3 text-center">
-              <p className="font-hand text-ink text-[22px] leading-none md:text-[26px]">
+            <figcaption className="pt-2.5 text-center">
+              <p className="font-geist text-ink text-body font-medium">
                 {t.name}
               </p>
-              <p className="font-hand text-graphite mt-1 text-[15px] leading-[1.25] md:text-[17px]">
+              <p className="font-geist text-fog text-caption mt-1 leading-[1.3]">
                 {t.role}
               </p>
             </figcaption>
           </div>
+
+          {/* The clip bites the top edge of the photograph itself, so it
+              reads as holding the print to the page rather than sitting
+              loose on the paper. It is a child of the figure so it inherits
+              the same tilt and stays registered to the print. */}
+          {/* The overhang is capped per breakpoint against that breakpoint's
+              sheet padding. The article clips to the paper edge, so on a tall
+              mobile quote the centred print rides high enough that a larger
+              overhang puts the clip's head outside the sheet and shears it. */}
+          <Paperclip className="pointer-events-none absolute -top-4 left-1/2 z-20 w-[38px] -translate-x-1/2 -rotate-3 sm:-top-6 lg:-top-8 lg:w-[44px]" />
         </figure>
 
         {/* The words. Ragged right, generous leading, never justified. */}
-        <blockquote className="font-hand text-charcoal m-0 max-w-[62ch] text-[17px] leading-[1.58] sm:text-[20px] sm:leading-[1.62] lg:text-[24px] lg:leading-[1.66]">
+        <blockquote className="font-geist text-charcoal text-body-sm sm:text-body lg:text-body-lg m-0 max-w-[54ch] leading-[1.62] lg:leading-[1.66]">
           {t.quote}
         </blockquote>
       </div>
@@ -231,7 +242,7 @@ export default function Testimonials() {
           // max-w keeps the sheet at roughly 80% of the content column, so it
           // reads as a large object with air around it rather than a panel
           // stretched edge to edge.
-          className="relative mx-auto mt-16 w-full max-w-[920px] overflow-hidden px-1 pt-10 pb-6 md:mt-20"
+          className="relative mx-auto mt-14 w-full max-w-[840px] overflow-hidden px-1 pt-4 pb-6 md:mt-16"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
@@ -244,8 +255,8 @@ export default function Testimonials() {
               mounting and unmounting one. */}
           {/* Fixed per breakpoint because the sheets are absolutely
               positioned. Set from the longest quote's measured height, not
-              guessed: at 375px that quote runs 13 lines. */}
-          <div className="relative h-[650px] sm:h-[640px] md:h-[540px]">
+              guessed. */}
+          <div className="relative h-[600px] sm:h-[560px] md:h-[460px]">
             {testimonials.map((t, i) => {
               const d = offsetOf(i);
               const active = d === 0;
@@ -276,11 +287,6 @@ export default function Testimonials() {
                   inert={!active}
                 >
                   <Sheet t={t} />
-                  {/* The clip lives on the sheet, not the stage, so it
-                      travels with its own page. It sits outside the article
-                      because the article clips its grain to the paper edge,
-                      and the clip has to overhang the top. */}
-                  <Paperclip className="pointer-events-none absolute -top-9 left-10 z-20 w-[52px] -rotate-6 md:left-16 md:w-[60px]" />
                 </div>
               );
             })}
