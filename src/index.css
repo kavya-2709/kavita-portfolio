@@ -30,10 +30,19 @@
 
   /* Case-study card surfaces. Solid and opaque on purpose: the cards
      physically overlap as they stack, so an alpha tint would show the
-     card underneath through the one on top. */
-  --color-card-ivory: #f4f1ea;
-  --color-card-sage: #eaeee9;
-  --color-card-stone: #f1eae5;
+     card underneath through the one on top.
+
+     Read as shore, reed and water, so the three carry the pond without
+     naming it. The earlier set sat within two points of each other and
+     read as one colour printed three times. */
+  --color-card-ivory: #f6f2e9;
+  --color-card-sage: #e8efe9;
+  --color-card-stone: #eaeff5;
+
+  /* Playground. The one warm room in the house: side projects are the part
+     of the site with no client attached, so they get their own ground. */
+  --color-sand: #faf4ea;
+  --color-clay: #c2643a;
 
   /* Testimonial sheet. A warm off-white, not the cool --color-mist-gray:
      the section reads as a printed page, and a blue-grey paper reads as UI. */

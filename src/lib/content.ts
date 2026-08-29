@@ -381,7 +381,7 @@ export const workIndex = {
   title: "Work",
   subhead:
     "Three products across car care, exam prep and property. Different users, same job: making the next step obvious.",
-  cta: "Read case study",
+  cta: "Read case study",
 };
 
 export const selectedWork = [
@@ -466,18 +466,64 @@ export const projects = [
   },
 ];
 
-export const sideProjects = [
-  {
-    name: "Buzzr",
-    tag: "AI-powered Classroom Quiz Platform",
-    detail: "Gamified quiz experience improving classroom participation by 30% for 1,000+ students.",
-  },
-  {
-    name: "Doorstep Beauty",
-    tag: "Mobile Beauty Services Platform",
-    detail: "1,000+ downloads with a 5-star Play Store rating.",
-  },
-];
+/**
+ * Shipped work that is not a full case study.
+ *
+ * Buzzr and Doorstep Beauty carry real numbers. KnowYourColleges does not, so
+ * it states the role and dates instead: inventing a metric to make the third
+ * card rhyme with the other two is the one thing that would undo the section.
+ */
+export const liveWork = {
+  eyebrow: "Also shipped",
+  title: "Shorter engagements, same standard",
+  hint: "Hover or tap for detail",
+  items: [
+    {
+      name: "Buzzr",
+      tag: "AI-powered classroom quizzes",
+      detail:
+        "Gamified quiz experience built to lift participation in live classrooms.",
+      stat: "30% higher participation · 1,000+ students",
+    },
+    {
+      name: "Doorstep Beauty",
+      tag: "Mobile services platform",
+      detail:
+        "At-home beauty booking, from browsing a service to a confirmed slot.",
+      stat: "1,000+ downloads · 5-star Play Store rating",
+    },
+    {
+      name: "KnowYourColleges",
+      tag: "Edtech · college discovery",
+      detail:
+        "Research and prototypes to make navigating college options clearer.",
+      stat: "UX design intern · Jun 2024 to Jan 2025",
+    },
+  ],
+};
+
+/**
+ * Playground. Placeholder loops for now: the real captures drop in later, so
+ * every tile carries its own caption and the strip is built to take an image
+ * without changing shape.
+ */
+export const playground = {
+  badge: "Playground",
+  title: "Motion experiments,",
+  titleAccent: "no brief attached.",
+  sticker: "/life/sticker-repeat.png",
+  blurbBefore: "Loops I make to find out how a thing should ",
+  blurbEmphasis: "feel",
+  blurbAfter:
+    ", long before anyone writes a spec for it. Nobody asked for these.",
+  loops: [
+    { label: "Loader loop", caption: "Waiting, made less annoying · Rive" },
+    { label: "Tab study", caption: "Where the eye lands mid-swap · Figma Motion" },
+    { label: "Card loop", caption: "Opening without losing your place · Jitter" },
+    { label: "Cursor play", caption: "Pointer noise, made for the fun of it" },
+    { label: "Scroll test", caption: "How far is too far before it feels fast" },
+  ],
+};
 
 export const skills = {
   "UX Design": [

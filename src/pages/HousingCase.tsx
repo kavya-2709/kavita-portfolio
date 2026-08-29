@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { housing as h } from "../lib/content";
-import { Container, EASE } from "../components/ui";
+import { ActionLink, Container, EASE } from "../components/ui";
 import {
   Card,
   Eyebrow,
@@ -482,18 +482,7 @@ export default function HousingCase() {
             </ol>
 
             <Rise className="mt-14">
-              <Link
-                to="/work"
-                className="font-geist text-body text-ink group inline-flex items-center gap-3"
-              >
-                See the other case studies
-                <span
-                  aria-hidden
-                  className="bg-charcoal text-paper-white text-body flex size-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
-                >
-                  →
-                </span>
-              </Link>
+              <ActionLink to="/work">See the other case studies</ActionLink>
             </Rise>
           </Container>
         </section>

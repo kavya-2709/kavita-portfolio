@@ -144,10 +144,13 @@ export default function Nav() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.3, ease: EASE }}
-          className={`rounded-buttons px-6 py-2.5 font-geist text-body-sm transition-colors duration-500 md:text-body ${
+          // The border is present in both states, transparent where it isn't
+          // drawn. Only the over-pond state used to carry one, so the button
+          // changed height by a pixel the moment the hero scrolled past.
+          className={`rounded-buttons border px-6 py-2.5 font-geist text-body-sm transition-colors duration-500 md:text-body ${
             overPond
-              ? "border border-white/50 bg-white/15 text-white backdrop-blur-sm"
-              : "bg-charcoal text-paper-white"
+              ? "border-white/50 bg-white/15 text-white backdrop-blur-sm"
+              : "border-transparent bg-charcoal text-paper-white"
           }`}
         >
           Let's talk

@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { selectedWork } from "../lib/content";
-import { Container } from "../components/ui";
+import { ActionLink, Container } from "../components/ui";
+import { CARD_SURFACES } from "../lib/surfaces";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
 
 const NAV_OFFSET = 100;
@@ -16,14 +16,6 @@ const STACK_STEP = 24;
  * a different solid neutral so the stack reads as three distinct pieces
  * rather than one long white column.
  */
-
-/**
- * Card surfaces. Solid and fully opaque by design: tinting with an alpha
- * lets whatever is behind bleed through, and these cards physically overlap
- * as they stack, so a translucent card would show the one underneath it.
- * The tokens live in `index.css` under `@theme` with the rest of the system.
- */
-const SURFACES = ["bg-card-ivory", "bg-card-sage", "bg-card-stone"];
 
 /** Placeholder shown only when a case-study export is missing. */
 function MockPanel({ kind }: { kind: "clean4wheels" | "niopractice" | null }) {
@@ -71,7 +63,7 @@ function WorkCard({
       <motion.article
         style={{ scale, opacity, transformOrigin: "top center" }}
         className={`group border-ink/[0.06] rounded-cards border p-6 md:p-10 lg:p-12 ${
-          SURFACES[i % SURFACES.length]
+          CARD_SURFACES[i % CARD_SURFACES.length]
         }`}
       >
         {/* Two columns from lg: the story left, the work right. Below that
@@ -104,23 +96,13 @@ function WorkCard({
               ))}
             </ul>
 
-            {/* label plus circle, so the action reads as a sentence rather
-                than an unlabelled icon */}
-            <Link
+            <ActionLink
               to={`/work/${item.slug}`}
-              aria-label={`Read the ${item.meta} case study`}
-              className="mt-8 inline-flex items-center gap-3"
+              arrow="↗"
+              className="mt-8"
             >
-              <span className="font-geist text-body text-ink">
-                Read case study
-              </span>
-              <span
-                aria-hidden
-                className="bg-charcoal text-paper-white flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-body transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
-              >
-                ↗
-              </span>
-            </Link>
+              Read case study
+            </ActionLink>
           </div>
 
           {/* The work itself, on a white plate so the mockups read against

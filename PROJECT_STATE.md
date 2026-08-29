@@ -37,8 +37,18 @@ Scripts: `dev` (port 5173), `build` (`tsc -b && vite build`), `preview`, `lint`,
 
 **Nav is two items, Work and About.** Playground had its own route and its own
 top-level slot for a page that is one section long, which sent people looking for
-case studies down a second path. It now closes `/work` under a hairline, keeping
-its `#playground` id so `/work#playground` still lands on it.
+case studies down a second path. It now closes `/work`, keeping its `#playground`
+id so `/work#playground` still lands on it.
+
+`/work` runs: **Selected work** (same heading, words and card surfaces as the
+homepage section, listed flat instead of stacked) → **Also shipped** (`liveWork`,
+three hover/tap disclosure cards) → **Playground**.
+
+**One CTA, `ActionLink` in `ui.tsx`.** A pill with the arrow inside it, replacing an
+earlier label-plus-detached-circle that read as two unrelated things. `as="span"` is
+for cards already wrapped in a link, since a nested anchor is invalid HTML.
+`CARD_SURFACES` lives in `lib/surfaces.ts`, not `ui.tsx`: a constant exported from a
+component file breaks fast refresh for that whole file.
 
 The three case studies are **lazy-loaded** (`React.lazy` + a `Suspense` boundary in
 `App.tsx`). Together they carry enough copy to push the entry chunk past 500kB, and
@@ -160,8 +170,15 @@ Tokens live in `src/index.css` under `@theme`. Base element styles are inside
   explicit font class** or Inter silently leaks back in.
 - **Colours:** `ink #0a0d12`, `charcoal #181d27`, `graphite #535862`, `fog #93979f`,
   `iris-blue #0069e0`, `mist-gray #f6f7f8`. Pastel washes: powder-blue, lavender,
-  mint, solar, violet, aqua, peach. Solid card surfaces: card-ivory, card-sage,
-  card-stone. **Page background is pure white.**
+  mint, solar, violet, aqua, peach. Solid card surfaces `card-ivory #f6f2e9`,
+  `card-sage #e8efe9`, `card-stone #eaeff5`, which read as shore, reed and water;
+  the earlier set sat within two points of each other and looked like one colour
+  printed three times. `sand #faf4ea` and `clay #c2643a` are the playground's only,
+  used nowhere else. **Page background is pure white.**
+- **Every button-shaped element carries a border**, transparent where it isn't
+  drawn. Filled and outlined buttons otherwise differ by a pixel, which showed in
+  the footer where the two sit side by side, and made the nav CTA change height the
+  moment the hero scrolled past.
 - **Radii:** cards 32, images 24, cards-sm 16, inputs 16, buttons 32, pills 9999.
 - **No shadows anywhere.** Cards get definition from a `border-ink/[0.08]` hairline.
 - **Motion:** `EASE = cubic-bezier(0.16,1,0.3,1)`, durations 0.3–0.9s, global

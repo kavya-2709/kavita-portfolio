@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 /* Motion Philosophy: fast start, gentle settle. 0.3–0.65s.
    Nothing snappy, nothing slow. */
@@ -93,11 +94,14 @@ export function Button({
 }) {
   const base =
     "group relative inline-flex items-center justify-center gap-2 overflow-hidden font-geist font-medium transition-transform duration-300";
+  // Every variant carries a border, transparent where it isn't drawn. Without
+  // it the filled buttons come out a pixel shorter than the outlined one, and
+  // the two sit side by side in the footer where that shows.
   const styles = {
     primary:
-      "bg-charcoal text-paper-white rounded-buttons px-8 py-3.5 text-body",
+      "bg-charcoal text-paper-white rounded-buttons border border-transparent px-8 py-3.5 text-body",
     secondary:
-      "bg-charcoal text-paper-white rounded-cards-sm px-4 py-2 text-body-sm",
+      "bg-charcoal text-paper-white rounded-cards-sm border border-transparent px-4 py-2 text-body-sm",
     ghost:
       "text-graphite hover:text-ink rounded-buttons border border-ink/15 px-6 py-3.5 text-body",
   }[variant];
@@ -230,5 +234,72 @@ export function Container({
     <div className={`mx-auto w-full max-w-[1200px] px-6 md:px-10 ${className}`}>
       {children}
     </div>
+  );
+}
+
+
+/**
+ * The site's one call to action.
+ *
+ * Replaces an earlier pattern of a bare text label sitting next to an
+ * unattached circle, which read as two unrelated things rather than one
+ * control. This is a single pill with the arrow inside it, so the whole
+ * shape is the target and the hover state has something to fill.
+ *
+ * `as="span"` is for cards that are already wrapped in a link: nesting an
+ * anchor inside an anchor is invalid, and the browser's recovery from it is
+ * not something to rely on.
+ */
+export function ActionLink({
+  children,
+  to,
+  href,
+  as,
+  arrow = "→",
+  tone = "ink",
+  className = "",
+}: {
+  children: ReactNode;
+  to?: string;
+  href?: string;
+  as?: "span";
+  arrow?: string;
+  tone?: "ink" | "light";
+  className?: string;
+}) {
+  const base =
+    "group/cta inline-flex items-center gap-2.5 rounded-buttons border px-5 py-2.5 font-geist text-body-sm font-medium transition-colors duration-300";
+  const tones = {
+    ink: "border-ink/15 text-ink hover:border-ink hover:bg-ink hover:text-paper-white",
+    light:
+      "border-white/25 text-paper-white hover:border-white hover:bg-white hover:text-ink",
+  }[tone];
+
+  const inner = (
+    <>
+      {children}
+      <span
+        aria-hidden
+        className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-x-0.5 group-hover:translate-x-0.5"
+      >
+        {arrow}
+      </span>
+    </>
+  );
+
+  const cls = `${base} ${tones} ${className}`;
+
+  if (as === "span" || (!to && !href))
+    return <span className={cls}>{inner}</span>;
+  if (href)
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={cls}>
+        {inner}
+      </a>
+    );
+  return (
+    <RouterLink to={to!} className={cls}>
+      {inner}
+    </RouterLink>
   );
 }
