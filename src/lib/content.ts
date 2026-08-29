@@ -381,8 +381,7 @@ export const workIndex = {
   title: "Work",
   subhead:
     "Three products across car care, exam prep and property. Different users, same job: making the next step obvious.",
-  cta: "Read case study",
-  outro: "Side projects, motion and experiments live in the Playground.",
+  cta: "Read case study",
 };
 
 export const selectedWork = [

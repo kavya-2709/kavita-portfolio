@@ -27,15 +27,26 @@ Scripts: `dev` (port 5173), `build` (`tsc -b && vite build`), `preview`, `lint`,
 | Route | Status | Notes |
 |---|---|---|
 | `/` | Built | Hero → Intro → Impact → LogoStrip → SelectedWork → Testimonials → Contact |
-| `/work` | Built | Index of all three case studies. `pages/WorkPage.tsx` |
+| `/work` | Built | Index of all three case studies, plus the playground section. `pages/WorkPage.tsx` |
 | `/about` | Built | Four sections. `pages/AboutPage.tsx` |
-| `/playground` | **Scaffold** | Renders `sections/Playground.tsx` + footer. Content exists, design not started |
-| `/work/:slug` | **Scaffold** | Generic template ending in a literal "Full case study … coming next" placeholder |
+| `/work/clean4wheels` | Built | `pages/Clean4WheelsCase.tsx` |
+| `/work/niopractice` | Built | `pages/NioCase.tsx` |
+| `/work/housing` | Built | `pages/HousingCase.tsx` |
+| `/playground` | Redirect | Now a section of `/work`; the old path redirects rather than 404s |
+| `/work/:slug` | Fallback | Generic scaffold, reached only by an unknown slug |
 
-Valid slugs: `clean4wheels`, `niopractice`, `housing`. Unknown slugs get a fallback.
+**Nav is two items, Work and About.** Playground had its own route and its own
+top-level slot for a page that is one section long, which sent people looking for
+case studies down a second path. It now closes `/work` under a hairline, keeping
+its `#playground` id so `/work#playground` still lands on it.
 
-Every nav item is a real route. The homepage-hash machinery was removed from
-`Nav.tsx`; the homepage keeps its `#work` stack and `/work` is a separate flat index.
+The three case studies are **lazy-loaded** (`React.lazy` + a `Suspense` boundary in
+`App.tsx`). Together they carry enough copy to push the entry chunk past 500kB, and
+none of it is needed by someone landing on the homepage.
+
+Case-study pages share `components/caseStudy.tsx`: `Eyebrow`, `Head`, `Rise`,
+`Card`, `Glance` and the `SECTION` rhythm. That shared furniture is what makes three
+studies imported from three different Figma visual languages read as one site.
 
 ## 3. Homepage
 
@@ -181,10 +192,12 @@ Deleted as genuinely unused: eight tool-logo SVGs and `work/heart.png`.
 
 ## 8. Known problems
 
-- `/playground` and all three case-study pages are scaffolds with placeholder bodies.
+- All three case studies are written; only an unknown `/work/:slug` reaches the
+  scaffold in `sections/CaseStudy.tsx`.
+- The playground section is thin: `sideProjects` still reads as placeholder copy.
 - `test:ripple` / `test:noise` fail because `tsx` isn't installed.
-- Bundle is ~441kB / 140kB gzip with **no code splitting**; the hero canvas and fish
-  trail load upfront.
+- Entry bundle is ~442kB / 141kB gzip. The case studies are split out per route, but
+  the hero canvas and fish trail still load upfront.
 - Unused `content.ts` exports kept on purpose because they are Kavita's writing, not
   dead layout data: `capabilities`, `skills`, `education`. Decide whether to use or
   drop them. (`heroStack`, `closingCards` and the `.treat-cursor` CSS rule were dead
@@ -195,14 +208,18 @@ Deleted as genuinely unused: eight tool-logo SVGs and `work/heart.png`.
 
 ## 9. Remaining work
 
-1. **Case studies** — replace the placeholder in `sections/CaseStudy.tsx` with real
-   write-ups for Clean4Wheels, NioPractice and Housing.
-2. **Playground** — design the page; `sideProjects` content exists.
-3. **Responsive audit** — even out breakpoint coverage across sections.
-4. **Accessibility** — keyboard nav, focus states, alt text, contrast beyond the hero.
-5. **SEO** — per-route titles and meta, Open Graph, sitemap, robots.
-6. **Performance** — route-level code splitting, lazy-load the canvas work.
-7. **Deploy** — Vercel or Netlify with an SPA rewrite, then a custom domain.
+1. **Playground content** — write real side projects; the cards are still thin.
+2. **Confirm two claims** — the Clean4Wheels team line ("Sole designer, with founder,
+   CTO and ops") is an *inference* from the stakeholder list, not something the Figma
+   file states. And it is unknown whether NioPractice's 28% / 35% are measured or
+   projected; Clean4Wheels labels its numbers, Nio does not.
+3. **Case-study outcomes** — none of the three says whether it shipped. With the
+   metrics honestly labelled as projections, that gap is the most visible one left.
+4. **Responsive audit** — even out breakpoint coverage across sections.
+5. **Accessibility** — keyboard nav, focus states, alt text, contrast beyond the hero.
+6. **SEO** — per-route titles and meta, Open Graph, sitemap, robots.
+7. **Performance** — lazy-load the hero canvas and fish trail, as the studies now are.
+8. **Deploy** — Vercel or Netlify with an SPA rewrite, then a custom domain.
 
 ## 10. Verification notes
 

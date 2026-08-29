@@ -1,9 +1,8 @@
 import { lazy, Suspense, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import CaseStudy from "./sections/CaseStudy";
 import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
-import PlaygroundPage from "./pages/PlaygroundPage";
 import Loader from "./components/Loader";
 import Nav from "./components/Nav";
 import ScrollToTop from "./components/ScrollToTop";
@@ -61,7 +60,12 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/playground" element={<PlaygroundPage />} />
+              {/* Playground is a section of Work now. The old route redirects
+                  rather than 404s, since it was linked from the work index. */}
+              <Route
+                path="/playground"
+                element={<Navigate to="/work" replace />}
+              />
               <Route path="/work" element={<WorkPage />} />
               {/* All three case studies are written. The :slug scaffold below
                 is now only a fallback for an unknown slug. */}

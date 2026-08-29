@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { selectedWork, workIndex } from "../lib/content";
-import { Container, Card, Pill, SectionHeader, Reveal, Stagger } from "../components/ui";
+import { Container, Card, Pill, SectionHeader, Stagger } from "../components/ui";
 import Contact from "../sections/Contact";
+import Playground from "../sections/Playground";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
 
 /**
- * Work index — every case study on one route.
+ * Work index — every case study on one route, with the playground beneath.
  *
- * The homepage keeps its sticky card stack; this is the flat list that the
- * nav points at, so Work is a real route like About and Playground.
+ * The homepage keeps its sticky card stack; this is the flat list the nav
+ * points at. Side projects sit at the foot of the same page rather than on
+ * their own route, so there is one place to look for anything Kavita made.
  */
 
 /** Same fallback chain as the homepage card: export → real screens → mockup. */
@@ -126,19 +128,15 @@ export default function WorkPage() {
               ))}
             </Stagger>
 
-            <Reveal delay={0.1}>
-              <p className="font-geist text-body text-graphite mt-14">
-                {workIndex.outro}{" "}
-                <Link
-                  to="/playground"
-                  className="text-iris-blue underline-offset-4 hover:underline"
-                >
-                  Playground →
-                </Link>
-              </p>
-            </Reveal>
           </Container>
         </section>
+
+        {/* Playground closes the page rather than owning a route of its own.
+            It carries its own header, so the hairline is the only separator
+            it needs. The id stays so /work#playground still lands here. */}
+        <div className="border-ink/[0.08] border-t">
+          <Playground />
+        </div>
       </main>
       <Contact />
     </>

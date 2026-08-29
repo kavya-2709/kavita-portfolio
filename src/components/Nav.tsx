@@ -3,11 +3,17 @@ import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { EASE } from "./ui";
 
-/** Every nav item is a real route — no homepage hash jumps. */
+/**
+ * Every nav item is a real route — no homepage hash jumps.
+ *
+ * Playground used to sit here as a third route. It is now a section at the
+ * foot of Work, because side projects are work: splitting them out gave a
+ * thin page its own top-level slot and sent people looking for case studies
+ * down a second path.
+ */
 const LINKS = [
   { id: "work", label: "Work", to: "/work" },
   { id: "about", label: "About", to: "/about" },
-  { id: "playground", label: "Playground", to: "/playground" },
 ] as const;
 
 export default function Nav() {
