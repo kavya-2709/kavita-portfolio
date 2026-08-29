@@ -34,7 +34,3 @@ CV Video.mp4
 # unrecoverable, but outside public/ so it never reaches dist, and
 # untracked so it never reaches GitHub.
 assets-source/
-
-# Superseded handoff docs from an earlier design pass. PROJECT_STATE.md is
-# the single source of truth now; these are kept locally for reference only.
-PORTFOLIO_PROJECT_STATE/
