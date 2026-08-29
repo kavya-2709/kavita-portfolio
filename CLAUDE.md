@@ -27,7 +27,12 @@ installed. Pre-existing. Add `tsx` as a devDependency or drop the scripts.
   `@layer`, including Tailwind utilities — an unlayered `h1 { color }` silently beat
   `text-white` and cost a real debugging cycle.
 - **No shadows anywhere.** `--shadow-button` / `--shadow-block` are `none` deliberately.
-  Cards get definition from a `border-ink/[0.08]` hairline, not elevation.
+  Cards get definition from a `border-ink/[0.08]` hairline, not elevation. The one
+  sanctioned exception is the testimonial sheet and its photograph, which are meant to
+  read as physical paper resting on the page. Don't generalise it.
+- **Fonts are two-plus-one.** Instrument Serif and Geist carry the site; `font-hand`
+  (Caveat) exists *only* for testimonial quotes, because those are other people's words
+  in their own voice. Don't use it elsewhere.
 - **Page background is pure white.** `sky-tint`, `paper-white`, `bone-white` are all `#ffffff`.
 - **All copy lives in `src/lib/content.ts`.** Don't inline strings in components.
   Don't paraphrase testimonials — they are people's real words.
@@ -81,6 +86,15 @@ were all orphaned and have been **deleted**. Don't reintroduce them.
   transient HMR failure from mid-edit. Before believing an error is live: log a marker
   (`console.log('MARKER')`), reload, and check the error appears *after* the marker. Count
   entries too — one error across a dozen reloads is stale, not recurring.
+- **`EASE` is a framer-motion array, not a CSS string.** `[0.16,1,0.3,1]`. Dropping it
+  into a CSS shorthand gives `transform 0.7s 0.16,1,0.3,1`, which is invalid, so the
+  browser silently discards the *whole* declaration and you get no transition with no
+  error. For CSS, use `cubic-bezier(${EASE.join(",")})` (see `Testimonials.tsx`).
+- **Don't let framer-motion own a resting position.** It writes transforms from rAF, so
+  where rAF is throttled to zero (background tab, and this preview pane) elements sit at
+  `transform: none`. That's fine for a decorative reveal, but for anything whose *layout*
+  depends on the transform, use a plain CSS transform so the position is declarative and
+  correct on first paint. The testimonial sheets stack on top of each other otherwise.
 - **Marquee gaps go inside the run, not on the track.** Both marquees (`Testimonials`,
   `OffTheClock`) duplicate a run and translate `-50%`. A gap on the flex *track* makes
   the two runs unequal, so `-50%` lands mid-card and the strip jumps every cycle. Put

@@ -52,15 +52,27 @@ decoration on top, so if that never runs the cards still stack.
   here — the cards physically overlap, so a translucent card shows the one beneath.
 - Image sits on a white plate inside the tinted card so mockups don't sink into it.
 
-**`Testimonials`** is an endless leftward marquee of compact quote cards.
+**`Testimonials`** is one sheet of paper, clipped and replaced. Not a marquee: the
+earlier continuously-scrolling reel was removed deliberately.
 
-- Two identical runs and a `-50%` keyframe. **The gap must live inside each run**
-  (plus matching trailing padding), never on the track, or the runs are unequal,
-  `-50%` lands mid-card and the strip jumps every cycle. Verified
-  `run0 === run1 === scrollWidth / 2`.
-- Card is 560px (was 840), photo 130px (was 240). All card type is **Geist**: quote
-  and name at 14px, role at 10px. The serif is reserved for the section heading.
-- Section background is plain white. The powder-blue gradient underneath was removed.
+- Square corners, warm `--color-paper-sheet`, fine SVG-turbulence grain, and a two-part
+  contact shadow. This is **the sanctioned exception to the no-shadow rule** — the sheet
+  has to read as sitting on the page.
+- Quotes are set in `font-hand` (Caveat), the only place that face is used.
+- **All three sheets stay mounted**, positioned by a plain CSS transform at `-108% / 0 /
+  108%`. Nothing mounts or unmounts, so there is no reset frame at the wrap and no
+  presence to leak orphaned nodes. An earlier `AnimatePresence` version accumulated
+  sheets that never unmounted.
+- Position is **CSS, not framer-motion, on purpose**: motion writes transforms from rAF,
+  so with rAF throttled the sheets all collapse to `transform: none` in one stack.
+- The sheet wrapping round to the right gets `transition: none` so it jumps rather than
+  travelling across frame. It is off-frame at both ends, so the jump is never seen.
+- 5s hold, 0.7s slide, paused on hover/focus. Auto-advance is off entirely under
+  `prefers-reduced-motion`; the dot controls still reach every quote.
+- **Heights are fixed per breakpoint and were set by measuring the longest quote**
+  (532 chars): `650 / 640 / 540px`. The row layout starts at `md`, where the sheet is
+  still narrow, so photo, gap and padding step up again at `lg` — sizing them for the
+  wide sheet alone overflowed the quote by 154px at 768px.
 
 ## 4. About page
 
