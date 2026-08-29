@@ -19,12 +19,47 @@ export const clean4Wheels = {
   client: "Clean4Wheels",
   logo: "/work/clean4wheels/logo.svg",
   title: "Designed a connected service ecosystem for customer, valet and manager",
+  /**
+   * The through-line, stated before anything else. Without it the argument
+   * only assembles itself around the halfway mark, and most readers do not
+   * get that far.
+   */
+  deck: "A car-care company thought it had a website problem. Five months of research said it had a visibility problem, and fixing that meant designing for three users nobody had designed for.",
   facts: [
     { label: "My role", value: "Product Designer" },
+    { label: "Team", value: "Sole designer, with founder, CTO and ops" },
     { label: "Duration", value: "5 months" },
     { label: "Scope", value: "Customer, Valet, Admin" },
   ],
   hero: "/work/clean4wheels/hero.webp",
+
+  /**
+   * The whole arc in four lines, for the reader who gives the page a minute.
+   * Everything below is the evidence for these four claims.
+   */
+  glance: [
+    {
+      label: "Context",
+      value:
+        "A subscription doorstep car-care service, running an offline operation on software that had stopped matching how the business worked.",
+    },
+    {
+      label: "Problem",
+      value:
+        "Customers went dark after paying, managers could not see the field, and valets reported by hand. One root cause: nobody could see anything.",
+    },
+    {
+      label: "What I did",
+      value:
+        "Reframed a website redesign as a three-sided service ecosystem, then designed the booking journey, a verification loop and a field app on one system.",
+    },
+    {
+      label: "Result",
+      value:
+        "Verification became the product's differentiator, the thing no competitor offered.",
+    },
+  ],
+
   metrics: [
     {
       value: "28%",
@@ -42,14 +77,22 @@ export const clean4Wheels = {
       note: "Centralised workforce tracking platform",
     },
   ],
+  /**
+   * Shown on every metric card, not just in a footnote underneath. These are
+   * modelled numbers; presenting them as measured would be the fastest way to
+   * lose a reader who knows the difference.
+   */
+  metricsTag: "Projected",
   metricsNote:
-    "All impact metrics are projected outcomes estimated with stakeholders from UX benchmarks.",
+    "These are projected outcomes, modelled with stakeholders from UX benchmarks rather than measured after launch.",
 
   ecosystem: {
     n: "1",
     eyebrow: "Service ecosystem",
     title: "Beyond a booking platform",
-    lead: "Clean4Wheels is a subscription-based doorstep car care platform where every successful booking depends on seamless coordination between customers, managers and on-ground valets. As the business expanded, its digital experience struggled to keep pace with increasingly complex operational workflows.",
+    /* Trimmed: the summary above now carries the setup, so this only has to
+       explain the dependency between the three roles. */
+    lead: "Every successful booking depends on three people staying in step: the customer, the manager dispatching work, and the valet doing it. As the business grew, the software stopped keeping up with that coordination.",
     steps: [
       { name: "Customer", note: "Initiates the service request" },
       { name: "Booking", note: "Customer initiates a service booking" },
@@ -59,14 +102,16 @@ export const clean4Wheels = {
       { name: "Retention", note: "Final stage ensuring customer loyalty" },
     ],
     quote:
-      "By viewing the product as a connected service ecosystem instead of an isolated booking experience, I was able to identify opportunities that improved operational efficiency while simultaneously strengthening customer trust.",
+      "Treating this as a connected service ecosystem rather than an isolated booking flow is what surfaced the opportunities: the ones that made operations more efficient were the same ones that built customer trust.",
   },
 
   context: {
     n: "2",
     eyebrow: "Business context",
     title: "Operational gaps across the service ecosystem",
-    lead: "Clean4Wheels had an established offline operation. The challenge was that the software no longer reflected how the business had grown. Disconnected workflows began affecting every stakeholder differently.",
+    /* The setup moved to the summary block, so this section opens straight on
+       the tension: one broken system, four people feeling it differently. */
+    lead: "One disconnected system, felt four different ways.",
     gaps: [
       {
         area: "Customer experience",
@@ -110,7 +155,12 @@ export const clean4Wheels = {
     n: "3",
     eyebrow: "Discovery and research",
     title: "Understanding the system before redesigning it",
-    lead: "Since the platform was live and direct customer interviews were not feasible, I combined stakeholder knowledge, product evaluation, workflow analysis and secondary research to uncover friction across customer and operational experiences.",
+    /**
+     * Kept short on purpose. The constraint is the interesting part, and the
+     * four methods are labelled below anyway, so listing them twice only
+     * lengthened the heaviest section on the page.
+     */
+    lead: "The platform was live and customer interviews were not possible, so I worked from the people who could see the system: stakeholders, the product itself, and the market around it.",
     stakeholder: {
       label: "3.1 Stakeholder discovery",
       title: "The business behind the product",
@@ -256,9 +306,9 @@ export const clean4Wheels = {
         },
       ],
       notes: [
-        "Progressive disclosure reduces complexity. Competitors guiding users step by step have measurably lower abandonment at the booking stage.",
-        "Visible updates build post-payment confidence. Service tracking exists in only one competitor and it is the highest-rated feature in reviews.",
-        "Operational transparency drives retention. Nobody in the market proves the service happened, so this became the product's differentiator.",
+        "Competitors guiding users step by step have measurably lower abandonment at booking.",
+        "Service tracking exists in only one competitor, and it is the highest-rated feature in their reviews.",
+        "Nobody in the market proves the service happened. That gap became the differentiator.",
       ],
       gap: "The gap is not just a feature gap. It is a trust gap, and no competitor has addressed it directly.",
     },
@@ -321,6 +371,7 @@ export const clean4Wheels = {
     steps: [
       {
         n: "01",
+        featured: true,
         title: "Vehicle context",
         image: "/work/clean4wheels/step-01.webp",
         why: "First impressions shape the rest of the journey. Reducing the opening ask to one decision removes early cognitive load.",
@@ -357,6 +408,7 @@ export const clean4Wheels = {
       },
       {
         n: "05",
+        featured: true,
         title: "Booking confidence",
         image: "/work/clean4wheels/step-05.webp",
         why: "The summary is the last moment before commitment. Every second of clarity here reduces post-payment regret.",
@@ -366,6 +418,7 @@ export const clean4Wheels = {
       },
       {
         n: "06",
+        featured: true,
         title: "Post-booking loop",
         image: "/work/clean4wheels/step-06.webp",
         why: "Trust is built in the spaces between transactions. The moment after payment is the product's most fragile trust point.",
@@ -380,7 +433,7 @@ export const clean4Wheels = {
     n: "6",
     eyebrow: "Service verification",
     title: "Trust became the product feature",
-    lead: "I redesigned the post-booking experience as an observable service lifecycle, a nine-node loop that closes every transaction and turns operational transparency into a customer-facing feature.",
+    lead: "I rebuilt the post-booking experience as an observable lifecycle: a loop that closes every transaction and turns operational transparency into something the customer can actually see.",
     audiences: [
       {
         who: "For customers",
@@ -401,7 +454,7 @@ export const clean4Wheels = {
     n: "7",
     eyebrow: "Cleaner platform",
     title: "The valet is a user, not an admin",
-    lead: "Rather than treating valets and managers as administrative users, I considered them primary product stakeholders whose daily efficiency directly influenced customer satisfaction.",
+    lead: "Valets and managers were treated as primary users, not admin accounts. Their daily efficiency was what the customer ultimately felt.",
     images: [
       "/work/clean4wheels/valet-dashboard.webp",
       "/work/clean4wheels/valet-app-a.webp",
@@ -427,7 +480,7 @@ export const clean4Wheels = {
     n: "8",
     eyebrow: "Design system",
     title: "A system, not screens",
-    lead: "Rather than designing one-off screens, I developed a unified visual language with reusable components, defined tokens and consistent patterns that scale across all three platforms.",
+    lead: "One visual language, with reusable components and defined tokens, scaling across all three platforms.",
     image: "/work/clean4wheels/design-system.webp",
   },
 

@@ -112,6 +112,9 @@ function Card({
 const SECTION = "py-14 md:py-20";
 
 export default function Clean4WheelsCase() {
+  const featured = c.booking.steps.filter((s) => "featured" in s && s.featured);
+  const compact = c.booking.steps.filter((s) => !("featured" in s));
+
   return (
     <>
       <main className="pt-28 md:pt-32">
@@ -149,9 +152,16 @@ export default function Clean4WheelsCase() {
                 height={60}
                 className="h-[52px] w-auto self-start object-contain object-left"
               />
-              <h1 className="text-heading md:text-heading-lg lg:text-display text-ink max-w-4xl tracking-[-0.03em]">
-                {c.title}
-              </h1>
+              <div>
+                <h1 className="text-heading md:text-heading-lg lg:text-display text-ink max-w-4xl tracking-[-0.03em]">
+                  {c.title}
+                </h1>
+                {/* The thesis, before the evidence. Previously a reader had to
+                    reach 42% of the page to learn what the study argues. */}
+                <p className="font-geist text-body-lg text-graphite mt-6 max-w-2xl">
+                  {c.deck}
+                </p>
+              </div>
             </div>
 
             <dl className="mt-12 flex flex-wrap gap-x-16 gap-y-6">
@@ -183,9 +193,17 @@ export default function Clean4WheelsCase() {
             <div className="grid gap-4 md:grid-cols-3">
               {c.metrics.map((m) => (
                 <Card key={m.label}>
-                  <p className="font-serif-display text-ink text-[44px] leading-none">
-                    {m.value}
-                  </p>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="font-serif-display text-ink text-[44px] leading-none">
+                      {m.value}
+                    </p>
+                    {/* On the card, not only in the footnote. A reader who
+                        scans the three numbers and leaves should still know
+                        they are modelled. */}
+                    <span className="border-ink/[0.12] font-geist text-caption text-fog mt-1 shrink-0 rounded-full border px-2.5 py-1 tracking-[0.08em] uppercase">
+                      {c.metricsTag}
+                    </span>
+                  </div>
                   <p className="font-geist text-body text-ink mt-4 font-medium">
                     {m.label}
                   </p>
@@ -195,12 +213,34 @@ export default function Clean4WheelsCase() {
                 </Card>
               ))}
             </div>
-            {/* The design footnotes this and so do we: the numbers are
-                projections, and saying so is the difference between a
-                credible case study and an inflated one. */}
             <p className="font-geist text-body-sm text-fog mt-5">
               {c.metricsNote}
             </p>
+          </Rise>
+
+          {/* The whole arc, for the reader who gives the page a minute.
+              Everything after this section is the evidence for these four
+              claims: the first designed outcome used to sit at 51% depth. */}
+          <Rise className="mt-14">
+            <div className="border-ink/[0.08] rounded-cards-sm border bg-white">
+              <dl className="divide-ink/[0.06] grid divide-y md:grid-cols-2 md:divide-y-0">
+                {c.glance.map((g, i) => (
+                  <div
+                    key={g.label}
+                    className={`p-6 md:p-7 ${
+                      i % 2 === 1 ? "md:border-ink/[0.06] md:border-l" : ""
+                    } ${i > 1 ? "md:border-ink/[0.06] md:border-t" : ""}`}
+                  >
+                    <dt className="font-geist text-caption text-iris-blue tracking-[0.11em] uppercase">
+                      {g.label}
+                    </dt>
+                    <dd className="font-geist text-body text-graphite mt-2">
+                      {g.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
           </Rise>
         </Container>
 
@@ -633,11 +673,13 @@ export default function Clean4WheelsCase() {
               />
             </Rise>
 
+            {/* Six steps given equal weight read as six equally easy
+                decisions, which hides the judgement. The three that carry the
+                argument get the full treatment; the rest are summarised, so
+                the journey stays complete without flattening it. */}
             <div className="mt-14 space-y-16 md:space-y-24">
-              {c.booking.steps.map((s, i) => (
+              {featured.map((s, i) => (
                 <Rise key={s.n}>
-                  {/* Alternating sides so six near-identical blocks don't
-                      read as one long column. */}
                   <div
                     className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-16 ${
                       i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
@@ -679,6 +721,36 @@ export default function Clean4WheelsCase() {
                 </Rise>
               ))}
             </div>
+
+            <Rise className="mt-16">
+              <p className="font-geist text-body-sm text-fog tracking-[0.11em] uppercase">
+                The other three steps
+              </p>
+              <div className="mt-6 grid gap-4 md:grid-cols-3">
+                {compact.map((s) => (
+                  <Card key={s.n} className="flex h-full flex-col">
+                    <img
+                      src={s.image}
+                      alt={`Booking step ${s.n}, ${s.title}`}
+                      loading="lazy"
+                      className="rounded-cards-sm border-ink/[0.08] w-full border"
+                    />
+                    <span className="font-geist text-caption text-fog mt-5 tracking-[0.11em] uppercase">
+                      Step {s.n}
+                    </span>
+                    <h3 className="font-geist text-subheading text-ink mt-1.5 font-medium">
+                      {s.title}
+                    </h3>
+                    <p className="font-geist text-body-sm text-graphite mt-3">
+                      {s.decision}
+                    </p>
+                    <p className="font-geist text-body-sm text-iris-blue mt-auto pt-4">
+                      {s.outcome}
+                    </p>
+                  </Card>
+                ))}
+              </div>
+            </Rise>
           </Container>
         </section>
 
