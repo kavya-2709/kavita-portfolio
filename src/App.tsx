@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import CaseStudy from "./sections/CaseStudy";
-import Clean4WheelsCase from "./pages/Clean4WheelsCase";
-import NioCase from "./pages/NioCase";
 import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
 import PlaygroundPage from "./pages/PlaygroundPage";
@@ -18,17 +16,28 @@ import LogoStrip from "./sections/LogoStrip";
 import Testimonials from "./sections/Testimonials";
 import Contact from "./sections/Contact";
 
+/**
+ * The three case studies are split out of the main bundle.
+ *
+ * Together they carry a lot of copy, and nobody landing on the homepage needs
+ * any of it: adding the third pushed the entry chunk past 500kB. Each now
+ * loads when its route is opened.
+ */
+const Clean4WheelsCase = lazy(() => import("./pages/Clean4WheelsCase"));
+const NioCase = lazy(() => import("./pages/NioCase"));
+const HousingCase = lazy(() => import("./pages/HousingCase"));
+
 function Home() {
   return (
     <>
       <FishTrail />
       <main>
-            <Hero />
-            <Intro />
-            <Impact />
-            <LogoStrip />
-            <SelectedWork />
-            <Testimonials />
+        <Hero />
+        <Intro />
+        <Impact />
+        <LogoStrip />
+        <SelectedWork />
+        <Testimonials />
       </main>
       <Contact />
     </>
@@ -45,17 +54,23 @@ function App() {
         <>
           <ScrollToTop />
           <Nav />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/playground" element={<PlaygroundPage />} />
-            <Route path="/work" element={<WorkPage />} />
-            {/* The case studies that are actually written. Housing still
-                falls through to the generic scaffold below. */}
-            <Route path="/work/clean4wheels" element={<Clean4WheelsCase />} />
-            <Route path="/work/niopractice" element={<NioCase />} />
-            <Route path="/work/:slug" element={<CaseStudy />} />
-          </Routes>
+          {/* The fallback is a blank hold rather than a spinner: these chunks
+              land in a few hundred milliseconds on any real connection, and a
+              flashing loader reads worse than a beat of nothing. */}
+          <Suspense fallback={<div className="min-h-screen" />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/playground" element={<PlaygroundPage />} />
+              <Route path="/work" element={<WorkPage />} />
+              {/* All three case studies are written. The :slug scaffold below
+                is now only a fallback for an unknown slug. */}
+              <Route path="/work/clean4wheels" element={<Clean4WheelsCase />} />
+              <Route path="/work/niopractice" element={<NioCase />} />
+              <Route path="/work/housing" element={<HousingCase />} />
+              <Route path="/work/:slug" element={<CaseStudy />} />
+            </Routes>
+          </Suspense>
         </>
       )}
     </>

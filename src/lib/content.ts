@@ -528,3 +528,6 @@ export { clean4Wheels } from "./clean4wheels";
 
 /** NioPractice case study copy. Kept in its own module for length. */
 export { nio } from "./nio";
+
+/** Housing.com Chats case study copy. Kept in its own module for length. */
+export { housing } from "./housing";
