@@ -525,3 +525,6 @@ export const testimonials = [
 
 /** Clean4Wheels case study copy. Kept in its own module for length. */
 export { clean4Wheels } from "./clean4wheels";
+
+/** NioPractice case study copy. Kept in its own module for length. */
+export { nio } from "./nio";

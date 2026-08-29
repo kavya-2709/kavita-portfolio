@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import CaseStudy from "./sections/CaseStudy";
 import Clean4WheelsCase from "./pages/Clean4WheelsCase";
+import NioCase from "./pages/NioCase";
 import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
 import PlaygroundPage from "./pages/PlaygroundPage";
@@ -49,9 +50,10 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/playground" element={<PlaygroundPage />} />
             <Route path="/work" element={<WorkPage />} />
-            {/* The one case study that is actually written. The others still
-                fall through to the generic scaffold below. */}
+            {/* The case studies that are actually written. Housing still
+                falls through to the generic scaffold below. */}
             <Route path="/work/clean4wheels" element={<Clean4WheelsCase />} />
+            <Route path="/work/niopractice" element={<NioCase />} />
             <Route path="/work/:slug" element={<CaseStudy />} />
           </Routes>
         </>

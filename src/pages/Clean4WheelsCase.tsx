@@ -1,8 +1,15 @@
-import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { clean4Wheels as c } from "../lib/content";
 import { Container, EASE } from "../components/ui";
+import {
+  Card,
+  Eyebrow,
+  Glance,
+  Head,
+  Rise,
+  SECTION,
+} from "../components/caseStudy";
 import Contact from "../sections/Contact";
 
 /**
@@ -17,99 +24,6 @@ import Contact from "../sections/Contact";
  *
  * Structure, hierarchy and copy are the design's. Only the surface is ours.
  */
-
-/** Section eyebrow: numbered chip plus label, the design's spine. */
-function Eyebrow({ n, children }: { n: string; children: ReactNode }) {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="bg-ink text-paper-white font-geist flex size-6 shrink-0 items-center justify-center rounded-full text-[11px] font-medium">
-        {n}
-      </span>
-      <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-        {children}
-      </span>
-    </div>
-  );
-}
-
-/** Standard section head: eyebrow, heading, lead. */
-function Head({
-  n,
-  eyebrow,
-  title,
-  lead,
-  invert = false,
-}: {
-  n: string;
-  eyebrow: string;
-  title: string;
-  lead?: string;
-  invert?: boolean;
-}) {
-  return (
-    <div className="max-w-3xl">
-      <Eyebrow n={n}>{eyebrow}</Eyebrow>
-      <h2
-        className={`text-heading md:text-heading-lg mt-5 tracking-[-0.025em] ${
-          invert ? "text-paper-white" : "text-ink"
-        }`}
-      >
-        {title}
-      </h2>
-      {lead ? (
-        <p
-          className={`font-geist text-body-lg mt-5 ${
-            invert ? "text-white/70" : "text-graphite"
-          }`}
-        >
-          {lead}
-        </p>
-      ) : null}
-    </div>
-  );
-}
-
-/** Fades a block up as it arrives. Matches the rest of the site's reveals. */
-function Rise({
-  children,
-  delay = 0,
-  className = "",
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: EASE, delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-/** Hairline card. Definition comes from the border, never elevation. */
-function Card({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`border-ink/[0.08] rounded-cards-sm border bg-white p-6 md:p-7 ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-const SECTION = "py-14 md:py-20";
 
 export default function Clean4WheelsCase() {
   const featured = c.booking.steps.filter((s) => "featured" in s && s.featured);
@@ -222,25 +136,7 @@ export default function Clean4WheelsCase() {
               Everything after this section is the evidence for these four
               claims: the first designed outcome used to sit at 51% depth. */}
           <Rise className="mt-14">
-            <div className="border-ink/[0.08] rounded-cards-sm border bg-white">
-              <dl className="divide-ink/[0.06] grid divide-y md:grid-cols-2 md:divide-y-0">
-                {c.glance.map((g, i) => (
-                  <div
-                    key={g.label}
-                    className={`p-6 md:p-7 ${
-                      i % 2 === 1 ? "md:border-ink/[0.06] md:border-l" : ""
-                    } ${i > 1 ? "md:border-ink/[0.06] md:border-t" : ""}`}
-                  >
-                    <dt className="font-geist text-caption text-iris-blue tracking-[0.11em] uppercase">
-                      {g.label}
-                    </dt>
-                    <dd className="font-geist text-body text-graphite mt-2">
-                      {g.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
+            <Glance items={c.glance} />
           </Rise>
         </Container>
 
