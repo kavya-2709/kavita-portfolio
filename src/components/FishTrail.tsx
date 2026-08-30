@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useScroll, useSpring, useAnimationFrame } from "framer-motion";
+import { KoiBody } from "./Koi";
 
 /**
  * A koi that swims the length of the page.
@@ -208,30 +209,8 @@ export default function FishTrail() {
         </g>
       ))}
 
-      {/* Body is saturated orange, not white: the page is white, and a
-          white-bellied koi vanished into it. White is now an accent only. */}
       <g ref={fishRef}>
-        <path
-          ref={tailRef}
-          d="M-13 0 C-19 -8, -25 -10, -28 -8 C-25 -3, -25 3, -28 8 C-25 10, -19 8, -13 0 Z"
-          fill="#f2622e"
-        />
-        <ellipse cx="-3" cy="-5.4" rx="6" ry="2.6" fill="#f8834f" />
-        <ellipse cx="-3" cy="5.4" rx="6" ry="2.6" fill="#f8834f" />
-        <ellipse
-          cx="0"
-          cy="0"
-          rx="15"
-          ry="6.6"
-          fill="#ef5a22"
-          stroke="#c8410f"
-          strokeWidth="0.9"
-        />
-        <ellipse cx="2" cy="2.6" rx="9" ry="2.6" fill="#ffb489" opacity="0.75" />
-        <ellipse cx="-4.5" cy="-1.8" rx="3.6" ry="2.4" fill="#fff3ea" opacity="0.95" />
-        <ellipse cx="6.5" cy="1.4" rx="2.6" ry="1.8" fill="#22262c" opacity="0.5" />
-        <circle cx="10.8" cy="-1.8" r="1.7" fill="#14181c" />
-        <circle cx="11.4" cy="-2.3" r="0.55" fill="#ffffff" />
+        <KoiBody tailRef={tailRef} />
       </g>
     </svg>
   );

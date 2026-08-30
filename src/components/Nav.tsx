@@ -53,12 +53,19 @@ export default function Nav() {
       initial={{ y: -28, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.65, ease: EASE }}
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 w-full px-4 pt-4 md:px-6 md:pt-6"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 w-full px-3 pt-4 sm:px-4 md:px-6 md:pt-6"
     >
       <div
         // Frosted over the pond, solid white once past it. The border is
         // present in both states so the capsule never changes height.
-        className={`pointer-events-auto mx-auto flex w-fit max-w-full items-center gap-2 rounded-full border p-2 transition-colors duration-500 md:gap-3 ${
+        //
+        // Full width below sm, hugging its contents above it. At 360px, which
+        // is one of the commonest phone widths, a w-fit capsule was 23px
+        // narrower than the four things inside it and the Resume button hung
+        // outside the pill; at 320px it hung 63px out. Spanning the width and
+        // spacing the contents apart means the capsule can never be narrower
+        // than what it holds.
+        className={`pointer-events-auto mx-auto flex w-full items-center justify-between gap-1.5 rounded-full border p-1.5 transition-colors duration-500 sm:w-fit sm:justify-start sm:gap-2 sm:p-2 md:gap-3 ${
           overPond
             ? "border-white/40 bg-white/15 backdrop-blur-md"
             : "border-ink/10 bg-paper-white/90 backdrop-blur-md"
@@ -75,7 +82,7 @@ export default function Nav() {
             alt=""
             width={40}
             height={40}
-            className={`size-9 rounded-full border object-cover transition-colors duration-500 md:size-10 ${
+            className={`size-8 rounded-full border object-cover transition-colors duration-500 sm:size-9 md:size-10 ${
               overPond ? "border-white/50" : "border-ink/10"
             }`}
           />
@@ -109,7 +116,7 @@ export default function Nav() {
                   aria-current={isActive ? "page" : undefined}
                   // The active route is ringed rather than merely brighter,
                   // so it survives being read over a busy photograph.
-                  className={`font-geist text-body-sm rounded-full border px-4 py-2 transition-colors duration-300 md:text-body ${
+                  className={`font-geist text-body-sm rounded-full border px-3 py-2 transition-colors duration-300 sm:px-4 md:text-body ${
                     overPond
                       ? isActive
                         ? "border-white/70 text-white"
@@ -130,7 +137,7 @@ export default function Nav() {
             href="#contact"
             aria-hidden={!scrolled}
             tabIndex={scrolled ? undefined : -1}
-            className={`col-start-1 row-start-1 flex items-center justify-center gap-2.5 px-4 transition-opacity duration-500 ${
+            className={`col-start-1 row-start-1 flex items-center justify-center gap-2 px-2 transition-opacity duration-500 sm:gap-2.5 sm:px-4 ${
               scrolled ? "opacity-100" : "pointer-events-none opacity-0"
             }`}
           >
@@ -139,7 +146,7 @@ export default function Nav() {
                 overPond ? "text-white" : "text-ink"
               }`}
             >
-              Available for work
+              Available<span className="hidden sm:inline"> for work</span>
             </span>
             <span className="relative flex size-4 shrink-0 items-center justify-center">
               <motion.span

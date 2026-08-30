@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { EASE } from "./ui";
+import { KoiTrunk } from "./Koi";
+import { KOI_TAIL_D, KOI_TAIL_FILL, KOI_TAIL_PIVOT } from "../lib/koi";
 
 const DOT_COUNT = 10;
 
@@ -8,6 +10,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
   const [eaten, setEaten] = useState(0);
   const [exiting, setExiting] = useState(false);
   const intervalRef = useRef<number | null>(null);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     intervalRef.current = window.setInterval(() => {
@@ -68,11 +71,11 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 
             <motion.div
               className="absolute top-1/2 -translate-y-1/2"
-              animate={{ left: `calc(${progress * 100}% - ${progress * 28}px)` }}
+              animate={{ left: `calc(${progress * 100}% - ${progress * 44}px)` }}
               transition={{ duration: 0.18, ease: "linear" }}
               style={{ left: 0 }}
             >
-              <Pac />
+              <Koi still={!!reduced} />
             </motion.div>
           </div>
 
@@ -90,22 +93,38 @@ export default function Loader({ onDone }: { onDone: () => void }) {
   );
 }
 
-/** Two clipped halves rotating apart = a chomping mouth. */
-function Pac() {
+/**
+ * The site's koi, swimming the progress track.
+ *
+ * Two motions, both decorative: the tail sweeps about the point where it
+ * joins the body, and the whole fish bobs and pitches a little, the way one
+ * does holding station in water. Travel along the track is driven by
+ * progress, not by these, so under reduced motion the fish still advances
+ * and the loader still reads as a loader.
+ */
+function Koi({ still }: { still: boolean }) {
   return (
-    <div className="relative h-7 w-7">
-      {[25, -25].map((deg) => (
-        <motion.div
-          key={deg}
-          className="absolute inset-0 rounded-full bg-iris-blue"
-          style={{
-            clipPath: "polygon(100% 50%, 0 0, 0 100%)",
-            transformOrigin: "50% 50%",
-          }}
-          animate={{ rotate: [0, deg, 0] }}
-          transition={{ duration: 0.36, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ))}
-    </div>
+    <motion.svg
+      viewBox="-30 -12 46 24"
+      width={44}
+      height={23}
+      aria-hidden
+      className="overflow-visible"
+      animate={still ? undefined : { y: [0, -2.5, 0, 2.5, 0], rotate: [0, -3, 0, 3, 0] }}
+      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+    >
+      {/* An SVG element's transform-origin is in user units by default, so
+          the pivot is the fish's own coordinates, not a fraction of a box. */}
+      <motion.path
+        d={KOI_TAIL_D}
+        fill={KOI_TAIL_FILL}
+        style={{
+          transformOrigin: `${KOI_TAIL_PIVOT.x}px ${KOI_TAIL_PIVOT.y}px`,
+        }}
+        animate={still ? undefined : { rotate: [0, 16, 0, -16, 0] }}
+        transition={{ duration: 0.7, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <KoiTrunk />
+    </motion.svg>
   );
 }
