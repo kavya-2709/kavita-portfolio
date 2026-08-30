@@ -30,6 +30,17 @@ installed. Pre-existing. Add `tsx` as a devDependency or drop the scripts.
   Cards get definition from a `border-ink/[0.08]` hairline, not elevation. The one
   sanctioned exception is the testimonial sheet and its photograph, which are meant to
   read as physical paper resting on the page. Don't generalise it.
+- **Type roles live in `lib/type.ts`. Import `TYPE`, never write heading classes
+  inline.** Every section heading is the same size and the same face on every page:
+  Instrument Serif announces a section, Geist explains one. Size means level, never
+  emphasis. Headings were previously set inline at six different scales across ~100
+  places, so two sections at the same level could differ by 24px.
+- **One button, `ActionLink`.** Two sizes, three tones, and a liquid fill that rises
+  on hover and focus. Every tone carries a border, transparent where it isn't drawn,
+  or filled and outlined buttons come out a pixel apart side by side.
+- **Each case study owns a colour.** `lib/surfaces.ts` maps slug to a pale tint of
+  that project's own brand hex, taken from its Figma file. The card and the study it
+  opens are the same colour, so the tint tells you where you are.
 - **Only the three system faces, everywhere.** Instrument Serif for display, Geist for
   body and UI, Inter for headings. A handwriting face (Caveat) was tried on the
   testimonial quotes and removed. Don't reintroduce a fourth face.

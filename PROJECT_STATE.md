@@ -169,12 +169,17 @@ Tokens live in `src/index.css` under `@theme`. Base element styles are inside
   `@layer base` sets `h1–h4` to `--font-aeonik` (Inter), so **every heading needs an
   explicit font class** or Inter silently leaks back in.
 - **Colours:** `ink #0a0d12`, `charcoal #181d27`, `graphite #535862`, `fog #93979f`,
-  `iris-blue #0069e0`, `mist-gray #f6f7f8`. Pastel washes: powder-blue, lavender,
-  mint, solar, violet, aqua, peach. Solid card surfaces `card-ivory #f6f2e9`,
-  `card-sage #e8efe9`, `card-stone #eaeff5`, which read as shore, reed and water;
-  the earlier set sat within two points of each other and looked like one colour
-  printed three times. `sand #faf4ea` and `clay #c2643a` are the playground's only,
-  used nowhere else. **Page background is pure white.**
+  `iris-blue #0069e0`, `mist-gray #f6f7f8`. **Each case study owns a colour**, a pale
+  tint of its own brand hex taken from its Figma file: Clean4Wheels `#fbeef0` from
+  `#98002e`, NioPractice `#ebf4fb` from `#2f99d7`, Housing `#f2ecfd` from `#5e23dc`.
+  Mapped by slug in `lib/surfaces.ts` and used on the card, the study's summary block
+  and its section numerals, so the tint says where you are rather than decorating.
+  `brand-nio` is darkened to `#1f7fbb`: the raw `#2f99d7` lands near 2.9:1 and fails
+  contrast on a pale tint. `sand`/`clay` belong to the playground alone.
+  **Page background is pure white.**
+- **Type roles live in `lib/type.ts`.** Import `TYPE`; do not write heading classes
+  inline. Every `h2` on every page is 44px Instrument Serif at desktop and 30px at
+  375px, every `h3` is 20px Geist. Verified across all six routes.
 - **Every button-shaped element carries a border**, transparent where it isn't
   drawn. Filled and outlined buttons otherwise differ by a pixel, which showed in
   the footer where the two sit side by side, and made the nav CTA change height the

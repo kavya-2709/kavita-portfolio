@@ -80,52 +80,6 @@ Stagger.Item = function StaggerItem({
   );
 };
 
-/* ── Primary CTA — the only dense visual element on the page ────────── */
-export function Button({
-  children,
-  href,
-  variant = "primary",
-  className = "",
-}: {
-  children: ReactNode;
-  href: string;
-  variant?: "primary" | "secondary" | "ghost";
-  className?: string;
-}) {
-  const base =
-    "group relative inline-flex items-center justify-center gap-2 overflow-hidden font-geist font-medium transition-transform duration-300";
-  // Every variant carries a border, transparent where it isn't drawn. Without
-  // it the filled buttons come out a pixel shorter than the outlined one, and
-  // the two sit side by side in the footer where that shows.
-  const styles = {
-    primary:
-      "bg-charcoal text-paper-white rounded-buttons border border-transparent px-8 py-3.5 text-body",
-    secondary:
-      "bg-charcoal text-paper-white rounded-cards-sm border border-transparent px-4 py-2 text-body-sm",
-    ghost:
-      "text-graphite hover:text-ink rounded-buttons border border-ink/15 px-6 py-3.5 text-body",
-  }[variant];
-
-  return (
-    <motion.a
-      href={href}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.3, ease: EASE }}
-      className={`${base} ${styles} ${className}`}
-    >
-      {/* water rising up through the button on hover */}
-      {variant !== "ghost" && (
-        <span
-          aria-hidden
-          className="absolute inset-0 translate-y-full bg-iris-blue transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0"
-        />
-      )}
-      <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
-    </motion.a>
-  );
-}
-
 /* ── Feature Card — depth from canvas→surface shift, never shadow ───── */
 export function Card({
   children,
@@ -190,38 +144,6 @@ export function Pill({
   );
 }
 
-/* ── Section header — centered display + subhead ────────────────────── */
-export function SectionHeader({
-  eyebrow,
-  title,
-  subhead,
-  align = "center",
-}: {
-  eyebrow?: string;
-  title: ReactNode;
-  subhead?: string;
-  align?: "center" | "left";
-}) {
-  const a = align === "center" ? "text-center mx-auto items-center" : "text-left items-start";
-  return (
-    <div className={`flex max-w-3xl flex-col gap-4 ${a}`}>
-      {eyebrow && (
-        <Reveal>
-          <Pill tone="accent">{eyebrow}</Pill>
-        </Reveal>
-      )}
-      <Reveal delay={0.06}>
-        <h2 className="text-heading-lg md:text-display text-ink">{title}</h2>
-      </Reveal>
-      {subhead && (
-        <Reveal delay={0.12}>
-          <p className="font-geist text-body-lg text-graphite">{subhead}</p>
-        </Reveal>
-      )}
-    </div>
-  );
-}
-
 /** Page shell — 1200px max, generous margins. */
 export function Container({
   children,
@@ -241,14 +163,18 @@ export function Container({
 /**
  * The site's one call to action.
  *
- * Replaces an earlier pattern of a bare text label sitting next to an
- * unattached circle, which read as two unrelated things rather than one
- * control. This is a single pill with the arrow inside it, so the whole
- * shape is the target and the hover state has something to fill.
+ * Every button on the site is this component. It replaced two different
+ * things: a bare label sitting beside an unattached circle, and a separate
+ * `Button` whose filled and outlined variants differed by a pixel.
  *
- * `as="span"` is for cards that are already wrapped in a link: nesting an
- * anchor inside an anchor is invalid, and the browser's recovery from it is
- * not something to rely on.
+ * The liquid fill rises from the bottom on hover and focus. It was previously
+ * on the filled variant only, where dark-on-dark made it nearly invisible;
+ * here it runs on every variant and always lands on a contrasting ground, so
+ * you can actually see it happen.
+ *
+ * `as="span"` is for cards already wrapped in a link, since nesting an anchor
+ * inside an anchor is invalid and the browser's recovery is not worth relying
+ * on. `download` turns it into a file link.
  */
 export function ActionLink({
   children,
@@ -256,50 +182,106 @@ export function ActionLink({
   href,
   as,
   arrow = "→",
-  tone = "ink",
+  size = "md",
+  tone = "outline",
+  download = false,
   className = "",
 }: {
   children: ReactNode;
   to?: string;
   href?: string;
   as?: "span";
-  arrow?: string;
-  tone?: "ink" | "light";
+  arrow?: string | null;
+  size?: "sm" | "md";
+  tone?: "outline" | "solid" | "light";
+  download?: boolean;
   className?: string;
 }) {
-  const base =
-    "group/cta inline-flex items-center gap-2.5 rounded-buttons border px-5 py-2.5 font-geist text-body-sm font-medium transition-colors duration-300";
+  // Two sizes only. Anything needing a third is a sign the layout is off,
+  // not that the button scale is short.
+  const sizing = {
+    sm: "px-5 py-2.5 text-body-sm",
+    md: "px-7 py-3.5 text-body",
+  }[size];
+
+  // Every tone carries a border, transparent where it isn't drawn: without it
+  // the filled and outlined buttons come out a pixel apart, which shows when
+  // they sit side by side.
   const tones = {
-    ink: "border-ink/15 text-ink hover:border-ink hover:bg-ink hover:text-paper-white",
-    light:
-      "border-white/25 text-paper-white hover:border-white hover:bg-white hover:text-ink",
+    outline: "border-ink/20 text-ink hover:text-paper-white",
+    solid: "border-transparent bg-charcoal text-paper-white",
+    light: "border-white/30 text-paper-white hover:text-ink",
   }[tone];
+
+  // What rises. Each is chosen against its own resting ground so the fill is
+  // visible rather than dark sliding over dark.
+  const fill = {
+    outline: "bg-ink",
+    solid: "bg-iris-blue",
+    light: "bg-white",
+  }[tone];
+
+  const cls = `group/cta relative inline-flex items-center justify-center gap-2.5 overflow-hidden rounded-buttons border font-geist font-medium transition-colors duration-300 ${sizing} ${tones} ${className}`;
 
   const inner = (
     <>
-      {children}
       <span
         aria-hidden
-        className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-x-0.5 group-hover:translate-x-0.5"
-      >
-        {arrow}
+        className={`absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-y-0 group-focus-visible/cta:translate-y-0 group-hover:translate-y-0 ${fill}`}
+      />
+      <span className="relative z-10 inline-flex items-center gap-2.5">
+        {children}
+        {arrow ? (
+          <span
+            aria-hidden
+            className="transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-x-0.5 group-hover:translate-x-0.5"
+          >
+            {arrow}
+          </span>
+        ) : null}
       </span>
     </>
   );
 
-  const cls = `${base} ${tones} ${className}`;
-
   if (as === "span" || (!to && !href))
     return <span className={cls}>{inner}</span>;
+
   if (href)
     return (
-      <a href={href} target="_blank" rel="noreferrer" className={cls}>
+      <a
+        href={href}
+        {...(download
+          ? { download: "" }
+          : { target: "_blank", rel: "noreferrer" })}
+        className={cls}
+      >
         {inner}
       </a>
     );
+
   return (
     <RouterLink to={to!} className={cls}>
       {inner}
     </RouterLink>
+  );
+}
+
+/** Download glyph for the resume button. */
+export function DownloadIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={`size-[1.05em] ${className}`}
+    >
+      <path d="M12 3v12" />
+      <path d="m7 11 5 5 5-5" />
+      <path d="M4 20h16" />
+    </svg>
   );
 }

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { nio as n } from "../lib/content";
 import { ActionLink, Container, EASE } from "../components/ui";
+import { TYPE } from "../lib/type";
+import { themeFor } from "../lib/surfaces";
 import {
   Card,
   Eyebrow,
@@ -119,6 +121,7 @@ function PainChart({ chart }: { chart: typeof n.research.chart }) {
 }
 
 export default function NioCase() {
+  const theme = themeFor("niopractice");
   return (
     <>
       <main className="pt-28 md:pt-32">
@@ -157,7 +160,7 @@ export default function NioCase() {
                 className="h-[56px] w-auto self-start object-contain object-left"
               />
               <div>
-                <h1 className="text-heading md:text-heading-lg lg:text-display text-ink max-w-4xl tracking-[-0.03em]">
+                <h1 className={`${TYPE.h1} max-w-4xl`}>
                   {n.title}
                 </h1>
                 <p className="font-geist text-body-lg text-graphite mt-6 max-w-2xl">
@@ -199,7 +202,7 @@ export default function NioCase() {
           </Rise>
 
           <Rise className="mt-8">
-            <Glance items={n.glance} />
+            <Glance items={n.glance} theme={theme} />
           </Rise>
         </Container>
 
@@ -212,6 +215,7 @@ export default function NioCase() {
                 eyebrow={n.challenge.eyebrow}
                 title={n.challenge.title}
                 lead={n.challenge.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -241,6 +245,7 @@ export default function NioCase() {
                 eyebrow={n.research.eyebrow}
                 title={n.research.title}
                 lead={n.research.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -298,6 +303,7 @@ export default function NioCase() {
                 eyebrow={n.screens.eyebrow}
                 title={n.screens.title}
                 lead={n.screens.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -322,7 +328,7 @@ export default function NioCase() {
                       <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
                         {s.label}
                       </span>
-                      <h3 className="text-heading-sm md:text-heading text-ink mt-3 tracking-[-0.02em]">
+                      <h3 className={`${TYPE.h3} mt-3`}>
                         {s.title}
                       </h3>
                       <p className="font-geist text-body text-graphite mt-5">
@@ -340,8 +346,8 @@ export default function NioCase() {
         <section className={`${SECTION} bg-mist-gray`}>
           <Container>
             <Rise>
-              <Eyebrow n={n.learnings.n}>{n.learnings.eyebrow}</Eyebrow>
-              <h2 className="text-heading md:text-heading-lg text-ink mt-5 tracking-[-0.025em]">
+              <Eyebrow n={n.learnings.n} theme={theme}>{n.learnings.eyebrow}</Eyebrow>
+              <h2 className={`${TYPE.h2} mt-5`}>
                 {n.learnings.title}
               </h2>
               <p className="font-geist text-body-lg text-graphite mt-5 max-w-4xl">

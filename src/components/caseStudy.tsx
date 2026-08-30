@@ -1,65 +1,85 @@
 import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { EASE } from "./ui";
+import { TYPE, TYPE_INVERT } from "../lib/type";
+import { type ProjectTheme } from "../lib/surfaces";
 
 /**
  * Shared furniture for case-study pages.
  *
- * Both studies arrive from Figma in their own visual language (different
- * type, different accent colours, shadowed cards). These pieces are what
- * pull them onto one system, so a reader moving between them sees the same
- * site rather than two pasted-in artefacts.
+ * The three studies arrive from three Figma files in three visual languages.
+ * These pieces are what pull them onto one system — and, since each study now
+ * carries its own brand tint, what keeps them recognisably siblings rather
+ * than three unrelated documents.
  */
 
 /** Vertical rhythm for case-study sections, matching the rest of the site. */
 export const SECTION = "py-14 md:py-20";
 
-/** Section eyebrow: numbered chip plus label. The spine of both studies. */
-export function Eyebrow({ n, children }: { n: string; children: ReactNode }) {
+/**
+ * Section index and label.
+ *
+ * The number used to be a 24px chip, the same weight as the eyebrow beside
+ * it, so nine sections read as nine identical rows and the page had no sense
+ * of place. It is now a large serif numeral in the project's own colour: it
+ * says where you are at a glance and gives each section a visible anchor.
+ */
+export function Eyebrow({
+  n,
+  theme,
+  invert = false,
+  children,
+}: {
+  n: string;
+  theme?: ProjectTheme;
+  invert?: boolean;
+  children: ReactNode;
+}) {
   return (
-    <div className="flex items-center gap-3">
-      <span className="bg-ink text-paper-white font-geist flex size-6 shrink-0 items-center justify-center rounded-full text-[11px] font-medium">
+    <div className="flex items-baseline gap-4">
+      <span
+        className={`font-serif-display text-[2.5rem] leading-none ${
+          invert ? "text-white/35" : (theme?.brand ?? "text-iris-blue")
+        }`}
+      >
         {n}
       </span>
-      <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
+      <span className={invert ? TYPE_INVERT.eyebrow : TYPE.eyebrow}>
         {children}
       </span>
     </div>
   );
 }
 
-/** Standard section head: eyebrow, heading, lead. */
+/**
+ * Standard section head.
+ *
+ * The rule underneath is the project's colour, so scrolling the page keeps
+ * telling you which study you are in without another label.
+ */
 export function Head({
   n,
   eyebrow,
   title,
   lead,
+  theme,
   invert = false,
 }: {
   n: string;
   eyebrow: string;
   title: string;
   lead?: string;
+  theme?: ProjectTheme;
   invert?: boolean;
 }) {
   return (
     <div className="max-w-3xl">
-      <Eyebrow n={n}>{eyebrow}</Eyebrow>
-      <h2
-        className={`text-heading md:text-heading-lg mt-5 tracking-[-0.025em] ${
-          invert ? "text-paper-white" : "text-ink"
-        }`}
-      >
-        {title}
-      </h2>
+      <Eyebrow n={n} theme={theme} invert={invert}>
+        {eyebrow}
+      </Eyebrow>
+      <h2 className={`${invert ? TYPE_INVERT.h2 : TYPE.h2} mt-5`}>{title}</h2>
       {lead ? (
-        <p
-          className={`font-geist text-body-lg mt-5 ${
-            invert ? "text-white/70" : "text-graphite"
-          }`}
-        >
-          {lead}
-        </p>
+        <p className={`${invert ? TYPE_INVERT.lead : TYPE.lead} mt-5`}>{lead}</p>
       ) : null}
     </div>
   );
@@ -107,29 +127,34 @@ export function Card({
 
 /**
  * The whole arc in four lines, for the reader who gives the page a minute.
- * Everything below it on the page is the evidence for these four claims.
+ * Sits on the project's tint so it reads as the study's own summary rather
+ * than another white card in a run of white cards.
  */
 export function Glance({
   items,
+  theme,
 }: {
   items: { label: string; value: string }[];
+  theme?: ProjectTheme;
 }) {
   return (
-    <div className="border-ink/[0.08] rounded-cards-sm border bg-white">
+    <div
+      className={`rounded-cards overflow-hidden ${theme?.surface ?? "bg-mist-gray"}`}
+    >
       <dl className="divide-ink/[0.06] grid divide-y md:grid-cols-2 md:divide-y-0">
         {items.map((g, i) => (
           <div
             key={g.label}
-            className={`p-6 md:p-7 ${
+            className={`p-6 md:p-8 ${
               i % 2 === 1 ? "md:border-ink/[0.06] md:border-l" : ""
             } ${i > 1 ? "md:border-ink/[0.06] md:border-t" : ""}`}
           >
-            <dt className="font-geist text-caption text-iris-blue tracking-[0.11em] uppercase">
+            <dt
+              className={`${TYPE.eyebrow} ${theme?.brand ?? "text-iris-blue"}`}
+            >
               {g.label}
             </dt>
-            <dd className="font-geist text-body text-graphite mt-2">
-              {g.value}
-            </dd>
+            <dd className={`${TYPE.body} mt-2`}>{g.value}</dd>
           </div>
         ))}
       </dl>

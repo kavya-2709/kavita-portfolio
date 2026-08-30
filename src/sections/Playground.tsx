@@ -1,5 +1,6 @@
 import { playground as p } from "../lib/content";
 import { Container } from "../components/ui";
+import { TYPE } from "../lib/type";
 
 /**
  * Playground — the one warm room in the house.
@@ -72,7 +73,7 @@ export default function Playground() {
               {p.badge}
             </span>
 
-            <h2 className="font-serif-display text-ink mt-7 text-[clamp(2.5rem,7vw,4.75rem)] leading-[1.02] font-normal tracking-[-0.02em]">
+            <h2 className={`${TYPE.h2} mt-7`}>
               {p.title}
               <br />
               <span className="text-clay italic">{p.titleAccent}</span>
@@ -88,7 +89,7 @@ export default function Playground() {
               height={96}
               className="h-[72px] w-auto shrink-0 -rotate-6 md:h-[88px]"
             />
-            <p className="font-geist text-body text-graphite max-w-sm">
+            <p className={`${TYPE.body} max-w-sm`}>
               {p.blurbBefore}
               <em className="font-serif-display text-ink text-body-lg not-italic">
                 <span className="italic">{p.blurbEmphasis}</span>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { EASE } from "./ui";
+import { DownloadIcon, EASE } from "./ui";
+import { profile } from "../lib/content";
 
 /**
  * Every nav item is a real route — no homepage hash jumps.
@@ -139,21 +140,37 @@ export default function Nav() {
           })}
         </motion.nav>
 
+        {/* Resume, not "Let's talk": the footer already carries the contact
+            CTA, and the thing someone actually wants from a persistent header
+            is the document. `download` rather than a new tab, so it lands in
+            their downloads instead of a viewer.
+
+            The border is present in both states, transparent where it isn't
+            drawn. Only the over-pond state used to carry one, so the button
+            changed height by a pixel the moment the hero scrolled past. */}
         <motion.a
-          href="#contact"
+          href={profile.links.resume}
+          download=""
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.3, ease: EASE }}
-          // The border is present in both states, transparent where it isn't
-          // drawn. Only the over-pond state used to carry one, so the button
-          // changed height by a pixel the moment the hero scrolled past.
-          className={`rounded-buttons border px-6 py-2.5 font-geist text-body-sm transition-colors duration-500 md:text-body ${
+          className={`group/cta rounded-buttons relative inline-flex items-center gap-2 overflow-hidden border px-6 py-2.5 font-geist text-body-sm font-medium transition-colors duration-500 md:text-body ${
             overPond
-              ? "border-white/50 bg-white/15 text-white backdrop-blur-sm"
+              ? "border-white/50 text-white backdrop-blur-sm hover:text-ink"
               : "border-transparent bg-charcoal text-paper-white"
           }`}
         >
-          Let's talk
+          {/* Same liquid rise as every other button on the site. */}
+          <span
+            aria-hidden
+            className={`absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-y-0 ${
+              overPond ? "bg-white" : "bg-iris-blue"
+            }`}
+          />
+          <span className="relative z-10 inline-flex items-center gap-2">
+            Resume
+            <DownloadIcon />
+          </span>
         </motion.a>
       </div>
 

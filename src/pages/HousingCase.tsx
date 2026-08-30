@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { housing as h } from "../lib/content";
 import { ActionLink, Container, EASE } from "../components/ui";
+import { TYPE } from "../lib/type";
+import { themeFor } from "../lib/surfaces";
 import {
   Card,
   Eyebrow,
@@ -89,6 +91,7 @@ function PreferenceBars({ stats }: { stats: { label: string; value: number }[] }
 }
 
 export default function HousingCase() {
+  const theme = themeFor("housing");
   return (
     <>
       <main className="pt-28 md:pt-32">
@@ -125,7 +128,7 @@ export default function HousingCase() {
             <p className="font-geist text-body-sm text-fog mt-8 tracking-[0.11em] uppercase">
               {h.client} · {h.product}
             </p>
-            <h1 className="text-heading md:text-heading-lg lg:text-display text-ink mt-3 max-w-5xl tracking-[-0.03em]">
+            <h1 className={`${TYPE.h1} max-w-4xl`}>
               {h.title}
             </h1>
             <p className="font-geist text-body-lg text-graphite mt-6 max-w-2xl">
@@ -165,7 +168,7 @@ export default function HousingCase() {
           </Rise>
 
           <Rise className="mt-12">
-            <Glance items={h.glance} />
+            <Glance items={h.glance} theme={theme} />
           </Rise>
         </Container>
 
@@ -178,6 +181,7 @@ export default function HousingCase() {
                 eyebrow={h.challenge.eyebrow}
                 title={h.challenge.title}
                 lead={h.challenge.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -207,6 +211,7 @@ export default function HousingCase() {
                 eyebrow={h.research.eyebrow}
                 title={h.research.title}
                 lead={h.research.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -214,7 +219,7 @@ export default function HousingCase() {
             <Rise className="mt-14">
               <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16">
                 <div>
-                  <h3 className="text-heading-sm text-ink">
+                  <h3 className={TYPE.h3}>
                     {h.research.concernsTitle}
                   </h3>
                   <p className="font-geist text-body text-graphite mt-2">
@@ -248,7 +253,7 @@ export default function HousingCase() {
               <div className="border-ink/[0.08] rounded-cards-sm border bg-white p-7 md:p-10">
                 <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-16">
                   <div>
-                    <h3 className="text-heading-sm text-ink">
+                    <h3 className={TYPE.h3}>
                       {h.research.statsTitle}
                     </h3>
                     <p className="font-geist text-body text-graphite mt-2">
@@ -274,6 +279,7 @@ export default function HousingCase() {
                 eyebrow={h.personas.eyebrow}
                 title={h.personas.title}
                 lead={h.personas.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -284,7 +290,7 @@ export default function HousingCase() {
                     <span className="font-geist text-caption text-iris-blue tracking-[0.11em] uppercase">
                       {p.role}
                     </span>
-                    <h3 className="text-heading-sm text-ink mt-3">{p.name}</h3>
+                    <h3 className={`${TYPE.h3} mt-3`}>{p.name}</h3>
                     <p className="font-geist text-body text-graphite mt-1">
                       {p.tagline}
                     </p>
@@ -378,6 +384,7 @@ export default function HousingCase() {
                 eyebrow={h.redesign.eyebrow}
                 title={h.redesign.title}
                 lead={h.redesign.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -386,7 +393,7 @@ export default function HousingCase() {
             {[h.redesign.before, h.redesign.after].map((half, idx) => (
               <Rise key={half.label} className={idx === 0 ? "mt-14" : "mt-16"}>
                 <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                  <h3 className="text-heading-sm text-ink">{half.label}</h3>
+                  <h3 className={TYPE.h3}>{half.label}</h3>
                   <p className="font-geist text-body text-graphite">
                     {half.caption}
                   </p>
@@ -427,7 +434,7 @@ export default function HousingCase() {
                     }`}
                   >
                     <div>
-                      <h3 className="text-heading-sm md:text-heading text-ink tracking-[-0.02em]">
+                      <h3 className={TYPE.h3}>
                         {f.title}
                       </h3>
                       <p className="font-geist text-body text-graphite mt-4">
@@ -451,8 +458,8 @@ export default function HousingCase() {
         <section className={`${SECTION} bg-mist-gray`}>
           <Container>
             <Rise>
-              <Eyebrow n={h.learnings.n}>{h.learnings.eyebrow}</Eyebrow>
-              <h2 className="text-heading md:text-heading-lg text-ink mt-5 tracking-[-0.025em]">
+              <Eyebrow n={h.learnings.n} theme={theme}>{h.learnings.eyebrow}</Eyebrow>
+              <h2 className={`${TYPE.h2} mt-5`}>
                 {h.learnings.title}
               </h2>
               <p className="font-geist text-body-lg text-graphite mt-5 max-w-4xl">

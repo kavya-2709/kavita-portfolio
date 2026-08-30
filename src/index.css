@@ -28,16 +28,22 @@
   --color-aqua-wash: #c2e9ff;
   --color-peach-wash: #ffd1b8;
 
-  /* Case-study card surfaces. Solid and opaque on purpose: the cards
-     physically overlap as they stack, so an alpha tint would show the
-     card underneath through the one on top.
+  /* Case-study surfaces, one per project, each a pale tint of that
+     project's own brand colour: Clean4Wheels #98002e, NioPractice #2f99d7,
+     Housing #5e23dc. A card now tells you which study it belongs to before
+     you read it, and the same tint carries through to that study's page.
 
-     Read as shore, reed and water, so the three carry the pond without
-     naming it. The earlier set sat within two points of each other and
-     read as one colour printed three times. */
-  --color-card-ivory: #f6f2e9;
-  --color-card-sage: #e8efe9;
-  --color-card-stone: #eaeff5;
+     Solid and opaque on purpose: the homepage cards physically overlap as
+     they stack, so an alpha tint would show the card underneath. */
+  --color-card-c4w: #fbeef0;
+  --color-card-nio: #ebf4fb;
+  --color-card-housing: #f2ecfd;
+
+  /* The accents those tints are drawn from, for rules, numerals and CTAs
+     inside each study. */
+  --color-brand-c4w: #98002e;
+  --color-brand-nio: #1f7fbb;
+  --color-brand-housing: #5e23dc;
 
   /* Playground. The one warm room in the house: side projects are the part
      of the site with no client attached, so they get their own ground. */

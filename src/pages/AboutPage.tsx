@@ -14,6 +14,7 @@ import { Coral, Shell, Starfish, Sun } from "../components/Scrapbook";
 import { Caustics, Cue, LilyPad, WaveDivider } from "../components/Water";
 import { Float } from "../components/Floaties";
 import Contact from "../sections/Contact";
+import { TYPE } from "../lib/type";
 
 /**
  * About, in four sections.
@@ -125,7 +126,7 @@ function Surface() {
       <Container className="relative">
         <div className="grid items-center gap-16 lg:grid-cols-[1fr_400px] lg:gap-12">
           <div>
-            <h1 className="font-serif-display text-heading-lg md:text-display text-ink leading-[1.08]">
+            <h1 className={TYPE.h1}>
               <SurfacingText text={personalInterlude.heading[0]} />
               <br />
               {/* second line picks up where the first left off */}
@@ -268,7 +269,7 @@ function WorkCard({
           />
         </motion.span>
 
-        <h3 className="font-serif-display text-heading-sm md:text-heading text-ink leading-[1.12]">
+        <h3 className={TYPE.h3}>
           {card.title}
         </h3>
 
@@ -290,7 +291,7 @@ function HowIWork() {
             <Cue>{label}</Cue>
           </Reveal>
           <Reveal delay={0.08}>
-            <h2 className="font-serif-display text-heading-lg md:text-display text-ink mt-6 leading-[1.08]">
+            <h2 className={`${TYPE.h2} mt-6`}>
               {heading[0]}
               <br />
               {heading[1]}
@@ -414,7 +415,7 @@ function TrackRecord() {
       <Container>
         <div className="grid gap-12 lg:grid-cols-[280px_1fr]">
           <Reveal>
-            <h2 className="font-serif-display text-heading md:text-heading-lg text-ink">
+            <h2 className={TYPE.h2}>
               {aboutPage.experienceTitle}
             </h2>
             <p className="font-geist text-body text-graphite mt-3">
@@ -501,7 +502,7 @@ function OffTheClock() {
       <Container>
         <div className="max-w-3xl">
           <Reveal>
-            <h2 className="font-serif-display text-heading md:text-heading-lg text-ink">
+            <h2 className={TYPE.h2}>
               {aboutPage.beyondTitle}
             </h2>
           </Reveal>

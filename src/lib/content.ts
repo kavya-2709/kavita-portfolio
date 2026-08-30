@@ -15,6 +15,13 @@ export const profile = {
     behance: "https://www.behance.net/kavitayadav21",
     linkedin: "https://www.linkedin.com/in/kavita-yadav-6b1759255/",
     twitter: "https://x.com/CanvasInMotion7",
+    /**
+     * Served straight from `public/`, so the nav button downloads rather than
+     * opening a viewer. THE FILE IS NOT IN THE REPO YET: drop the PDF at
+     * `public/kavita-yadav-resume.pdf` and this works with no code change.
+     * Until then the button 404s.
+     */
+    resume: "/kavita-yadav-resume.pdf",
   },
 };
 

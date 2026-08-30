@@ -2,7 +2,8 @@ import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { selectedWork } from "../lib/content";
 import { ActionLink, Container } from "../components/ui";
-import { CARD_SURFACES } from "../lib/surfaces";
+import { themeFor } from "../lib/surfaces";
+import { TYPE } from "../lib/type";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
 
 const NAV_OFFSET = 100;
@@ -63,7 +64,7 @@ function WorkCard({
       <motion.article
         style={{ scale, opacity, transformOrigin: "top center" }}
         className={`group border-ink/[0.06] rounded-cards border p-6 md:p-10 lg:p-12 ${
-          CARD_SURFACES[i % CARD_SURFACES.length]
+          themeFor(item.slug).surface
         }`}
       >
         {/* Two columns from lg: the story left, the work right. Below that
@@ -77,11 +78,11 @@ function WorkCard({
               <span>{item.meta}</span>
             </div>
 
-            <h3 className="text-heading-sm md:text-heading text-ink mt-5 tracking-[-0.02em]">
+            <h3 className={`${TYPE.h3} mt-5`}>
               {item.title}
             </h3>
 
-            <p className="font-geist text-body text-graphite mt-4">
+            <p className={`${TYPE.body} mt-4`}>
               {item.impact}
             </p>
 
@@ -147,10 +148,10 @@ export default function SelectedWork() {
     <section id="work" className="relative py-14 md:py-20">
       <Container>
         <div className="max-w-3xl">
-          <h2 className="text-heading md:text-heading-lg text-ink tracking-[-0.025em]">
+          <h2 className={TYPE.h2}>
             Selected work
           </h2>
-          <p className="font-geist text-body-lg text-graphite mt-4">
+          <p className={`${TYPE.lead} mt-4`}>
             Booking, exam prep and property. Different industries, same job:
             making the next step obvious.
           </p>

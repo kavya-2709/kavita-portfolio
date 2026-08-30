@@ -10,7 +10,8 @@ import {
   Reveal,
   Stagger,
 } from "../components/ui";
-import { CARD_SURFACES } from "../lib/surfaces";
+import { themeFor } from "../lib/surfaces";
+import { TYPE } from "../lib/type";
 import Contact from "../sections/Contact";
 import Playground from "../sections/Playground";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
@@ -90,14 +91,14 @@ function LiveWork() {
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
           <div>
-            <p className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
+            <p className={TYPE.eyebrow}>
               {liveWork.eyebrow}
             </p>
-            <h2 className="text-heading md:text-heading-lg text-ink mt-4 max-w-xl tracking-[-0.025em]">
+            <h2 className={`${TYPE.h2} mt-4 max-w-xl`}>
               {liveWork.title}
             </h2>
           </div>
-          <p className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
+          <p className={TYPE.eyebrow}>
             {liveWork.hint}
           </p>
         </div>
@@ -132,7 +133,7 @@ function LiveWork() {
                   >
                     {it.tag}
                   </span>
-                  <span className="text-heading-sm text-ink mt-2 block tracking-[-0.02em]">
+                  <span className={`${TYPE.h3} mt-2 block`}>
                     {it.name}
                   </span>
 
@@ -175,17 +176,17 @@ export default function WorkPage() {
               transition={{ duration: 0.7, ease: EASE }}
               className="max-w-3xl"
             >
-              <h1 className="text-heading md:text-heading-lg text-ink tracking-[-0.025em]">
+              <h1 className={TYPE.h1}>
                 Selected work
               </h1>
-              <p className="font-geist text-body-lg text-graphite mt-4">
+              <p className={`${TYPE.lead} mt-4`}>
                 Booking, exam prep and property. Different industries, same job:
                 making the next step obvious.
               </p>
             </motion.div>
 
             <Stagger className="mt-14 flex flex-col gap-6 md:gap-8" gap={0.1}>
-              {selectedWork.map((item, i) => (
+              {selectedWork.map((item) => (
                 <Stagger.Item key={item.slug}>
                   <Link
                     to={`/work/${item.slug}`}
@@ -194,7 +195,7 @@ export default function WorkPage() {
                   >
                     <article
                       className={`border-ink/[0.06] rounded-cards border p-6 md:p-10 lg:p-12 ${
-                        CARD_SURFACES[i % CARD_SURFACES.length]
+                        themeFor(item.slug).surface
                       }`}
                     >
                       <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14">
@@ -205,11 +206,11 @@ export default function WorkPage() {
                             <span>{item.meta}</span>
                           </div>
 
-                          <h2 className="text-heading-sm md:text-heading text-ink mt-5 tracking-[-0.02em]">
+                          <h3 className={`${TYPE.h3} mt-5`}>
                             {item.title}
-                          </h2>
+                          </h3>
 
-                          <p className="font-geist text-body text-graphite mt-4">
+                          <p className={`${TYPE.body} mt-4`}>
                             {item.impact}
                           </p>
 

@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { selectedWork } from "../lib/content";
 import { Container, EASE } from "../components/ui";
+import { TYPE } from "../lib/type";
 
 /**
  * Case-study page scaffold.
@@ -18,7 +19,7 @@ export default function CaseStudy() {
     return (
       <main className="flex min-h-screen items-center justify-center px-6">
         <div className="text-center">
-          <h1 className="text-heading text-ink">That case study isn't here.</h1>
+          <h1 className={TYPE.h2}>That case study isn't here.</h1>
           <Link
             to="/"
             className="font-geist text-body text-iris-blue mt-4 inline-block"
@@ -52,7 +53,7 @@ export default function CaseStudy() {
             <span>{item.meta}</span>
           </div>
 
-          <h1 className="text-heading md:text-heading-lg text-ink mt-5 max-w-4xl tracking-[-0.025em]">
+          <h1 className={`${TYPE.h1} mt-5 max-w-4xl`}>
             {item.title}
           </h1>
 

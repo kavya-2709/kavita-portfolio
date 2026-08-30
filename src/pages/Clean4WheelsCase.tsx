@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { clean4Wheels as c } from "../lib/content";
 import { ActionLink, Container, EASE } from "../components/ui";
+import { TYPE } from "../lib/type";
+import { themeFor } from "../lib/surfaces";
 import {
   Card,
   Eyebrow,
@@ -26,6 +28,7 @@ import Contact from "../sections/Contact";
  */
 
 export default function Clean4WheelsCase() {
+  const theme = themeFor("clean4wheels");
   const featured = c.booking.steps.filter((s) => "featured" in s && s.featured);
   const compact = c.booking.steps.filter((s) => !("featured" in s));
 
@@ -67,7 +70,7 @@ export default function Clean4WheelsCase() {
                 className="h-[52px] w-auto self-start object-contain object-left"
               />
               <div>
-                <h1 className="text-heading md:text-heading-lg lg:text-display text-ink max-w-4xl tracking-[-0.03em]">
+                <h1 className={`${TYPE.h1} max-w-4xl`}>
                   {c.title}
                 </h1>
                 {/* The thesis, before the evidence. Previously a reader had to
@@ -136,7 +139,7 @@ export default function Clean4WheelsCase() {
               Everything after this section is the evidence for these four
               claims: the first designed outcome used to sit at 51% depth. */}
           <Rise className="mt-14">
-            <Glance items={c.glance} />
+            <Glance items={c.glance} theme={theme} />
           </Rise>
         </Container>
 
@@ -149,6 +152,7 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.ecosystem.eyebrow}
                 title={c.ecosystem.title}
                 lead={c.ecosystem.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -199,6 +203,7 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.context.eyebrow}
                 title={c.context.title}
                 lead={c.context.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -209,7 +214,7 @@ export default function Clean4WheelsCase() {
                     <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
                       {g.area}
                     </span>
-                    <h3 className="font-geist text-subheading text-ink mt-3 font-medium">
+                    <h3 className={`${TYPE.h3} mt-3`}>
                       {g.title}
                     </h3>
                     <p className="font-geist text-body text-graphite mt-3">
@@ -265,6 +270,7 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.discovery.eyebrow}
                 title={c.discovery.title}
                 lead={c.discovery.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -273,7 +279,7 @@ export default function Clean4WheelsCase() {
               <p className="font-geist text-body-sm text-iris-blue font-medium">
                 {c.discovery.stakeholder.label}
               </p>
-              <h3 className="text-heading-sm text-ink mt-2">
+              <h3 className={`${TYPE.h3} mt-2`}>
                 {c.discovery.stakeholder.title}
               </h3>
 
@@ -309,7 +315,7 @@ export default function Clean4WheelsCase() {
               <p className="font-geist text-body-sm text-iris-blue font-medium">
                 {c.discovery.audit.label}
               </p>
-              <h3 className="text-heading-sm text-ink mt-2">
+              <h3 className={`${TYPE.h3} mt-2`}>
                 {c.discovery.audit.title}
               </h3>
 
@@ -388,7 +394,7 @@ export default function Clean4WheelsCase() {
               <p className="font-geist text-body-sm text-iris-blue font-medium">
                 {c.discovery.heuristics.label}
               </p>
-              <h3 className="text-heading-sm text-ink mt-2">
+              <h3 className={`${TYPE.h3} mt-2`}>
                 {c.discovery.heuristics.title}
               </h3>
 
@@ -423,7 +429,7 @@ export default function Clean4WheelsCase() {
               <p className="font-geist text-body-sm text-iris-blue font-medium">
                 {c.discovery.benchmark.label}
               </p>
-              <h3 className="text-heading-sm text-ink mt-2">
+              <h3 className={`${TYPE.h3} mt-2`}>
                 {c.discovery.benchmark.title}
               </h3>
 
@@ -502,6 +508,7 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.synthesis.eyebrow}
                 title={c.synthesis.title}
                 lead={c.synthesis.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -510,7 +517,7 @@ export default function Clean4WheelsCase() {
                 <span className="font-geist text-caption text-graphite tracking-[0.11em] uppercase">
                   {c.synthesis.featured.label}
                 </span>
-                <h3 className="text-heading-sm md:text-heading text-ink mt-4 max-w-3xl tracking-[-0.02em]">
+                <h3 className={`${TYPE.h3} mt-4 max-w-3xl`}>
                   {c.synthesis.featured.title}{" "}
                   <span className="text-iris-blue">
                     {c.synthesis.featured.titleAccent}
@@ -566,6 +573,7 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.booking.eyebrow}
                 title={c.booking.title}
                 lead={c.booking.lead}
+              theme={theme}
               />
             </Rise>
 
@@ -592,7 +600,7 @@ export default function Clean4WheelsCase() {
                       <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
                         Booking · step {s.n} of 06
                       </span>
-                      <h3 className="text-heading-sm md:text-heading text-ink mt-3 tracking-[-0.02em]">
+                      <h3 className={`${TYPE.h3} mt-3`}>
                         {s.title}
                       </h3>
 
@@ -634,7 +642,7 @@ export default function Clean4WheelsCase() {
                     <span className="font-geist text-caption text-fog mt-5 tracking-[0.11em] uppercase">
                       Step {s.n}
                     </span>
-                    <h3 className="font-geist text-subheading text-ink mt-1.5 font-medium">
+                    <h3 className={`${TYPE.h3} mt-1.5`}>
                       {s.title}
                     </h3>
                     <p className="font-geist text-body-sm text-graphite mt-3">
@@ -660,6 +668,7 @@ export default function Clean4WheelsCase() {
                 title={c.verification.title}
                 lead={c.verification.lead}
                 invert
+              theme={theme}
               />
             </Rise>
 
@@ -707,8 +716,8 @@ export default function Clean4WheelsCase() {
               </Rise>
 
               <Rise delay={0.08}>
-                <Eyebrow n={c.platform.n}>{c.platform.eyebrow}</Eyebrow>
-                <h2 className="text-heading md:text-heading-lg text-ink mt-5 tracking-[-0.025em]">
+                <Eyebrow n={c.platform.n} theme={theme}>{c.platform.eyebrow}</Eyebrow>
+                <h2 className={`${TYPE.h2} mt-5`}>
                   {c.platform.title}
                 </h2>
                 <p className="font-geist text-body-lg text-graphite mt-5">
@@ -743,6 +752,7 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.system.eyebrow}
                 title={c.system.title}
                 lead={c.system.lead}
+              theme={theme}
               />
             </Rise>
             <Rise className="mt-12">
@@ -762,8 +772,8 @@ export default function Clean4WheelsCase() {
         <section className={SECTION}>
           <Container>
             <Rise>
-              <Eyebrow n={c.learnings.n}>{c.learnings.eyebrow}</Eyebrow>
-              <h2 className="text-heading md:text-heading-lg text-ink mt-5 tracking-[-0.025em]">
+              <Eyebrow n={c.learnings.n} theme={theme}>{c.learnings.eyebrow}</Eyebrow>
+              <h2 className={`${TYPE.h2} mt-5`}>
                 {c.learnings.title}
               </h2>
               <p className="font-geist text-body-lg text-graphite mt-5 max-w-4xl">
@@ -780,7 +790,7 @@ export default function Clean4WheelsCase() {
                       {l.n}
                     </span>
                     <div>
-                      <h3 className="font-geist text-subheading text-ink font-medium">
+                      <h3 className={TYPE.h3}>
                         {l.title}
                       </h3>
                       <p className="font-geist text-body text-graphite mt-2 max-w-3xl">

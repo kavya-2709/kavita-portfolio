@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { testimonials } from "../lib/content";
 import { Container, EASE } from "../components/ui";
+import { TYPE } from "../lib/type";
 
 /**
  * Testimonials as a single physical sheet of paper, clipped and replaced.
@@ -165,11 +166,14 @@ function Sheet({ t }: { t: Testimonial }) {
               reads as holding the print to the page rather than sitting
               loose on the paper. It is a child of the figure so it inherits
               the same tilt and stays registered to the print. */}
-          {/* The overhang is capped per breakpoint against that breakpoint's
+          {/* Clipped at the print's top-left corner, the way a clip actually
+              lands on paper, rather than centred like a tab.
+
+              The overhang is capped per breakpoint against that breakpoint's
               sheet padding. The article clips to the paper edge, so on a tall
               mobile quote the centred print rides high enough that a larger
               overhang puts the clip's head outside the sheet and shears it. */}
-          <Paperclip className="pointer-events-none absolute -top-4 left-1/2 z-20 w-[38px] -translate-x-1/2 -rotate-3 sm:-top-6 lg:-top-8 lg:w-[44px]" />
+          <Paperclip className="pointer-events-none absolute -top-4 left-2 z-20 w-[34px] -rotate-12 sm:-top-6 sm:left-3 lg:-top-8 lg:w-[40px]" />
         </figure>
 
         {/* The words. Ragged right, generous leading, never justified. */}
@@ -184,21 +188,22 @@ function Sheet({ t }: { t: Testimonial }) {
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const reduced = useReducedMotion();
   const count = testimonials.length;
 
   // Hold, replace, hold. Restarts whenever the sheet changes or the pointer
-  // leaves, so a hover always buys a fresh five seconds rather than a scrap.
+  // leaves, so a hover always buys a fresh interval rather than a scrap.
   //
-  // Nothing rotates on its own for anyone who asked for reduced motion; they
-  // move through the quotes with the controls instead. The slide itself is
-  // already neutralised by the global prefers-reduced-motion kill-switch in
-  // index.css, which caps every transition, so the swap is instant there.
+  // This runs under reduced motion too, and has to. The dot controls were
+  // the only other way to reach quotes two and three; with them gone, an
+  // advance that stopped for reduced-motion users would leave them looking at
+  // the first quote forever. The global kill-switch in index.css caps the
+  // transition, so for those users it is an instant swap rather than a slide,
+  // which is the part that matters.
   useEffect(() => {
-    if (paused || reduced) return;
+    if (paused) return;
     const id = setTimeout(() => setIndex((i) => (i + 1) % count), HOLD_MS);
     return () => clearTimeout(id);
-  }, [index, paused, count, reduced]);
+  }, [index, paused, count]);
 
   /**
    * Where sheet `i` sits, as a signed distance from the visible one, taking
@@ -220,7 +225,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="font-serif-display text-ink text-center text-[clamp(2.2rem,6vw,4.5rem)] leading-[1.05] font-normal tracking-[-0.02em]"
+          className={`${TYPE.h2} text-center`}
         >
           What people say
         </motion.h2>
@@ -230,7 +235,7 @@ export default function Testimonials() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: EASE, delay: 0.12 }}
-          className="font-geist text-body-lg text-graphite mx-auto mt-4 max-w-lg text-center"
+          className={`${TYPE.lead} mx-auto mt-4 max-w-lg text-center`}
         >
           From the people I have designed with and shipped alongside.
         </motion.p>
@@ -292,22 +297,6 @@ export default function Testimonials() {
             })}
           </div>
 
-          {/* Manual controls. The rotation carries the content on its own, so
-              these exist for anyone who can't or won't wait for it. */}
-          <div className="mt-7 flex items-center justify-center gap-2.5">
-            {testimonials.map((t, i) => (
-              <button
-                key={t.name}
-                type="button"
-                onClick={() => setIndex(i)}
-                aria-label={`Show testimonial from ${t.name}`}
-                aria-current={i === index}
-                className={`h-[3px] w-8 transition-colors duration-300 ${
-                  i === index ? "bg-ink" : "bg-ink/15 hover:bg-ink/30"
-                }`}
-              />
-            ))}
-          </div>
         </div>
       </Container>
     </section>

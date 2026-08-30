@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { profile } from "../lib/content";
-import { Button, Container, EASE } from "../components/ui";
+import { ActionLink, Container, EASE } from "../components/ui";
+import { TYPE } from "../lib/type";
 import FooterScene from "../components/FooterScene";
 
 const SOCIALS = [
@@ -35,7 +36,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.7, ease: EASE }}
-            className="font-geist text-body-lg text-graphite"
+            className={TYPE.lead}
           >
             Tell me what you are working on. I read every message and reply
             to all of them.
@@ -46,7 +47,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.5 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}
-            className="font-serif-display text-ink mt-6 text-[clamp(2.25rem,6.5vw,5rem)] leading-[1.02] tracking-[-0.03em]"
+            className={`${TYPE.h1} mt-6`}
           >
             Let's build something worth using
           </motion.h2>
@@ -58,10 +59,12 @@ export default function Contact() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.18 }}
             className="mt-8 flex flex-wrap items-center justify-center gap-4"
           >
-            <Button href={`mailto:${profile.email}`}>Email me</Button>
-            <Button href={profile.links.linkedin} variant="ghost">
-              Connect on LinkedIn →
-            </Button>
+            <ActionLink href={`mailto:${profile.email}`} tone="solid" arrow={null}>
+              Email me
+            </ActionLink>
+            <ActionLink href={profile.links.linkedin}>
+              Connect on LinkedIn
+            </ActionLink>
           </motion.div>
         </div>
       </Container>
