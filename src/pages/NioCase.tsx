@@ -6,6 +6,8 @@ import { LiquidButton } from "../components/LiquidButton";
 import { ArrowRightIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import { themeVars } from "../lib/surfaces";
+import { ProgressRail } from "../components/ProgressRail";
+import { DeviceFrame } from "../components/DeviceFrame";
 import {
   Card,
   Eyebrow,
@@ -123,8 +125,15 @@ function PainChart({ chart }: { chart: typeof n.research.chart }) {
 }
 
 export default function NioCase() {
+  const rail = [
+    { id: `section-${n.challenge.n}`, n: n.challenge.n, label: n.challenge.eyebrow },
+    { id: `section-${n.research.n}`, n: n.research.n, label: n.research.eyebrow },
+    { id: `section-${n.screens.n}`, n: n.screens.n, label: n.screens.eyebrow },
+    { id: `section-${n.learnings.n}`, n: n.learnings.n, label: n.learnings.eyebrow },
+  ];
   return (
     <>
+      <ProgressRail items={rail} />
       <main className="pt-28 md:pt-32" style={themeVars("niopractice")}>
         {/* ---------------------------------------------------------- hero */}
         <Container>
@@ -315,12 +324,14 @@ export default function NioCase() {
                       i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
                     }`}
                   >
-                    <img
-                      src={s.image}
-                      alt={s.alt}
-                      loading="lazy"
-                      className="rounded-images border-ink/[0.08] w-full border"
-                    />
+                    <DeviceFrame kind="browser">
+                      <img
+                        src={s.image}
+                        alt={s.alt}
+                        loading="lazy"
+                        className="block w-full"
+                      />
+                    </DeviceFrame>
 
                     <div>
                       <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">

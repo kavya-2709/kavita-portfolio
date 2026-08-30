@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { housing as h } from "../lib/content";
 import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
-import { ArrowRightIcon } from "../components/icons";
+import { ArrowRightIcon, ExternalIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import { themeVars } from "../lib/surfaces";
+import { ProgressRail } from "../components/ProgressRail";
+import { DeviceFrame } from "../components/DeviceFrame";
 import {
   Card,
   Eyebrow,
@@ -41,13 +43,13 @@ function Screen({
 }) {
   return (
     <figure className="m-0">
-      <img
-        src={src}
-        alt={alt ?? title}
-        loading="lazy"
-        className="rounded-cards-sm border-ink/[0.08] w-full border bg-white"
-      />
-      <figcaption className="font-geist text-body-sm text-graphite mt-3">
+      {/* These are phone captures, so they get phone chrome: on a white page
+          a bare screenshot has no edge and reads as a picture of an app
+          rather than as the app. */}
+      <DeviceFrame kind="phone">
+        <img src={src} alt={alt ?? title} loading="lazy" className="block w-full" />
+      </DeviceFrame>
+      <figcaption className="font-geist text-body-sm text-graphite mt-3 text-center">
         {title}
       </figcaption>
     </figure>
@@ -93,8 +95,16 @@ function PreferenceBars({ stats }: { stats: { label: string; value: number }[] }
 }
 
 export default function HousingCase() {
+  const rail = [
+    { id: `section-${h.challenge.n}`, n: h.challenge.n, label: h.challenge.eyebrow },
+    { id: `section-${h.research.n}`, n: h.research.n, label: h.research.eyebrow },
+    { id: `section-${h.personas.n}`, n: h.personas.n, label: h.personas.eyebrow },
+    { id: `section-${h.redesign.n}`, n: h.redesign.n, label: h.redesign.eyebrow },
+    { id: `section-${h.learnings.n}`, n: h.learnings.n, label: h.learnings.eyebrow },
+  ];
   return (
     <>
+      <ProgressRail items={rail} />
       <main className="pt-28 md:pt-32" style={themeVars("housing")}>
         {/* ---------------------------------------------------------- hero */}
         <Container>
@@ -149,6 +159,15 @@ export default function HousingCase() {
               ))}
             </dl>
           </motion.div>
+
+          {/* The prototype the study is written about. Opens in a new tab,
+              since it is Figma and not part of this site. */}
+          <Rise className="mt-10">
+            <LiquidButton href={h.prototype} tone="solid">
+              View prototype
+              <ExternalIcon />
+            </LiquidButton>
+          </Rise>
 
           {/* The redesigned screens, up front. The Figma hero frame exports
               as an empty layer, so this shows the work instead. */}

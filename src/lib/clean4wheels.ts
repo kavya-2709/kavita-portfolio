@@ -15,6 +15,9 @@
  */
 export const clean4Wheels = {
   slug: "clean4wheels",
+  /** The Figma prototype this study is written about. */
+  prototype:
+    "https://www.figma.com/proto/BTNwIUMJRvUMms43gM60bm/Clean4Wheels?node-id=449-44158&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=449%3A44158&page-id=23%3A2",
   tags: ["UX design", "Service design"],
   client: "Clean4Wheels",
   logo: "/work/clean4wheels/logo.svg",

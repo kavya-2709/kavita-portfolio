@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { clean4Wheels as c } from "../lib/content";
 import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
-import { ArrowRightIcon } from "../components/icons";
+import { ArrowRightIcon, ExternalIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import { themeVars } from "../lib/surfaces";
+import { ProgressRail } from "../components/ProgressRail";
+import { DeviceFrame } from "../components/DeviceFrame";
 import {
   Card,
   Eyebrow,
@@ -30,11 +32,23 @@ import Contact from "../sections/Contact";
  */
 
 export default function Clean4WheelsCase() {
+  const rail = [
+    { id: `section-${c.ecosystem.n}`, n: c.ecosystem.n, label: c.ecosystem.eyebrow },
+    { id: `section-${c.context.n}`, n: c.context.n, label: c.context.eyebrow },
+    { id: `section-${c.discovery.n}`, n: c.discovery.n, label: c.discovery.eyebrow },
+    { id: `section-${c.synthesis.n}`, n: c.synthesis.n, label: c.synthesis.eyebrow },
+    { id: `section-${c.booking.n}`, n: c.booking.n, label: c.booking.eyebrow },
+    { id: `section-${c.verification.n}`, n: c.verification.n, label: c.verification.eyebrow },
+    { id: `section-${c.platform.n}`, n: c.platform.n, label: c.platform.eyebrow },
+    { id: `section-${c.system.n}`, n: c.system.n, label: c.system.eyebrow },
+    { id: `section-${c.learnings.n}`, n: c.learnings.n, label: c.learnings.eyebrow },
+  ];
   const featured = c.booking.steps.filter((s) => "featured" in s && s.featured);
   const compact = c.booking.steps.filter((s) => !("featured" in s));
 
   return (
     <>
+      <ProgressRail items={rail} />
       <main className="pt-28 md:pt-32" style={themeVars("clean4wheels")}>
         {/* ---------------------------------------------------------- hero */}
         <Container>
@@ -96,14 +110,25 @@ export default function Clean4WheelsCase() {
             </dl>
           </motion.div>
 
+          {/* The prototype the study is written about. Opens in a new tab,
+              since it is Figma and not part of this site. */}
+          <Rise className="mt-10">
+            <LiquidButton href={c.prototype} tone="solid">
+              View prototype
+              <ExternalIcon />
+            </LiquidButton>
+          </Rise>
+
           <Rise delay={0.1} className="mt-12">
-            <img
-              src={c.hero}
-              alt="Clean4Wheels customer, valet and manager interfaces"
-              width={1536}
-              height={1024}
-              className="rounded-images border-ink/[0.08] w-full border"
-            />
+            <DeviceFrame kind="browser">
+              <img
+                src={c.hero}
+                alt="Clean4Wheels customer, valet and manager interfaces"
+                width={1536}
+                height={1024}
+                className="block w-full"
+              />
+            </DeviceFrame>
           </Rise>
 
           {/* headline metrics */}
@@ -585,12 +610,14 @@ export default function Clean4WheelsCase() {
                       i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
                     }`}
                   >
-                    <img
-                      src={s.image}
-                      alt={`Booking step ${s.n}, ${s.title}`}
-                      loading="lazy"
-                      className="rounded-images border-ink/[0.08] w-full border"
-                    />
+                    <DeviceFrame kind="browser">
+                      <img
+                        src={s.image}
+                        alt={`Booking step ${s.n}, ${s.title}`}
+                        loading="lazy"
+                        className="block w-full"
+                      />
+                    </DeviceFrame>
 
                     <div>
                       <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
@@ -690,21 +717,27 @@ export default function Clean4WheelsCase() {
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <Rise>
                 <div className="grid gap-4">
-                  <img
-                    src={c.platform.images[0]}
-                    alt="Manager dashboard showing live service status"
-                    loading="lazy"
-                    className="rounded-images border-ink/[0.08] w-full border"
-                  />
+                  {/* The dashboard is a desktop tool; the two field screens
+                      are the valet's phone. Framing them differently is what
+                      says so without a caption. */}
+                  <DeviceFrame kind="browser">
+                    <img
+                      src={c.platform.images[0]}
+                      alt="Manager dashboard showing live service status"
+                      loading="lazy"
+                      className="block w-full"
+                    />
+                  </DeviceFrame>
                   <div className="grid grid-cols-2 gap-4">
                     {c.platform.images.slice(1).map((src, i) => (
-                      <img
-                        key={src}
-                        src={src}
-                        alt={`Valet field app screen ${i + 1}`}
-                        loading="lazy"
-                        className="rounded-images border-ink/[0.08] w-full border"
-                      />
+                      <DeviceFrame key={src} kind="phone">
+                        <img
+                          src={src}
+                          alt={`Valet field app screen ${i + 1}`}
+                          loading="lazy"
+                          className="block w-full"
+                        />
+                      </DeviceFrame>
                     ))}
                   </div>
                 </div>

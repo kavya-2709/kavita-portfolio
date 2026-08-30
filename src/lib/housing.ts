@@ -22,6 +22,8 @@
  */
 export const housing = {
   slug: "housing",
+  prototype:
+    "https://www.figma.com/proto/3Z5N6yOnPQ8UOZ7O1mD2NY/Housing-Assignment?node-id=7-18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=7%3A18&page-id=2%3A5",
   tags: ["UX design", "Mobile interface design"],
   client: "Housing.com",
   product: "Housing Chats",

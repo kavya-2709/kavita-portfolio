@@ -18,10 +18,13 @@ export const SECTION = "py-14 md:py-20";
 /**
  * Section index and label.
  *
- * The number used to be a 24px chip, the same weight as the eyebrow beside
- * it, so nine sections read as nine identical rows and the page had no sense
- * of place. It is now a large serif numeral in the project's own colour: it
- * says where you are at a glance and gives each section a visible anchor.
+ * A filled circle carrying the number, then the label in tracked uppercase,
+ * matching the case-study designs. The circle takes the project's own colour,
+ * so the marker doubles as a reminder of which study you are in.
+ *
+ * The number is centred with flex rather than line-height: a line-height that
+ * centres a digit at one size stops centring it at another, and this badge
+ * appears at two sizes.
  */
 export function Eyebrow({
   n,
@@ -33,10 +36,13 @@ export function Eyebrow({
   children: ReactNode;
 }) {
   return (
-    <div className="flex items-baseline gap-4">
+    <div id={`section-${n}`} className="flex scroll-mt-32 items-center gap-3">
       <span
-        className={`font-serif-display text-[2.5rem] leading-none ${
-          invert ? "text-white/35" : "text-[color:var(--brand)]"
+        aria-hidden
+        className={`font-geist flex size-7 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold ${
+          invert
+            ? "bg-white/20 text-paper-white"
+            : "text-paper-white bg-[color:var(--brand,#0069e0)]"
         }`}
       >
         {n}
