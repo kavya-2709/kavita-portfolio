@@ -71,7 +71,7 @@ export default function Nav() {
           className="shrink-0 rounded-full"
         >
           <img
-            src="/avatar.png"
+            src="/avatar.webp"
             alt=""
             width={40}
             height={40}

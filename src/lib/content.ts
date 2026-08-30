@@ -397,7 +397,7 @@ export const selectedWork = [
       "Reduced booking complexity by 28% through a simplified, trust-driven booking experience, and cut manual operations by 70% while increasing service transparency with end-to-end verification.",
     tags: ["Automotive services", "Multi-panel platform", "Design system"],
     mock: "clean4wheels" as const,
-    image: "/work/clean4wheels.png",
+    image: "/work/clean4wheels.webp",
     screens: null,
   },
   {
@@ -410,7 +410,7 @@ export const selectedWork = [
       "Improved subject selection UX for custom tests, reducing drop-offs by 35%, and simplified the custom test creation flow — reducing friction and boosting quiz starts.",
     tags: ["EdTech", "Test preparation", "Information architecture"],
     mock: "niopractice" as const,
-    image: "/work/nio.png",
+    image: "/work/nio.webp",
     screens: null,
   },
   {
@@ -423,7 +423,7 @@ export const selectedWork = [
       "Streamlined the first-time experience to highlight platform value, and built safer UX that improved user trust and retention through the in-app chat interface.",
     tags: ["PropTech marketplace", "Onboarding", "Trust & safety"],
     mock: null,
-    image: "/work/housing.png",
+    image: "/work/housing.webp",
     // real exported screens — used if the composed hero image isn't present
     screens: [
       "/work/housing-onboarding.png",
