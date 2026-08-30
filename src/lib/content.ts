@@ -478,7 +478,7 @@ export const projects = [
 export const liveWork = {
   eyebrow: "Also shipped",
   title: "Shorter engagements, same standard",
-  hint: "Hover or tap for detail",
+  hint: "Hover or tap for detail · opens live",
   items: [
     {
       name: "Buzzr",
@@ -488,6 +488,7 @@ export const liveWork = {
       stat: "30% higher participation · 1,000+ students",
       image: "/work/other-work/buzzr.webp",
       alt: "Buzzr custom-profile screens on desktop and mobile",
+      href: "https://www.buzrr.in/",
     },
     {
       name: "Doorstep Beauty",
@@ -497,6 +498,7 @@ export const liveWork = {
       stat: "1,000+ downloads · 5-star Play Store rating",
       image: "/work/other-work/doorstep-beauty.webp",
       alt: "Doorstep Beauty home, services and checkout screens",
+      href: "https://play.google.com/store/apps/details?id=com.doorstep_beauty.customer&hl=en_IN",
     },
     {
       name: "KnowYourColleges",
@@ -506,6 +508,7 @@ export const liveWork = {
       stat: "UX design intern · Jun 2024 to Jan 2025",
       image: "/work/other-work/knowyourcolleges.webp",
       alt: "KnowYourColleges admissions site on laptop and phone",
+      href: "https://www.knowyourcolleges.com/",
     },
   ],
 };
@@ -520,22 +523,47 @@ export const playground = {
   title: "Motion experiments,",
   titleAccent: "no brief attached.",
   sticker: "/life/sticker-repeat.png",
-  /**
-   * The real motion reel. Re-encoded to WebM in the browser, 8.7MB down to
-   * 1.3MB; the original stays in `assets-source/` and never reaches `dist`.
-   */
-  reel: "/work/motion-work.webm",
-  reelCaption: "Motion studies, on loop",
   blurbBefore: "Loops I make to find out how a thing should ",
   blurbEmphasis: "feel",
   blurbAfter:
     ", long before anyone writes a spec for it. Nobody asked for these.",
+  /**
+   * The motion strip. Real clips, re-encoded to WebM in the browser: 38MB of
+   * MP4 became 2.2MB. The sources stay in `assets-source/playground/`.
+   *
+   * Ordered so neighbouring tiles differ in shape and pace. The strip shows
+   * three or four at once, and a run of similar clips reads as one.
+   */
   loops: [
-    { label: "Loader loop", caption: "Waiting, made less annoying · Rive" },
-    { label: "Tab study", caption: "Where the eye lands mid-swap · Figma Motion" },
-    { label: "Card loop", caption: "Opening without losing your place · Jitter" },
-    { label: "Cursor play", caption: "Pointer noise, made for the fun of it" },
-    { label: "Scroll test", caption: "How far is too far before it feels fast" },
+    {
+      src: "/work/playground/paper-collage.webm",
+      caption: "Paper collage storyboard",
+    },
+    {
+      src: "/work/playground/hover-effect.webm",
+      caption: "Hover states, worked out in motion",
+    },
+    { src: "/work/playground/map.webm", caption: "Map interaction study" },
+    {
+      src: "/work/playground/doorstep-beauty.webm",
+      caption: "Doorstep Beauty, booking in motion",
+    },
+    {
+      src: "/work/playground/shape-rotation.webm",
+      caption: "Rotation and easing test",
+    },
+    {
+      src: "/work/playground/housing.webm",
+      caption: "Housing chat, end to end",
+    },
+    {
+      src: "/work/playground/pet-animation.webm",
+      caption: "Pet post, quick loop",
+    },
+    {
+      src: "/work/playground/deadpool-cinematic.webm",
+      caption: "Cinematic edit, for the fun of it",
+    },
   ],
 };
 

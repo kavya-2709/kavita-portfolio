@@ -204,10 +204,18 @@ Everything under `public/` ships to `dist` verbatim, so nothing unused belongs t
 - `public/work/` — 6 case-study images
 - `public/avatar.png`, `public/favicon.svg`
 
-**Video is re-encoded in the browser, not shipped raw.** `motion work.mp4` arrived at
-8.7MB, which would have undone the earlier work of removing all video. It is now
-`public/work/motion-work.webm` at 1.3MB, recorded through `MediaRecorder` at 1.1Mbps
-since no encoder is installed locally. The MP4 stays in `assets-source/`.
+**Video is re-encoded in the browser, not shipped raw.** The eight playground
+clips arrived as 38MB of MP4, which would have quadrupled `dist`. They are now
+WebM at 480px wide and ~450kbps, **2.2MB for all eight**, recorded through
+`MediaRecorder` because no encoder is installed locally. The sources stay in
+`assets-source/playground/`. Frames are drawn on a `setInterval`, **not rAF**,
+since rAF is throttled in the preview pane and would silently drop them.
+
+**The playground strip swells at the centre.** Each tile's scale is computed from
+its real distance to the viewport centre in a rAF loop, not from keyframes:
+keyframes would have to assume the strip's exact speed and spacing and would
+drift the moment either changed. If rAF never runs, every tile stays at its
+resting `scale(0.84)` and the strip still scrolls, because that part is CSS.
 
 **Asset folders must not contain spaces.** `public/work/other works/` fetched fine but
 rendered 0x0 in an `<img>`: a literal space is not valid in a `src`. Renamed to

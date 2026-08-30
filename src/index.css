@@ -45,9 +45,9 @@
   --color-brand-nio: #1f7fbb;
   --color-brand-housing: #5e23dc;
 
-  /* Playground. The one warm room in the house: side projects are the part
-     of the site with no client attached, so they get their own ground. */
-  --color-sand: #faf4ea;
+  /* Playground accent. The warm ground was dropped when the motion strip
+     went in — the clips carry their own colour and a tinted band behind them
+     fought with it. Only the italic heading colour remains. */
   --color-clay: #c2643a;
 
   /* Testimonial sheet. A warm off-white, not the cool --color-mist-gray:

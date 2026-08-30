@@ -92,71 +92,88 @@ function LiveWork() {
           <p className={TYPE.eyebrow}>{liveWork.hint}</p>
         </div>
 
-        <ul className="mt-12 grid gap-4 md:grid-cols-3">
+        <ul className="mt-12 grid gap-5 md:grid-cols-3">
           {liveWork.items.map((it, i) => {
             const isOpen = open === i;
             return (
               <li key={it.name}>
-                <button
-                  type="button"
+                {/*
+                  The whole card is the link to the live product, so it is an
+                  anchor rather than a button: the action is navigation, and a
+                  button would take it away from middle-click, "open in new
+                  tab" and the status bar.
+
+                  The detail is an overlay on the image, not a panel below it,
+                  so the card is edge-to-edge artwork with no white margin. It
+                  is revealed by hover, focus and touch alike — hover alone
+                  would hide this copy on every phone.
+                */}
+                <a
+                  href={it.href}
+                  target="_blank"
+                  rel="noreferrer"
                   onMouseEnter={() => setOpen(i)}
                   onFocus={() => setOpen(i)}
-                  onClick={() => setOpen(i)}
-                  aria-expanded={isOpen}
-                  className="border-ink/[0.08] rounded-cards flex h-full w-full cursor-default flex-col overflow-hidden border bg-white text-left transition-colors duration-300"
+                  onTouchStart={() => setOpen(i)}
+                  aria-label={`${it.name}, ${it.tag}. Opens the live product in a new tab.`}
+                  className="rounded-cards border-ink/[0.08] group/live relative block aspect-[4/5] overflow-hidden border"
                 >
-                  {/* The work itself, at the top of the card. Dimmed until the
-                      card is the open one, so the row reads as one focused
-                      project rather than three competing screenshots. */}
-                  <span className="bg-mist-gray block w-full overflow-hidden">
-                    <img
-                      src={it.image}
-                      alt={it.alt}
-                      loading="lazy"
-                      className={`aspect-[16/10] w-full object-cover object-top transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        isOpen ? "scale-[1.02] opacity-100" : "opacity-70"
-                      }`}
-                    />
-                  </span>
+                  <img
+                    src={it.image}
+                    alt={it.alt}
+                    loading="lazy"
+                    className={`absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      isOpen ? "scale-[1.04]" : "scale-100"
+                    }`}
+                  />
 
-                  <span className="flex flex-1 flex-col p-7">
-                    <span
-                      aria-hidden
-                      className={`size-2.5 shrink-0 rounded-full transition-colors duration-300 ${
-                        isOpen ? "bg-iris-blue" : "bg-ink/15"
-                      }`}
-                    />
-
-                    {/* pushes the label block to the foot of the card */}
-                    <span className="flex-1 min-h-[18px]" />
-
-                    <span
-                      className={`font-geist text-caption tracking-[0.11em] uppercase transition-colors duration-300 ${
-                        isOpen ? "text-iris-blue" : "text-fog"
-                      }`}
-                    >
+                  {/* Ink wash carrying the copy. Sits over the artwork rather
+                      than beside it, and only when this card is the open one. */}
+                  <span
+                    aria-hidden={!isOpen}
+                    className={`absolute inset-0 flex flex-col justify-end p-6 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      isOpen ? "opacity-100" : "opacity-0"
+                    }`}
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(10,13,18,0.92) 0%, rgba(10,13,18,0.72) 38%, rgba(10,13,18,0.12) 72%, rgba(10,13,18,0) 100%)",
+                    }}
+                  >
+                    <span className="font-geist text-caption tracking-[0.11em] text-white/70 uppercase">
                       {it.tag}
                     </span>
-                    <span className={`${TYPE.h3} mt-2 block`}>{it.name}</span>
-
-                    <span
-                      className="grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                      style={{
-                        gridTemplateRows: isOpen ? "1fr" : "0fr",
-                        opacity: isOpen ? 1 : 0,
-                      }}
-                    >
-                      <span className="overflow-hidden">
-                        <span className="font-geist text-body text-graphite mt-4 block">
-                          {it.detail}
-                        </span>
-                        <span className="font-geist text-body-sm text-fog mt-3 block">
-                          {it.stat}
-                        </span>
-                      </span>
+                    <span className="font-serif-display text-paper-white mt-2 block text-[1.75rem] leading-[1.1]">
+                      {it.name}
+                    </span>
+                    <span className="font-geist text-body-sm mt-3 block text-white/85">
+                      {it.detail}
+                    </span>
+                    <span className="font-geist text-body-sm mt-3 block text-white/60">
+                      {it.stat}
+                    </span>
+                    <span className="font-geist text-body-sm text-paper-white mt-5 inline-flex items-center gap-2">
+                      Visit live
+                      <ArrowUpRightIcon />
                     </span>
                   </span>
-                </button>
+
+                  {/* Resting label, so a closed card still says what it is. */}
+                  <span
+                    aria-hidden={isOpen}
+                    className={`absolute inset-x-0 bottom-0 flex items-center gap-2.5 p-6 transition-opacity duration-300 ${
+                      isOpen ? "opacity-0" : "opacity-100"
+                    }`}
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(10,13,18,0.78) 0%, rgba(10,13,18,0) 100%)",
+                    }}
+                  >
+                    <span className="bg-paper-white/70 size-2 shrink-0 rounded-full" />
+                    <span className="font-geist text-body text-paper-white font-medium">
+                      {it.name}
+                    </span>
+                  </span>
+                </a>
               </li>
             );
           })}
