@@ -76,12 +76,18 @@ export default function HousingCase() {
                 other two studies. The mark replaces the tracked
                 "Housing.com · Housing Chats" line that used to sit here. */}
             <div className="mt-10 grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-              <p className="font-geist self-start text-[26px] leading-none font-semibold tracking-[-0.02em] text-[color:var(--brand)]">
-                {h.wordmark}
-                <span className="text-fog mt-2 block text-[13px] font-normal tracking-[0.11em] uppercase">
+              <div className="self-start">
+                <img
+                  src={h.logo}
+                  alt={`${h.client} logo`}
+                  width={556}
+                  height={84}
+                  className="h-[30px] w-auto object-contain object-left"
+                />
+                <span className="font-geist text-fog mt-3 block text-[13px] tracking-[0.11em] uppercase">
                   {h.product}
                 </span>
-              </p>
+              </div>
               <div>
                 <h1 className={`${TYPE.h1} max-w-4xl`}>
                   {h.title}
@@ -304,33 +310,6 @@ export default function HousingCase() {
               </Rise>
             ))}
 
-            {/* the two flows */}
-            <div className="mt-20 space-y-16 md:space-y-20">
-              {h.redesign.flows.map((f, i) => (
-                <Rise key={f.title}>
-                  <div
-                    className={`grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16 ${
-                      i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-                    }`}
-                  >
-                    <div>
-                      <h3 className={TYPE.h3}>
-                        {f.title}
-                      </h3>
-                      <p className="font-geist text-body text-graphite mt-4">
-                        {f.body}
-                      </p>
-                    </div>
-                    <img
-                      src={f.src}
-                      alt={f.alt}
-                      loading="lazy"
-                      className="rounded-images border-ink/[0.08] w-full border bg-white"
-                    />
-                  </div>
-                </Rise>
-              ))}
-            </div>
           </Container>
         </section>
 

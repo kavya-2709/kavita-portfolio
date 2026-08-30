@@ -7,7 +7,6 @@ import { ArrowRightIcon, ExternalIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import { themeVars } from "../lib/surfaces";
 import { ProgressRail } from "../components/ProgressRail";
-import { DeviceFrame } from "../components/DeviceFrame";
 import {
   Card,
   Eyebrow,
@@ -117,16 +116,17 @@ export default function Clean4WheelsCase() {
             </LiquidButton>
           </Rise>
 
+          {/* No browser chrome here: this image is a rendered mockup that
+              already contains a browser window, so framing it again drew a
+              window inside a window. */}
           <Rise delay={0.1} className="mt-12">
-            <DeviceFrame kind="browser">
-              <img
-                src={c.hero}
-                alt="Clean4Wheels customer, valet and manager interfaces"
-                width={1536}
-                height={1024}
-                className="block w-full"
-              />
-            </DeviceFrame>
+            <img
+              src={c.hero}
+              alt="Clean4Wheels customer, valet and manager interfaces"
+              width={1536}
+              height={1024}
+              className="block w-full"
+            />
           </Rise>
 
           {/* headline metrics */}
@@ -527,10 +527,9 @@ export default function Clean4WheelsCase() {
                 lead={c.booking.lead}
               />
             </Rise>
-            {/* The designed flow, end to end. It replaces the rebuilt step
-                blocks; the decision behind each step stays as text below, so
-                the reasoning is still readable and searchable rather than
-                living only inside the artwork. */}
+            {/* The designed flow, end to end, and nothing else. The six step
+                cards that used to follow it restated the same decisions and
+                outcomes the board already annotates. */}
             <Rise className="mt-14">
               <img
                 src={c.booking.board}
@@ -538,27 +537,6 @@ export default function Clean4WheelsCase() {
                 loading="lazy"
                 className="rounded-cards border-ink/[0.08] w-full border bg-white"
               />
-            </Rise>
-
-            <Rise className="mt-12">
-              <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {c.booking.steps.map((s) => (
-                  <li key={s.n}>
-                    <Card className="h-full">
-                      <span className="font-geist text-caption tracking-[0.11em] uppercase text-[color:var(--brand)]">
-                        Step {s.n}
-                      </span>
-                      <h3 className={`${TYPE.h3} mt-2`}>{s.title}</h3>
-                      <p className="font-geist text-body-sm text-graphite mt-3">
-                        {s.decision}
-                      </p>
-                      <p className="font-geist text-body-sm mt-3 text-[color:var(--brand)]">
-                        {s.outcome}
-                      </p>
-                    </Card>
-                  </li>
-                ))}
-              </ol>
             </Rise>
           </Container>
         </section>
