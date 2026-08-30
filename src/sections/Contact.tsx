@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { profile } from "../lib/content";
-import { ActionLink, Container, EASE } from "../components/ui";
+import { Container, EASE } from "../components/ui";
+import { LiquidButton } from "../components/LiquidButton";
 import { TYPE } from "../lib/type";
 import FooterScene from "../components/FooterScene";
 
@@ -59,12 +60,12 @@ export default function Contact() {
             transition={{ duration: 0.7, ease: EASE, delay: 0.18 }}
             className="mt-8 flex flex-wrap items-center justify-center gap-4"
           >
-            <ActionLink href={`mailto:${profile.email}`} tone="solid" arrow={null}>
+            <LiquidButton href={`mailto:${profile.email}`} tone="solid">
               Email me
-            </ActionLink>
-            <ActionLink href={profile.links.linkedin}>
+            </LiquidButton>
+            <LiquidButton href={profile.links.linkedin}>
               Connect on LinkedIn
-            </ActionLink>
+            </LiquidButton>
           </motion.div>
         </div>
       </Container>

@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { motion } from "framer-motion";
 import { EASE } from "./ui";
 import { TYPE, TYPE_INVERT } from "../lib/type";
-import { type ProjectTheme } from "../lib/surfaces";
 
 /**
  * Shared furniture for case-study pages.
@@ -26,12 +25,10 @@ export const SECTION = "py-14 md:py-20";
  */
 export function Eyebrow({
   n,
-  theme,
   invert = false,
   children,
 }: {
   n: string;
-  theme?: ProjectTheme;
   invert?: boolean;
   children: ReactNode;
 }) {
@@ -39,7 +36,7 @@ export function Eyebrow({
     <div className="flex items-baseline gap-4">
       <span
         className={`font-serif-display text-[2.5rem] leading-none ${
-          invert ? "text-white/35" : (theme?.brand ?? "text-iris-blue")
+          invert ? "text-white/35" : "text-[color:var(--brand)]"
         }`}
       >
         {n}
@@ -62,19 +59,17 @@ export function Head({
   eyebrow,
   title,
   lead,
-  theme,
   invert = false,
 }: {
   n: string;
   eyebrow: string;
   title: string;
   lead?: string;
-  theme?: ProjectTheme;
   invert?: boolean;
 }) {
   return (
     <div className="max-w-3xl">
-      <Eyebrow n={n} theme={theme} invert={invert}>
+      <Eyebrow n={n} invert={invert}>
         {eyebrow}
       </Eyebrow>
       <h2 className={`${invert ? TYPE_INVERT.h2 : TYPE.h2} mt-5`}>{title}</h2>
@@ -132,14 +127,12 @@ export function Card({
  */
 export function Glance({
   items,
-  theme,
 }: {
   items: { label: string; value: string }[];
-  theme?: ProjectTheme;
 }) {
   return (
     <div
-      className={`rounded-cards overflow-hidden ${theme?.surface ?? "bg-mist-gray"}`}
+      className="rounded-cards overflow-hidden bg-[color:var(--brand-soft)]"
     >
       <dl className="divide-ink/[0.06] grid divide-y md:grid-cols-2 md:divide-y-0">
         {items.map((g, i) => (
@@ -150,7 +143,7 @@ export function Glance({
             } ${i > 1 ? "md:border-ink/[0.06] md:border-t" : ""}`}
           >
             <dt
-              className={`${TYPE.eyebrow} ${theme?.brand ?? "text-iris-blue"}`}
+              className={`${TYPE.eyebrow} text-[color:var(--brand)]`}
             >
               {g.label}
             </dt>

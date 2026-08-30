@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { nio as n } from "../lib/content";
-import { ActionLink, Container, EASE } from "../components/ui";
+import { Container, EASE } from "../components/ui";
+import { LiquidButton } from "../components/LiquidButton";
 import { TYPE } from "../lib/type";
-import { themeFor } from "../lib/surfaces";
+import { themeVars } from "../lib/surfaces";
 import {
   Card,
   Eyebrow,
@@ -121,10 +122,9 @@ function PainChart({ chart }: { chart: typeof n.research.chart }) {
 }
 
 export default function NioCase() {
-  const theme = themeFor("niopractice");
   return (
     <>
-      <main className="pt-28 md:pt-32">
+      <main className="pt-28 md:pt-32" style={themeVars("niopractice")}>
         {/* ---------------------------------------------------------- hero */}
         <Container>
           <Link
@@ -144,7 +144,7 @@ export default function NioCase() {
               {n.tags.map((t) => (
                 <span
                   key={t}
-                  className="border-ink/[0.08] font-geist text-body-sm text-graphite rounded-full border px-4 py-1.5"
+                  className="rounded-full border border-[color:var(--badge-line)] bg-[color:var(--badge-bg)] px-4 py-1.5 font-geist text-body-sm text-[color:var(--badge-ink)]"
                 >
                   {t}
                 </span>
@@ -202,7 +202,7 @@ export default function NioCase() {
           </Rise>
 
           <Rise className="mt-8">
-            <Glance items={n.glance} theme={theme} />
+            <Glance items={n.glance} />
           </Rise>
         </Container>
 
@@ -215,7 +215,6 @@ export default function NioCase() {
                 eyebrow={n.challenge.eyebrow}
                 title={n.challenge.title}
                 lead={n.challenge.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -237,7 +236,7 @@ export default function NioCase() {
         </section>
 
         {/* ------------------------------------------------ 2 · research */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
               <Head
@@ -245,7 +244,6 @@ export default function NioCase() {
                 eyebrow={n.research.eyebrow}
                 title={n.research.title}
                 lead={n.research.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -284,7 +282,7 @@ export default function NioCase() {
         </section>
 
         {/* ------------------------------------------------ the turn */}
-        <section className="bg-ink py-16 md:py-24">
+        <section className="bg-[color:var(--band)] py-16 md:py-24">
           <Container>
             <Rise>
               <p className="font-serif-display text-paper-white mx-auto max-w-4xl text-center text-[clamp(1.5rem,3.2vw,2.5rem)] leading-[1.35]">
@@ -303,7 +301,6 @@ export default function NioCase() {
                 eyebrow={n.screens.eyebrow}
                 title={n.screens.title}
                 lead={n.screens.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -343,10 +340,10 @@ export default function NioCase() {
         </section>
 
         {/* ------------------------------------------------ 4 · learnings */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
-              <Eyebrow n={n.learnings.n} theme={theme}>{n.learnings.eyebrow}</Eyebrow>
+              <Eyebrow n={n.learnings.n}>{n.learnings.eyebrow}</Eyebrow>
               <h2 className={`${TYPE.h2} mt-5`}>
                 {n.learnings.title}
               </h2>
@@ -377,7 +374,7 @@ export default function NioCase() {
             </ol>
 
             <Rise className="mt-14">
-              <ActionLink to="/work">See the other case studies</ActionLink>
+              <LiquidButton to="/work">See the other case studies</LiquidButton>
             </Rise>
           </Container>
         </section>

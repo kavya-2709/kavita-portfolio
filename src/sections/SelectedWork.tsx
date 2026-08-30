@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { selectedWork } from "../lib/content";
-import { ActionLink, Container } from "../components/ui";
+import { Container } from "../components/ui";
+import { LiquidButton } from "../components/LiquidButton";
 import { themeFor } from "../lib/surfaces";
 import { TYPE } from "../lib/type";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
@@ -97,13 +98,12 @@ function WorkCard({
               ))}
             </ul>
 
-            <ActionLink
+            <LiquidButton
               to={`/work/${item.slug}`}
-              arrow="↗"
               className="mt-8"
             >
               Read case study
-            </ActionLink>
+            </LiquidButton>
           </div>
 
           {/* The work itself, on a white plate so the mockups read against

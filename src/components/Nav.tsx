@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { DownloadIcon, EASE } from "./ui";
+import { EASE } from "./ui";
+import { DownloadIcon, LiquidButton } from "./LiquidButton";
 import { profile } from "../lib/content";
 
 /**
@@ -145,33 +146,18 @@ export default function Nav() {
             is the document. `download` rather than a new tab, so it lands in
             their downloads instead of a viewer.
 
-            The border is present in both states, transparent where it isn't
-            drawn. Only the over-pond state used to carry one, so the button
-            changed height by a pixel the moment the hero scrolled past. */}
-        <motion.a
+            Same component and same liquid fill as every other button; only the
+            tone changes, because over the pond the header sits on dark water
+            and below it on white. */}
+        <LiquidButton
           href={profile.links.resume}
-          download=""
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.98 }}
-          transition={{ duration: 0.3, ease: EASE }}
-          className={`group/cta rounded-buttons relative inline-flex items-center gap-2 overflow-hidden border px-6 py-2.5 font-geist text-body-sm font-medium transition-colors duration-500 md:text-body ${
-            overPond
-              ? "border-white/50 text-white backdrop-blur-sm hover:text-ink"
-              : "border-transparent bg-charcoal text-paper-white"
-          }`}
+          download
+          size="sm"
+          tone={overPond ? "light" : "solid"}
         >
-          {/* Same liquid rise as every other button on the site. */}
-          <span
-            aria-hidden
-            className={`absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cta:translate-y-0 ${
-              overPond ? "bg-white" : "bg-iris-blue"
-            }`}
-          />
-          <span className="relative z-10 inline-flex items-center gap-2">
-            Resume
-            <DownloadIcon />
-          </span>
-        </motion.a>
+          Resume
+          <DownloadIcon />
+        </LiquidButton>
       </div>
 
       {/* frosted band only once past the pond */}

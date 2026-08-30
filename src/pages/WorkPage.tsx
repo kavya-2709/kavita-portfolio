@@ -3,13 +3,14 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { liveWork, selectedWork } from "../lib/content";
 import {
-  ActionLink,
+
   Container,
   EASE,
   Pill,
   Reveal,
   Stagger,
 } from "../components/ui";
+import { LiquidButton } from "../components/LiquidButton";
 import { themeFor } from "../lib/surfaces";
 import { TYPE } from "../lib/type";
 import Contact from "../sections/Contact";
@@ -223,9 +224,9 @@ export default function WorkPage() {
                           </ul>
 
                           {/* span, not a link: the card is already the link */}
-                          <ActionLink as="span" arrow="↗" className="mt-8">
+                          <LiquidButton as="span" className="mt-8">
                             Read case study
-                          </ActionLink>
+                          </LiquidButton>
                         </div>
 
                         <div className="rounded-images aspect-[16/10] w-full overflow-hidden bg-white">

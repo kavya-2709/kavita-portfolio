@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { clean4Wheels as c } from "../lib/content";
-import { ActionLink, Container, EASE } from "../components/ui";
+import { Container, EASE } from "../components/ui";
+import { LiquidButton } from "../components/LiquidButton";
 import { TYPE } from "../lib/type";
-import { themeFor } from "../lib/surfaces";
+import { themeVars } from "../lib/surfaces";
 import {
   Card,
   Eyebrow,
@@ -28,13 +29,12 @@ import Contact from "../sections/Contact";
  */
 
 export default function Clean4WheelsCase() {
-  const theme = themeFor("clean4wheels");
   const featured = c.booking.steps.filter((s) => "featured" in s && s.featured);
   const compact = c.booking.steps.filter((s) => !("featured" in s));
 
   return (
     <>
-      <main className="pt-28 md:pt-32">
+      <main className="pt-28 md:pt-32" style={themeVars("clean4wheels")}>
         {/* ---------------------------------------------------------- hero */}
         <Container>
           <Link
@@ -54,7 +54,7 @@ export default function Clean4WheelsCase() {
               {c.tags.map((t) => (
                 <span
                   key={t}
-                  className="border-ink/[0.08] font-geist text-body-sm text-graphite rounded-full border px-4 py-1.5"
+                  className="rounded-full border border-[color:var(--badge-line)] bg-[color:var(--badge-bg)] px-4 py-1.5 font-geist text-body-sm text-[color:var(--badge-ink)]"
                 >
                   {t}
                 </span>
@@ -139,7 +139,7 @@ export default function Clean4WheelsCase() {
               Everything after this section is the evidence for these four
               claims: the first designed outcome used to sit at 51% depth. */}
           <Rise className="mt-14">
-            <Glance items={c.glance} theme={theme} />
+            <Glance items={c.glance} />
           </Rise>
         </Container>
 
@@ -152,7 +152,6 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.ecosystem.eyebrow}
                 title={c.ecosystem.title}
                 lead={c.ecosystem.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -195,7 +194,7 @@ export default function Clean4WheelsCase() {
         </section>
 
         {/* ------------------------------------------------- 2 · context */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
               <Head
@@ -203,7 +202,6 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.context.eyebrow}
                 title={c.context.title}
                 lead={c.context.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -270,7 +268,6 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.discovery.eyebrow}
                 title={c.discovery.title}
                 lead={c.discovery.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -323,7 +320,7 @@ export default function Clean4WheelsCase() {
                 {c.discovery.audit.stats.map((s) => (
                   <span
                     key={s.label}
-                    className="border-ink/[0.08] font-geist text-body-sm text-graphite rounded-full border px-4 py-1.5"
+                    className="rounded-full border border-[color:var(--badge-line)] bg-[color:var(--badge-bg)] px-4 py-1.5 font-geist text-body-sm text-[color:var(--badge-ink)]"
                   >
                     <span className="text-ink font-medium">{s.value}</span>{" "}
                     {s.label}
@@ -500,7 +497,7 @@ export default function Clean4WheelsCase() {
         </section>
 
         {/* ----------------------------------------------- 4 · synthesis */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
               <Head
@@ -508,7 +505,6 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.synthesis.eyebrow}
                 title={c.synthesis.title}
                 lead={c.synthesis.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -554,7 +550,7 @@ export default function Clean4WheelsCase() {
         </section>
 
         {/* ------------------------------------------------ 5 · statement */}
-        <section className="bg-ink py-16 md:py-24">
+        <section className="bg-[color:var(--band)] py-16 md:py-24">
           <Container>
             <Rise>
               <p className="font-serif-display text-paper-white mx-auto max-w-4xl text-center text-[clamp(1.5rem,3.2vw,2.5rem)] leading-[1.35]">
@@ -573,7 +569,6 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.booking.eyebrow}
                 title={c.booking.title}
                 lead={c.booking.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -659,7 +654,7 @@ export default function Clean4WheelsCase() {
         </section>
 
         {/* --------------------------------------------- 7 · verification */}
-        <section className={`${SECTION} bg-ink`}>
+        <section className={`${SECTION} bg-[color:var(--section-dark)]`}>
           <Container>
             <Rise>
               <Head
@@ -668,7 +663,6 @@ export default function Clean4WheelsCase() {
                 title={c.verification.title}
                 lead={c.verification.lead}
                 invert
-              theme={theme}
               />
             </Rise>
 
@@ -716,7 +710,7 @@ export default function Clean4WheelsCase() {
               </Rise>
 
               <Rise delay={0.08}>
-                <Eyebrow n={c.platform.n} theme={theme}>{c.platform.eyebrow}</Eyebrow>
+                <Eyebrow n={c.platform.n}>{c.platform.eyebrow}</Eyebrow>
                 <h2 className={`${TYPE.h2} mt-5`}>
                   {c.platform.title}
                 </h2>
@@ -744,7 +738,7 @@ export default function Clean4WheelsCase() {
         </section>
 
         {/* --------------------------------------------- 9 · design system */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
               <Head
@@ -752,7 +746,6 @@ export default function Clean4WheelsCase() {
                 eyebrow={c.system.eyebrow}
                 title={c.system.title}
                 lead={c.system.lead}
-              theme={theme}
               />
             </Rise>
             <Rise className="mt-12">
@@ -772,7 +765,7 @@ export default function Clean4WheelsCase() {
         <section className={SECTION}>
           <Container>
             <Rise>
-              <Eyebrow n={c.learnings.n} theme={theme}>{c.learnings.eyebrow}</Eyebrow>
+              <Eyebrow n={c.learnings.n}>{c.learnings.eyebrow}</Eyebrow>
               <h2 className={`${TYPE.h2} mt-5`}>
                 {c.learnings.title}
               </h2>
@@ -803,7 +796,7 @@ export default function Clean4WheelsCase() {
             </ol>
 
             <Rise className="mt-14">
-              <ActionLink to="/work">See the other case studies</ActionLink>
+              <LiquidButton to="/work">See the other case studies</LiquidButton>
             </Rise>
           </Container>
         </section>

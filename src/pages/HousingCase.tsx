@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { housing as h } from "../lib/content";
-import { ActionLink, Container, EASE } from "../components/ui";
+import { Container, EASE } from "../components/ui";
+import { LiquidButton } from "../components/LiquidButton";
 import { TYPE } from "../lib/type";
-import { themeFor } from "../lib/surfaces";
+import { themeVars } from "../lib/surfaces";
 import {
   Card,
   Eyebrow,
@@ -91,10 +92,9 @@ function PreferenceBars({ stats }: { stats: { label: string; value: number }[] }
 }
 
 export default function HousingCase() {
-  const theme = themeFor("housing");
   return (
     <>
-      <main className="pt-28 md:pt-32">
+      <main className="pt-28 md:pt-32" style={themeVars("housing")}>
         {/* ---------------------------------------------------------- hero */}
         <Container>
           <Link
@@ -114,7 +114,7 @@ export default function HousingCase() {
               {h.tags.map((t) => (
                 <span
                   key={t}
-                  className="border-ink/[0.08] font-geist text-body-sm text-graphite rounded-full border px-4 py-1.5"
+                  className="rounded-full border border-[color:var(--badge-line)] bg-[color:var(--badge-bg)] px-4 py-1.5 font-geist text-body-sm text-[color:var(--badge-ink)]"
                 >
                   {t}
                 </span>
@@ -168,7 +168,7 @@ export default function HousingCase() {
           </Rise>
 
           <Rise className="mt-12">
-            <Glance items={h.glance} theme={theme} />
+            <Glance items={h.glance} />
           </Rise>
         </Container>
 
@@ -181,7 +181,6 @@ export default function HousingCase() {
                 eyebrow={h.challenge.eyebrow}
                 title={h.challenge.title}
                 lead={h.challenge.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -203,7 +202,7 @@ export default function HousingCase() {
         </section>
 
         {/* ------------------------------------------------ 2 · research */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
               <Head
@@ -211,7 +210,6 @@ export default function HousingCase() {
                 eyebrow={h.research.eyebrow}
                 title={h.research.title}
                 lead={h.research.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -279,7 +277,6 @@ export default function HousingCase() {
                 eyebrow={h.personas.eyebrow}
                 title={h.personas.title}
                 lead={h.personas.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -365,7 +362,7 @@ export default function HousingCase() {
         </section>
 
         {/* ------------------------------------------------ the turn */}
-        <section className="bg-ink py-16 md:py-24">
+        <section className="bg-[color:var(--band)] py-16 md:py-24">
           <Container>
             <Rise>
               <p className="font-serif-display text-paper-white mx-auto max-w-4xl text-center text-[clamp(1.5rem,3.2vw,2.5rem)] leading-[1.35]">
@@ -384,7 +381,6 @@ export default function HousingCase() {
                 eyebrow={h.redesign.eyebrow}
                 title={h.redesign.title}
                 lead={h.redesign.lead}
-              theme={theme}
               />
             </Rise>
 
@@ -455,10 +451,10 @@ export default function HousingCase() {
         </section>
 
         {/* ------------------------------------------------ 5 · learnings */}
-        <section className={`${SECTION} bg-mist-gray`}>
+        <section className={`${SECTION} bg-[color:var(--section-warm)]`}>
           <Container>
             <Rise>
-              <Eyebrow n={h.learnings.n} theme={theme}>{h.learnings.eyebrow}</Eyebrow>
+              <Eyebrow n={h.learnings.n}>{h.learnings.eyebrow}</Eyebrow>
               <h2 className={`${TYPE.h2} mt-5`}>
                 {h.learnings.title}
               </h2>
@@ -489,7 +485,7 @@ export default function HousingCase() {
             </ol>
 
             <Rise className="mt-14">
-              <ActionLink to="/work">See the other case studies</ActionLink>
+              <LiquidButton to="/work">See the other case studies</LiquidButton>
             </Rise>
           </Container>
         </section>

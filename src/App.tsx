@@ -5,6 +5,7 @@ import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
 import Loader from "./components/Loader";
 import Nav from "./components/Nav";
+import { LiquidFilter } from "./components/LiquidButton";
 import ScrollToTop from "./components/ScrollToTop";
 import SelectedWork from "./sections/SelectedWork";
 import FishTrail from "./components/FishTrail";
@@ -51,6 +52,8 @@ function App() {
       {loading && <Loader onDone={() => setLoading(false)} />}
       {!loading && (
         <>
+          {/* One gooey filter for every button on the site. */}
+          <LiquidFilter />
           <ScrollToTop />
           <Nav />
           {/* The fallback is a blank hold rather than a spinner: these chunks
