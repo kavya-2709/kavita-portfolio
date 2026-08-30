@@ -72,15 +72,25 @@ export default function HousingCase() {
               </span>
             </div>
 
-            <p className="font-geist text-body-sm text-fog mt-8 tracking-[0.11em] uppercase">
-              {h.client} · {h.product}
-            </p>
-            <h1 className={`${TYPE.h1} max-w-4xl`}>
-              {h.title}
-            </h1>
-            <p className="font-geist text-body-lg text-graphite mt-6 max-w-2xl">
-              {h.deck}
-            </p>
+            {/* Client mark on the left, headline on the right, matching the
+                other two studies. The mark replaces the tracked
+                "Housing.com · Housing Chats" line that used to sit here. */}
+            <div className="mt-10 grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+              <p className="font-geist self-start text-[26px] leading-none font-semibold tracking-[-0.02em] text-[color:var(--brand)]">
+                {h.wordmark}
+                <span className="text-fog mt-2 block text-[13px] font-normal tracking-[0.11em] uppercase">
+                  {h.product}
+                </span>
+              </p>
+              <div>
+                <h1 className={`${TYPE.h1} max-w-4xl`}>
+                  {h.title}
+                </h1>
+                <p className="font-geist text-body-lg text-graphite mt-6 max-w-2xl">
+                  {h.deck}
+                </p>
+              </div>
+            </div>
 
             <dl className="mt-12 flex flex-wrap gap-x-16 gap-y-6">
               {h.facts.map((f) => (
@@ -277,25 +287,10 @@ export default function HousingCase() {
                 the contrast between two whole states, not screen by screen. */}
             {[h.redesign.before, h.redesign.after].map((half, idx) => (
               <Rise key={half.label} className={idx === 0 ? "mt-14" : "mt-16"}>
-                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                  <h3 className={TYPE.h3}>{half.label}</h3>
-                  <p className="font-geist text-body text-graphite">
-                    {half.caption}
-                  </p>
-                </div>
-
-                <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-                  {half.notes.map((note) => (
-                    <li
-                      key={note}
-                      className={`font-geist text-body-sm ${
-                        idx === 0 ? "text-graphite" : "text-iris-blue"
-                      }`}
-                    >
-                      {note}
-                    </li>
-                  ))}
-                </ul>
+                {/* Label only. The caption and the annotation lines are drawn
+                    on the board itself, so setting them again above it just
+                    printed the same reading twice. */}
+                <h3 className={TYPE.h3}>{half.label}</h3>
 
                 {/* The designed board: the screens already sit framed and in
                     sequence on it, so laying them out again as a grid would

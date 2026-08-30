@@ -26,6 +26,8 @@ export const housing = {
     "https://www.figma.com/proto/3Z5N6yOnPQ8UOZ7O1mD2NY/Housing-Assignment?node-id=7-18&scaling=scale-down&content-scaling=fixed&starting-point-node-id=7%3A18&page-id=2%3A5",
   tags: ["UX design", "Mobile interface design"],
   client: "Housing.com",
+  /** Client mark for the hero. Set as type until the real logo file exists. */
+  wordmark: "housing.com",
   product: "Housing Chats",
   title: "Revamping key UI flows to elevate user engagement with an in-app chat experience",
   deck: "Renters were handing their phone number to strangers just to ask about a flat, then getting called at work. Two days to design a way to talk that nobody has to opt out of.",
