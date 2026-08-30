@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { selectedWork } from "../lib/content";
 import { Container } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
+import { ArrowUpRightIcon } from "../components/icons";
 import { themeFor } from "../lib/surfaces";
 import { TYPE } from "../lib/type";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
@@ -103,6 +104,7 @@ function WorkCard({
               className="mt-8"
             >
               Read case study
+              <ArrowUpRightIcon />
             </LiquidButton>
           </div>
 

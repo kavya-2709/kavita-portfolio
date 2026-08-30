@@ -204,6 +204,15 @@ Everything under `public/` ships to `dist` verbatim, so nothing unused belongs t
 - `public/work/` — 6 case-study images
 - `public/avatar.png`, `public/favicon.svg`
 
+**Video is re-encoded in the browser, not shipped raw.** `motion work.mp4` arrived at
+8.7MB, which would have undone the earlier work of removing all video. It is now
+`public/work/motion-work.webm` at 1.3MB, recorded through `MediaRecorder` at 1.1Mbps
+since no encoder is installed locally. The MP4 stays in `assets-source/`.
+
+**Asset folders must not contain spaces.** `public/work/other works/` fetched fine but
+rendered 0x0 in an `<img>`: a literal space is not valid in a `src`. Renamed to
+`other-work/`.
+
 **`assets-source/` is deliberately outside `public/`** and holds originals and
 retired media so they are never built: `footer-panorama.png`, the earlier painted
 plate, `footer-scene.mp4` (25MB), `clouds.mp4` (19MB), `footer style.mp4` (51MB),

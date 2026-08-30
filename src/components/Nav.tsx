@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { EASE } from "./ui";
-import { DownloadIcon, LiquidButton } from "./LiquidButton";
+import { LiquidButton } from "./LiquidButton";
+import { ExternalIcon } from "./icons";
 import { profile } from "../lib/content";
 
 /**
@@ -143,20 +144,19 @@ export default function Nav() {
 
         {/* Resume, not "Let's talk": the footer already carries the contact
             CTA, and the thing someone actually wants from a persistent header
-            is the document. `download` rather than a new tab, so it lands in
-            their downloads instead of a viewer.
+            is the document. It opens in its own tab rather than downloading,
+            so the site stays where it was and the PDF gets a viewer.
 
             Same component and same liquid fill as every other button; only the
             tone changes, because over the pond the header sits on dark water
             and below it on white. */}
         <LiquidButton
           href={profile.links.resume}
-          download
           size="sm"
           tone={overPond ? "light" : "solid"}
         >
           Resume
-          <DownloadIcon />
+          <ExternalIcon />
         </LiquidButton>
       </div>
 

@@ -2,15 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { liveWork, selectedWork } from "../lib/content";
-import {
-
-  Container,
-  EASE,
-  Pill,
-  Reveal,
-  Stagger,
-} from "../components/ui";
+import { Container, EASE, Pill, Reveal, Stagger } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
+import { ArrowUpRightIcon } from "../components/icons";
 import { themeFor } from "../lib/surfaces";
 import { TYPE } from "../lib/type";
 import Contact from "../sections/Contact";
@@ -92,16 +86,10 @@ function LiveWork() {
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-4">
           <div>
-            <p className={TYPE.eyebrow}>
-              {liveWork.eyebrow}
-            </p>
-            <h2 className={`${TYPE.h2} mt-4 max-w-xl`}>
-              {liveWork.title}
-            </h2>
+            <p className={TYPE.eyebrow}>{liveWork.eyebrow}</p>
+            <h2 className={`${TYPE.h2} mt-4 max-w-xl`}>{liveWork.title}</h2>
           </div>
-          <p className={TYPE.eyebrow}>
-            {liveWork.hint}
-          </p>
+          <p className={TYPE.eyebrow}>{liveWork.hint}</p>
         </div>
 
         <ul className="mt-12 grid gap-4 md:grid-cols-3">
@@ -115,42 +103,56 @@ function LiveWork() {
                   onFocus={() => setOpen(i)}
                   onClick={() => setOpen(i)}
                   aria-expanded={isOpen}
-                  className="border-ink/[0.08] rounded-cards flex h-full min-h-[300px] w-full cursor-default flex-col border bg-white p-7 text-left transition-colors duration-300 md:min-h-[340px]"
+                  className="border-ink/[0.08] rounded-cards flex h-full w-full cursor-default flex-col overflow-hidden border bg-white text-left transition-colors duration-300"
                 >
-                  <span
-                    aria-hidden
-                    className={`size-2.5 shrink-0 rounded-full transition-colors duration-300 ${
-                      isOpen ? "bg-iris-blue" : "bg-ink/15"
-                    }`}
-                  />
-
-                  {/* pushes the label block to the foot of the card */}
-                  <span className="flex-1" />
-
-                  <span
-                    className={`font-geist text-caption tracking-[0.11em] uppercase transition-colors duration-300 ${
-                      isOpen ? "text-iris-blue" : "text-fog"
-                    }`}
-                  >
-                    {it.tag}
-                  </span>
-                  <span className={`${TYPE.h3} mt-2 block`}>
-                    {it.name}
+                  {/* The work itself, at the top of the card. Dimmed until the
+                      card is the open one, so the row reads as one focused
+                      project rather than three competing screenshots. */}
+                  <span className="bg-mist-gray block w-full overflow-hidden">
+                    <img
+                      src={it.image}
+                      alt={it.alt}
+                      loading="lazy"
+                      className={`aspect-[16/10] w-full object-cover object-top transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        isOpen ? "scale-[1.02] opacity-100" : "opacity-70"
+                      }`}
+                    />
                   </span>
 
-                  <span
-                    className="grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                    style={{
-                      gridTemplateRows: isOpen ? "1fr" : "0fr",
-                      opacity: isOpen ? 1 : 0,
-                    }}
-                  >
-                    <span className="overflow-hidden">
-                      <span className="font-geist text-body text-graphite mt-4 block">
-                        {it.detail}
-                      </span>
-                      <span className="font-geist text-body-sm text-fog mt-3 block">
-                        {it.stat}
+                  <span className="flex flex-1 flex-col p-7">
+                    <span
+                      aria-hidden
+                      className={`size-2.5 shrink-0 rounded-full transition-colors duration-300 ${
+                        isOpen ? "bg-iris-blue" : "bg-ink/15"
+                      }`}
+                    />
+
+                    {/* pushes the label block to the foot of the card */}
+                    <span className="flex-1 min-h-[18px]" />
+
+                    <span
+                      className={`font-geist text-caption tracking-[0.11em] uppercase transition-colors duration-300 ${
+                        isOpen ? "text-iris-blue" : "text-fog"
+                      }`}
+                    >
+                      {it.tag}
+                    </span>
+                    <span className={`${TYPE.h3} mt-2 block`}>{it.name}</span>
+
+                    <span
+                      className="grid transition-[grid-template-rows,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                      style={{
+                        gridTemplateRows: isOpen ? "1fr" : "0fr",
+                        opacity: isOpen ? 1 : 0,
+                      }}
+                    >
+                      <span className="overflow-hidden">
+                        <span className="font-geist text-body text-graphite mt-4 block">
+                          {it.detail}
+                        </span>
+                        <span className="font-geist text-body-sm text-fog mt-3 block">
+                          {it.stat}
+                        </span>
                       </span>
                     </span>
                   </span>
@@ -177,9 +179,7 @@ export default function WorkPage() {
               transition={{ duration: 0.7, ease: EASE }}
               className="max-w-3xl"
             >
-              <h1 className={TYPE.h1}>
-                Selected work
-              </h1>
+              <h1 className={TYPE.h1}>Selected work</h1>
               <p className={`${TYPE.lead} mt-4`}>
                 Booking, exam prep and property. Different industries, same job:
                 making the next step obvious.
@@ -207,13 +207,9 @@ export default function WorkPage() {
                             <span>{item.meta}</span>
                           </div>
 
-                          <h3 className={`${TYPE.h3} mt-5`}>
-                            {item.title}
-                          </h3>
+                          <h3 className={`${TYPE.h3} mt-5`}>{item.title}</h3>
 
-                          <p className={`${TYPE.body} mt-4`}>
-                            {item.impact}
-                          </p>
+                          <p className={`${TYPE.body} mt-4`}>{item.impact}</p>
 
                           <ul className="mt-7 flex flex-wrap gap-2">
                             {item.tags.map((t) => (
@@ -226,6 +222,7 @@ export default function WorkPage() {
                           {/* span, not a link: the card is already the link */}
                           <LiquidButton as="span" className="mt-8">
                             Read case study
+                            <ArrowUpRightIcon />
                           </LiquidButton>
                         </div>
 

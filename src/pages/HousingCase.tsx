@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { housing as h } from "../lib/content";
 import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
+import { ArrowRightIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import { themeVars } from "../lib/surfaces";
 import {
@@ -485,7 +486,10 @@ export default function HousingCase() {
             </ol>
 
             <Rise className="mt-14">
-              <LiquidButton to="/work">See the other case studies</LiquidButton>
+              <LiquidButton to="/work">
+                See the other case studies
+                <ArrowRightIcon />
+              </LiquidButton>
             </Rise>
           </Container>
         </section>

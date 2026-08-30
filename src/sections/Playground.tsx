@@ -11,6 +11,39 @@ import { TYPE } from "../lib/type";
  * captures drop in later, and each tile is already the shape an image needs.
  */
 
+/**
+ * The motion reel.
+ *
+ * Autoplays muted and loops, which browsers allow only for muted video. It is
+ * `preload="metadata"` rather than `auto`: at 1.3MB this sits below the fold
+ * on a page whose point is the case studies, so it should not compete with
+ * them for bandwidth on first paint.
+ *
+ * The source is a WebM re-encoded from the 8.7MB original, which stays in
+ * `assets-source/`. `playsInline` keeps iOS from taking it fullscreen.
+ */
+function Reel() {
+  return (
+    <figure className="m-0">
+      <div className="rounded-cards border-ink/[0.08] overflow-hidden border bg-white">
+        <video
+          src={p.reel}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-label={p.reelCaption}
+          className="block aspect-video w-full object-cover"
+        />
+      </div>
+      <figcaption className="font-geist text-body-sm text-graphite/80 mt-3">
+        {p.reelCaption}
+      </figcaption>
+    </figure>
+  );
+}
+
 /** Empty tile. Sized so dropping a capture in changes nothing but the fill. */
 function LoopTile({ label }: { label: string }) {
   return (
@@ -97,6 +130,13 @@ export default function Playground() {
               {p.blurbAfter}
             </p>
           </div>
+        </div>
+      </Container>
+
+      {/* The real reel leads; the placeholder strip follows it. */}
+      <Container>
+        <div className="mt-12 md:mt-16">
+          <Reel />
         </div>
       </Container>
 

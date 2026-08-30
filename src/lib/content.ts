@@ -15,12 +15,7 @@ export const profile = {
     behance: "https://www.behance.net/kavitayadav21",
     linkedin: "https://www.linkedin.com/in/kavita-yadav-6b1759255/",
     twitter: "https://x.com/CanvasInMotion7",
-    /**
-     * Served straight from `public/`, so the nav button downloads rather than
-     * opening a viewer. THE FILE IS NOT IN THE REPO YET: drop the PDF at
-     * `public/kavita-yadav-resume.pdf` and this works with no code change.
-     * Until then the button 404s.
-     */
+    /** Served from `public/`. Opens in a new tab rather than downloading. */
     resume: "/kavita-yadav-resume.pdf",
   },
 };
@@ -491,6 +486,8 @@ export const liveWork = {
       detail:
         "Gamified quiz experience built to lift participation in live classrooms.",
       stat: "30% higher participation · 1,000+ students",
+      image: "/work/other-work/buzzr.webp",
+      alt: "Buzzr custom-profile screens on desktop and mobile",
     },
     {
       name: "Doorstep Beauty",
@@ -498,6 +495,8 @@ export const liveWork = {
       detail:
         "At-home beauty booking, from browsing a service to a confirmed slot.",
       stat: "1,000+ downloads · 5-star Play Store rating",
+      image: "/work/other-work/doorstep-beauty.webp",
+      alt: "Doorstep Beauty home, services and checkout screens",
     },
     {
       name: "KnowYourColleges",
@@ -505,6 +504,8 @@ export const liveWork = {
       detail:
         "Research and prototypes to make navigating college options clearer.",
       stat: "UX design intern · Jun 2024 to Jan 2025",
+      image: "/work/other-work/knowyourcolleges.webp",
+      alt: "KnowYourColleges admissions site on laptop and phone",
     },
   ],
 };
@@ -519,6 +520,12 @@ export const playground = {
   title: "Motion experiments,",
   titleAccent: "no brief attached.",
   sticker: "/life/sticker-repeat.png",
+  /**
+   * The real motion reel. Re-encoded to WebM in the browser, 8.7MB down to
+   * 1.3MB; the original stays in `assets-source/` and never reaches `dist`.
+   */
+  reel: "/work/motion-work.webm",
+  reelCaption: "Motion studies, on loop",
   blurbBefore: "Loops I make to find out how a thing should ",
   blurbEmphasis: "feel",
   blurbAfter:

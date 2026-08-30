@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { profile } from "../lib/content";
 import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
+import { LinkedInIcon, MailIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import FooterScene from "../components/FooterScene";
 
@@ -61,9 +62,11 @@ export default function Contact() {
             className="mt-8 flex flex-wrap items-center justify-center gap-4"
           >
             <LiquidButton href={`mailto:${profile.email}`} tone="solid">
+              <MailIcon />
               Email me
             </LiquidButton>
             <LiquidButton href={profile.links.linkedin}>
+              <LinkedInIcon />
               Connect on LinkedIn
             </LiquidButton>
           </motion.div>
