@@ -204,6 +204,14 @@ Everything under `public/` ships to `dist` verbatim, so nothing unused belongs t
 - `public/work/` — 6 case-study images
 - `public/avatar.png`, `public/favicon.svg`
 
+**The playground reel is the full-quality export and it is heavy.** 14MB, 1280x720.
+Browser re-encoding was not possible: the preview pane runs hidden, which clamps
+timers to ~1Hz, so a canvas re-encode captured 25 frames in 15 seconds. The video is
+therefore lazy: no src until the section is near view, with a poster holding the
+frame. Anyone who reads the case studies and leaves never downloads it. **If ffmpeg
+is ever available, compress it:** ffmpeg -i "animation rail.mp4" -c:v libvpx-vp9 -b:v
+2M -an animation-rail.webm would cut it to roughly 4MB with no visible loss.
+
 **Video is re-encoded in the browser, not shipped raw.** The eight playground
 clips arrived as 38MB of MP4, which would have quadrupled `dist`. They are now
 WebM at 480px wide and ~450kbps, **2.2MB for all eight**, recorded through

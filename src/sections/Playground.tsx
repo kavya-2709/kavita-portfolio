@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { playground as p } from "../lib/content";
 import { Container } from "../components/ui";
 import { TYPE } from "../lib/type";
@@ -48,26 +49,99 @@ export default function Playground() {
           </div>
         </div>
 
-        {/*
-          Autoplays muted and loops, which is the only way a browser will
-          start a video unprompted. `preload="metadata"` rather than `auto`:
-          it sits below three case studies on a page whose job is those case
-          studies, so it should not compete with them for first-paint
-          bandwidth. `playsInline` stops iOS taking it fullscreen.
-        */}
-        <div className="rounded-cards border-ink/[0.08] mt-12 overflow-hidden border bg-white md:mt-16">
-          <video
-            src={p.reel}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-label={p.reelLabel}
-            className="block aspect-video w-full object-cover"
-          />
-        </div>
+        <Reel />
       </Container>
     </section>
+  );
+}
+
+/**
+ * The reel, open on the page.
+ *
+ * No card, no border, no rounded corners: the clip sits directly on the page
+ * and its edges are feathered into the white, the same treatment the footer
+ * panorama gets. A framed box made it read as an embed rather than as part
+ * of the page.
+ *
+ * The file is the full-quality export and it is heavy, so the `src` is only
+ * attached once the section is near the viewport. Someone who reads the case
+ * studies and leaves never pays for it. The poster holds the frame in the
+ * meantime, so there is no empty gap while it arrives.
+ */
+function Reel() {
+  const ref = useRef<HTMLDivElement>(null);
+  // Without IntersectionObserver there is nothing to wait for, so start
+  // loaded. Decided at init rather than in the effect, which would set state
+  // synchronously during render and cost an extra pass.
+  const [load, setLoad] = useState(
+    () => typeof window !== "undefined" && !("IntersectionObserver" in window),
+  );
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || load) return;
+
+    const MARGIN = 600;
+
+    // Geometry check first, as a backstop. An observer that reports a false
+    // negative would leave the poster up forever, and this reads the position
+    // directly rather than trusting the callback.
+    const near = () => {
+      const r = el.getBoundingClientRect();
+      return r.top < window.innerHeight + MARGIN && r.bottom > -MARGIN;
+    };
+    if (near()) {
+      setLoad(true);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting || near()) {
+          setLoad(true);
+          io.disconnect();
+        }
+      },
+      // Start fetching a screen early, so it is playing by the time it lands.
+      { rootMargin: `${MARGIN}px 0px` },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [load]);
+
+  return (
+    <div ref={ref} className="relative mt-12 md:mt-16">
+      <video
+        // `src` only once near view; `poster` renders immediately either way.
+        {...(load ? { src: p.reel } : {})}
+        poster={p.reelPoster}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="none"
+        aria-label={p.reelLabel}
+        className="block aspect-video w-full object-cover"
+      />
+
+      {/* Feathered into the page on all four edges, so the clip has no seam.
+          Pointer-events off, or the fades would swallow clicks on the video. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-[12%] bg-gradient-to-b from-white to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[12%] bg-gradient-to-t from-white to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 w-[8%] bg-gradient-to-r from-white to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 w-[8%] bg-gradient-to-l from-white to-transparent"
+      />
+    </div>
   );
 }

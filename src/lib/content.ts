@@ -536,6 +536,7 @@ export const playground = {
    * source stays in `assets-source/playground/`.
    */
   reel: "/work/playground/animation-rail.webm",
+  reelPoster: "/work/playground/animation-rail-poster.webp",
   reelLabel: "Interface motion reel",
 };
 
