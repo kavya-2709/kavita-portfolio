@@ -377,9 +377,6 @@ export const clean4Wheels = {
     n: "5",
     eyebrow: "Booking redesign",
     title: "Designing for decisions, not forms",
-    board: "/work/clean4wheels/booking-flow.webp",
-    boardAlt:
-      "The redesigned six-step booking flow end to end, from vehicle context through location, package, scheduling and review to the post-booking tracking loop",
     lead: "The booking journey was optimised for collecting information rather than helping users make confident decisions. I reframed it as a six-decision journey.",
     steps: [
       {

@@ -76,18 +76,13 @@ export default function HousingCase() {
                 other two studies. The mark replaces the tracked
                 "Housing.com · Housing Chats" line that used to sit here. */}
             <div className="mt-10 grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-              <div className="self-start">
-                <img
-                  src={h.logo}
-                  alt={`${h.client} logo`}
-                  width={556}
-                  height={84}
-                  className="h-[30px] w-auto object-contain object-left"
-                />
-                <span className="font-geist text-fog mt-3 block text-[13px] tracking-[0.11em] uppercase">
-                  {h.product}
-                </span>
-              </div>
+              <img
+                src={h.logo}
+                alt={`${h.client} logo`}
+                width={556}
+                height={84}
+                className="h-[30px] w-auto self-start object-contain object-left"
+              />
               <div>
                 <h1 className={`${TYPE.h1} max-w-4xl`}>
                   {h.title}

@@ -527,17 +527,85 @@ export default function Clean4WheelsCase() {
                 lead={c.booking.lead}
               />
             </Rise>
-            {/* The designed flow, end to end, and nothing else. The six step
-                cards that used to follow it restated the same decisions and
-                outcomes the board already annotates. */}
-            <Rise className="mt-14">
-              <img
-                src={c.booking.board}
-                alt={c.booking.boardAlt}
-                loading="lazy"
-                className="rounded-cards border-ink/[0.08] w-full border bg-white"
-              />
-            </Rise>
+            {/* Built from the Figma section rather than shown as one tall
+                export of it: each step is its screen under a titled strip,
+                with the why, the decision and the outcome as three notes
+                alongside, alternating side down the page. As markup the
+                reasoning stays selectable, searchable and readable on a
+                phone, which a 1500px-wide picture of it is not. */}
+            <div className="mt-14 space-y-16 md:space-y-20">
+              {c.booking.steps.map((s, i) => (
+                <Rise key={s.n}>
+                  <div
+                    className={`grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-center lg:gap-12 ${
+                      i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
+                    }`}
+                  >
+                    <figure className="rounded-cards border-ink/[0.08] m-0 overflow-hidden border">
+                      <figcaption className="flex items-center gap-3 border-b border-[color:var(--badge-line)] bg-[color:var(--badge-bg)] px-5 py-3.5">
+                        <span
+                          aria-hidden
+                          className="font-geist text-paper-white flex size-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--brand)] text-[13px] font-semibold"
+                        >
+                          {s.n}
+                        </span>
+                        <span>
+                          <span className={`${TYPE.h3} block`}>{s.title}</span>
+                          <span className="font-geist text-caption text-graphite mt-0.5 block tracking-[0.08em] uppercase">
+                            Booking · Step {s.n} of 06
+                          </span>
+                        </span>
+                      </figcaption>
+                      <img
+                        src={s.image}
+                        alt={`${s.title}: ${s.decision}`}
+                        loading="lazy"
+                        className="block w-full bg-white"
+                      />
+                    </figure>
+
+                    {/* Colour carries the role: neutral for the reasoning,
+                        the project's own pink for the decision, green for
+                        what it produced. Each note says its role out loud
+                        too, so the coding is never the only signal. */}
+                    <ul className="space-y-5">
+                      {[
+                        {
+                          k: "Why",
+                          body: s.why,
+                          tint: "bg-mist-gray",
+                          tilt: "lg:rotate-[-1.1deg]",
+                        },
+                        {
+                          k: "Decision",
+                          body: s.decision,
+                          tint: "bg-[color:var(--brand-soft)]",
+                          tilt: "lg:rotate-[1.3deg]",
+                        },
+                        {
+                          k: "Outcome",
+                          body: s.outcome,
+                          tint: "bg-mint-wash",
+                          tilt: "lg:rotate-[-0.8deg]",
+                        },
+                      ].map((note) => (
+                        <li
+                          key={note.k}
+                          className={`rounded-cards-sm border-ink/[0.06] border p-5 ${note.tint} ${note.tilt}`}
+                        >
+                          <p className="font-geist text-caption text-graphite tracking-[0.11em] uppercase">
+                            {note.k}
+                          </p>
+                          <p className="font-geist text-body-sm text-ink mt-2 leading-[1.55]">
+                            {note.body}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </Rise>
+              ))}
+            </div>
           </Container>
         </section>
 
