@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { liveWork, selectedWork } from "../lib/content";
-import { Container, EASE, Pill, Reveal, Stagger } from "../components/ui";
+import { Container, EASE, Reveal, Stagger } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
 import { ArrowUpRightIcon } from "../components/icons";
 import { themeFor } from "../lib/surfaces";
@@ -79,7 +79,8 @@ function Visual({ item }: { item: (typeof selectedWork)[number] }) {
  * clipped by a guessed maximum.
  */
 function LiveWork() {
-  const [open, setOpen] = useState(0);
+  // null = nothing flipped. Cards turn back when the pointer leaves.
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <section className="bg-mist-gray py-14 md:py-20">
@@ -96,50 +97,68 @@ function LiveWork() {
           {liveWork.items.map((it, i) => {
             const isOpen = open === i;
             return (
-              <li key={it.name}>
+              <li key={it.name} className="[perspective:1400px]">
                 {/*
-                  The whole card is the link to the live product, so it is an
-                  anchor rather than a button: the action is navigation, and a
-                  button would take it away from middle-click, "open in new
-                  tab" and the status bar.
+                  The card turns over on hover and turns back when the cursor
+                  leaves: front is the banner, back is the detail. It stays an
+                  anchor rather than a button because the action is navigation,
+                  and a button loses middle-click, open-in-new-tab and the
+                  status bar.
 
-                  The detail is an overlay on the image, not a panel below it,
-                  so the card is edge-to-edge artwork with no white margin. It
-                  is revealed by hover, focus and touch alike — hover alone
-                  would hide this copy on every phone.
+                  `aspect-[20/13]` is the banners' own ratio (1400x910), so
+                  the artwork sits in the frame uncropped — object-cover has
+                  nothing to trim at the exact aspect.
+
+                  Touch has no hover, so a tap flips rather than following the
+                  link; the second tap opens it. The back face carries the
+                  visible "Visit live" affordance so that is not a guess.
                 */}
                 <a
                   href={it.href}
                   target="_blank"
                   rel="noreferrer"
                   onMouseEnter={() => setOpen(i)}
+                  onMouseLeave={() => setOpen(null)}
                   onFocus={() => setOpen(i)}
-                  onTouchStart={() => setOpen(i)}
+                  onBlur={() => setOpen(null)}
+                  onClick={(e) => {
+                    if (window.matchMedia("(hover: none)").matches && !isOpen) {
+                      e.preventDefault();
+                      setOpen(i);
+                    }
+                  }}
                   aria-label={`${it.name}, ${it.tag}. Opens the live product in a new tab.`}
-                  className="rounded-cards border-ink/[0.08] group/live relative block aspect-[4/5] overflow-hidden border"
+                  className="group/live rounded-cards relative block aspect-[20/13] w-full [transform-style:preserve-3d] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                  style={{ transform: isOpen ? "rotateY(180deg)" : "rotateY(0deg)" }}
                 >
-                  <img
-                    src={it.image}
-                    alt={it.alt}
-                    loading="lazy"
-                    className={`absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      isOpen ? "scale-[1.04]" : "scale-100"
-                    }`}
-                  />
+                  {/* front — the banner, whole */}
+                  <span className="rounded-cards border-ink/[0.08] absolute inset-0 overflow-hidden border bg-white [backface-visibility:hidden]">
+                    <img
+                      src={it.image}
+                      alt={it.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <span
+                      className="absolute inset-x-0 bottom-0 flex items-center gap-2.5 p-5"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgba(10,13,18,0.78) 0%, rgba(10,13,18,0) 100%)",
+                      }}
+                    >
+                      <span className="bg-paper-white/70 size-2 shrink-0 rounded-full" />
+                      <span className="font-geist text-body text-paper-white font-medium">
+                        {it.name}
+                      </span>
+                    </span>
+                  </span>
 
-                  {/* Ink wash carrying the copy. Sits over the artwork rather
-                      than beside it, and only when this card is the open one. */}
+                  {/* back — the detail, pre-rotated so it reads the right way
+                      round once the card has turned */}
                   <span
-                    aria-hidden={!isOpen}
-                    className={`absolute inset-0 flex flex-col justify-end p-6 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                      isOpen ? "opacity-100" : "opacity-0"
-                    }`}
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(10,13,18,0.92) 0%, rgba(10,13,18,0.72) 38%, rgba(10,13,18,0.12) 72%, rgba(10,13,18,0) 100%)",
-                    }}
+                    className="bg-ink rounded-cards border-ink/[0.08] absolute inset-0 flex flex-col justify-end border p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]"
                   >
-                    <span className="font-geist text-caption tracking-[0.11em] text-white/70 uppercase">
+                    <span className="font-geist text-caption tracking-[0.11em] text-white/60 uppercase">
                       {it.tag}
                     </span>
                     <span className="font-serif-display text-paper-white mt-2 block text-[1.75rem] leading-[1.1]">
@@ -148,29 +167,12 @@ function LiveWork() {
                     <span className="font-geist text-body-sm mt-3 block text-white/85">
                       {it.detail}
                     </span>
-                    <span className="font-geist text-body-sm mt-3 block text-white/60">
+                    <span className="font-geist text-body-sm mt-2 block text-white/55">
                       {it.stat}
                     </span>
                     <span className="font-geist text-body-sm text-paper-white mt-5 inline-flex items-center gap-2">
                       Visit live
                       <ArrowUpRightIcon />
-                    </span>
-                  </span>
-
-                  {/* Resting label, so a closed card still says what it is. */}
-                  <span
-                    aria-hidden={isOpen}
-                    className={`absolute inset-x-0 bottom-0 flex items-center gap-2.5 p-6 transition-opacity duration-300 ${
-                      isOpen ? "opacity-0" : "opacity-100"
-                    }`}
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(10,13,18,0.78) 0%, rgba(10,13,18,0) 100%)",
-                    }}
-                  >
-                    <span className="bg-paper-white/70 size-2 shrink-0 rounded-full" />
-                    <span className="font-geist text-body text-paper-white font-medium">
-                      {it.name}
                     </span>
                   </span>
                 </a>
@@ -231,7 +233,9 @@ export default function WorkPage() {
                           <ul className="mt-7 flex flex-wrap gap-2">
                             {item.tags.map((t) => (
                               <li key={t}>
-                                <Pill>{t}</Pill>
+                                <span className="border-ink/[0.06] font-geist text-body-sm text-graphite rounded-full border bg-white px-4 py-1.5">
+                                  {t}
+                                </span>
                               </li>
                             ))}
                           </ul>

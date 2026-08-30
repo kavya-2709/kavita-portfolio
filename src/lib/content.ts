@@ -520,51 +520,23 @@ export const liveWork = {
  */
 export const playground = {
   badge: "Playground",
-  title: "Motion experiments,",
-  titleAccent: "no brief attached.",
+  title: "Motion studies,",
+  titleAccent: "on repeat.",
   sticker: "/life/sticker-repeat.png",
-  blurbBefore: "Loops I make to find out how a thing should ",
+  blurbBefore: "Interface motion I build to work out how a thing should ",
   blurbEmphasis: "feel",
   blurbAfter:
-    ", long before anyone writes a spec for it. Nobody asked for these.",
+    ", usually long before anyone writes a spec for it.",
   /**
-   * The motion strip. Real clips, re-encoded to WebM in the browser: 38MB of
-   * MP4 became 2.2MB. The sources stay in `assets-source/playground/`.
+   * One rail, not a strip of tiles. The reel already carries its own
+   * pacing, so a caption under every frame would be describing motion the
+   * viewer is watching happen.
    *
-   * Ordered so neighbouring tiles differ in shape and pace. The strip shows
-   * three or four at once, and a run of similar clips reads as one.
+   * Re-encoded to WebM in the browser: 13.6MB of MP4 became 1.7MB. The
+   * source stays in `assets-source/playground/`.
    */
-  loops: [
-    {
-      src: "/work/playground/paper-collage.webm",
-      caption: "Paper collage storyboard",
-    },
-    {
-      src: "/work/playground/hover-effect.webm",
-      caption: "Hover states, worked out in motion",
-    },
-    { src: "/work/playground/map.webm", caption: "Map interaction study" },
-    {
-      src: "/work/playground/doorstep-beauty.webm",
-      caption: "Doorstep Beauty, booking in motion",
-    },
-    {
-      src: "/work/playground/shape-rotation.webm",
-      caption: "Rotation and easing test",
-    },
-    {
-      src: "/work/playground/housing.webm",
-      caption: "Housing chat, end to end",
-    },
-    {
-      src: "/work/playground/pet-animation.webm",
-      caption: "Pet post, quick loop",
-    },
-    {
-      src: "/work/playground/deadpool-cinematic.webm",
-      caption: "Cinematic edit, for the fun of it",
-    },
-  ],
+  reel: "/work/playground/animation-rail.webm",
+  reelLabel: "Interface motion reel",
 };
 
 export const skills = {

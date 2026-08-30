@@ -7,12 +7,16 @@ import { ExternalIcon } from "./icons";
 import { profile } from "../lib/content";
 
 /**
- * Every nav item is a real route — no homepage hash jumps.
+ * One floating pill: avatar, routes, and the resume.
  *
- * Playground used to sit here as a third route. It is now a section at the
- * foot of Work, because side projects are work: splitting them out gave a
- * thin page its own top-level slot and sent people looking for case studies
- * down a second path.
+ * Replaces a header that spread a wordmark, a scroll-triggered availability
+ * chip and a separate CTA across the full width. Everything now sits in a
+ * single capsule, so the header reads as one object over the artwork instead
+ * of three things placed near each other.
+ *
+ * Playground is deliberately not a nav item: it is a section at the foot of
+ * Work, and giving a one-section page a top-level slot sent people looking
+ * for case studies down a second path.
  */
 const LINKS = [
   { id: "work", label: "Work", to: "/work" },
@@ -21,16 +25,16 @@ const LINKS = [
 
 export default function Nav() {
   const { pathname } = useLocation();
-  const [scrolled, setScrolled] = useState(false);
-  // while the header floats over the pond it has to invert to white
+  // While the header floats over the pond it inverts to white.
   const [overPond, setOverPond] = useState(true);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 24);
       const hero = document.getElementById("hero");
-      const pondBottom = hero ? hero.getBoundingClientRect().top + window.innerHeight : 0;
-      setOverPond(pondBottom > 80);
+      const pondBottom = hero
+        ? hero.getBoundingClientRect().top + window.innerHeight
+        : 0;
+      setOverPond(pondBottom > 96);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -43,130 +47,75 @@ export default function Nav() {
 
   return (
     <motion.header
-      initial={{ y: -32, opacity: 0 }}
+      initial={{ y: -28, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.65, ease: EASE }}
-      className="fixed inset-x-0 top-0 z-50 w-full"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 w-full px-4 pt-4 md:px-6 md:pt-6"
     >
       <div
-        className={`relative mx-auto flex max-w-[1200px] items-center justify-between px-6 transition-all duration-500 md:px-10 ${
-          scrolled ? "py-3" : "py-6"
+        // Frosted over the pond, solid white once past it. The border is
+        // present in both states so the capsule never changes height.
+        className={`pointer-events-auto mx-auto flex w-fit max-w-full items-center gap-2 rounded-full border p-2 transition-colors duration-500 md:gap-3 ${
+          overPond
+            ? "border-white/40 bg-white/15 backdrop-blur-md"
+            : "border-ink/10 bg-paper-white/90 backdrop-blur-md"
         }`}
       >
+        {/* Avatar doubles as the home link, which is what the wordmark did. */}
         <Link
           to="/"
-          className={`font-aeonik text-subheading tracking-[-0.02em] transition-colors duration-500 ${
-            overPond ? "text-white" : "text-ink"
-          }`}
-          
-        >
-          Kavya<span className={overPond ? "text-white/70" : "text-iris-blue"}>.</span>
-        </Link>
-
-        {/* Availability chip — avatar, status, pulsing dot.
-            Centre-absolute, so it only appears once the in-flow links have
-            faded out; otherwise the two would sit on top of each other. */}
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.03 }}
-          animate={{
-            opacity: scrolled ? 1 : 0,
-            y: scrolled ? 0 : -8,
-            pointerEvents: scrolled ? "auto" : "none",
-          }}
-          transition={{ duration: 0.45, ease: EASE }}
-          className={`absolute left-1/2 hidden -translate-x-1/2 items-center gap-2.5 rounded-full py-1.5 pr-2 pl-1.5 backdrop-blur-md transition-colors duration-500 md:flex ${
-            overPond
-              ? "border border-white/40 bg-white/15"
-              : "border border-ink/10 bg-paper-white"
-          }`}
+          aria-label={`${profile.name}, home`}
+          className="shrink-0 rounded-full"
         >
           <img
             src="/avatar.png"
             alt=""
-            className="h-8 w-8 rounded-full object-cover"
-          />
-          <span
-            className={`font-geist text-body-sm transition-colors duration-500 ${
-              overPond ? "text-white" : "text-ink"
+            width={40}
+            height={40}
+            className={`size-9 rounded-full border object-cover transition-colors duration-500 md:size-10 ${
+              overPond ? "border-white/50" : "border-ink/10"
             }`}
-          >
-            Available for work
-          </span>
-          <span className="relative flex h-4 w-4 items-center justify-center">
-            <motion.span
-              className="absolute inset-0 rounded-full bg-solar-wash"
-              animate={{ scale: [1, 1.55, 1], opacity: [0.75, 0, 0.75] }}
-              transition={{ duration: 2.2, repeat: Infinity, ease: "easeOut" }}
-            />
-            <span className="relative h-2 w-2 rounded-full bg-[#f0c020]" />
-          </span>
-        </motion.a>
+          />
+        </Link>
 
-        <motion.nav
-          animate={{
-            opacity: scrolled ? 0 : 1,
-            y: scrolled ? 8 : 0,
-            pointerEvents: scrolled ? "none" : "auto",
-          }}
-          transition={{ duration: 0.45, ease: EASE }}
-          className="hidden items-center gap-8 md:flex"
-        >
+        <nav className="flex items-center gap-1 md:gap-2">
           {LINKS.map((l) => {
-            // /work/:slug keeps Work lit while reading a case study
-            const isActive = pathname === l.to || pathname.startsWith(`${l.to}/`);
-            const cls = `relative font-geist text-body transition-colors duration-500 ${
-              overPond
-                ? "text-white/90 hover:text-white"
-                : isActive
-                  ? "text-ink"
-                  : "text-graphite hover:text-ink"
-            }`;
-            const label = (
-              <>
-                [&nbsp;{l.label}&nbsp;]
-                {!overPond && isActive && (
-                  <motion.span
-                    layoutId="nav-dot"
-                    className="absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-iris-blue"
-                  />
-                )}
-              </>
-            );
-
+            // /work/:slug keeps Work lit while a case study is open.
+            const isActive =
+              pathname === l.to || pathname.startsWith(`${l.to}/`);
             return (
-              <Link key={l.id} to={l.to} className={cls}>
-                {label}
+              <Link
+                key={l.id}
+                to={l.to}
+                aria-current={isActive ? "page" : undefined}
+                // The active route is ringed rather than merely brighter, so
+                // it survives being read over a busy photograph.
+                className={`font-geist text-body-sm rounded-full border px-4 py-2 transition-colors duration-300 md:text-body ${
+                  overPond
+                    ? isActive
+                      ? "border-white/70 text-white"
+                      : "border-transparent text-white/80 hover:text-white"
+                    : isActive
+                      ? "border-ink/25 text-ink"
+                      : "border-transparent text-graphite hover:text-ink"
+                }`}
+              >
+                {l.label}
               </Link>
             );
           })}
-        </motion.nav>
+        </nav>
 
-        {/* Resume, not "Let's talk": the footer already carries the contact
-            CTA, and the thing someone actually wants from a persistent header
-            is the document. It opens in its own tab rather than downloading,
-            so the site stays where it was and the PDF gets a viewer.
-
-            Same component and same liquid fill as every other button; only the
-            tone changes, because over the pond the header sits on dark water
-            and below it on white. */}
         <LiquidButton
           href={profile.links.resume}
           size="sm"
           tone={overPond ? "light" : "solid"}
+          className="shrink-0"
         >
           Resume
           <ExternalIcon />
         </LiquidButton>
       </div>
-
-      {/* frosted band only once past the pond */}
-      <motion.div
-        aria-hidden
-        animate={{ opacity: scrolled && !overPond ? 1 : 0 }}
-        transition={{ duration: 0.4, ease: EASE }}
-        className="pointer-events-none absolute inset-0 -z-10 bg-white/85 backdrop-blur-md"
-      />
     </motion.header>
   );
 }
