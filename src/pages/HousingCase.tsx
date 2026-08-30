@@ -7,7 +7,6 @@ import { ArrowRightIcon, ExternalIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
 import { themeVars } from "../lib/surfaces";
 import { ProgressRail } from "../components/ProgressRail";
-import { DeviceFrame } from "../components/DeviceFrame";
 import {
   Card,
   Eyebrow,
@@ -25,74 +24,11 @@ import Contact from "../sections/Contact";
  * first screen, the arc summarised before any evidence, then challenge,
  * research, people, the turn, the work, and what it taught.
  *
- * Re-skinned from the Figma file onto this site's system. The persona blocks
- * in particular arrive as roughly thirty stacked SVG fragments (avatar
- * chrome, slider tracks, decorative rules); they are rebuilt as markup so
- * they stay readable, responsive and selectable.
+ * Re-skinned from the Figma file onto this site's system. Where the study has
+ * a designed board (concerns, the channel split, the two personas, the before
+ * and after flows) the board is shown as drawn and its content carried in the
+ * alt, rather than rebuilt as markup that would print the same thing twice.
  */
-
-/** A phone screen with its caption. Used by both halves of the comparison. */
-function Screen({
-  src,
-  title,
-  alt,
-}: {
-  src: string;
-  title: string;
-  alt?: string;
-}) {
-  return (
-    <figure className="m-0">
-      {/* These are phone captures, so they get phone chrome: on a white page
-          a bare screenshot has no edge and reads as a picture of an app
-          rather than as the app. */}
-      <DeviceFrame kind="phone">
-        <img src={src} alt={alt ?? title} loading="lazy" className="block w-full" />
-      </DeviceFrame>
-      <figcaption className="font-geist text-body-sm text-graphite mt-3 text-center">
-        {title}
-      </figcaption>
-    </figure>
-  );
-}
-
-/**
- * Preference split, rebuilt from the study's own figures.
- *
- * The source draws this as icon art with the percentages set as loose text.
- * As bars the comparison is immediate, and each row states its own value so
- * it does not depend on reading a chart.
- */
-function PreferenceBars({ stats }: { stats: { label: string; value: number }[] }) {
-  return (
-    <ul className="space-y-5">
-      {stats.map((s, i) => (
-        <li key={s.label}>
-          <div className="flex items-baseline justify-between gap-4">
-            <span className="font-geist text-body text-ink font-medium">
-              {s.label}
-            </span>
-            <span className="font-serif-display text-ink text-heading-sm leading-none">
-              {s.value}%
-            </span>
-          </div>
-          <div
-            className="bg-ink/[0.06] mt-2.5 h-2 w-full overflow-hidden rounded-full"
-            role="img"
-            aria-label={`${s.label}: ${s.value} percent`}
-          >
-            <div
-              style={{ width: `${s.value}%` }}
-              className={`h-full rounded-full ${
-                i === 0 ? "bg-iris-blue" : "bg-ink/25"
-              }`}
-            />
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 export default function HousingCase() {
   const rail = [
@@ -235,35 +171,19 @@ export default function HousingCase() {
 
             {/* the voices */}
             <Rise className="mt-14">
-              <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16">
-                <div>
-                  <h3 className={TYPE.h3}>
-                    {h.research.concernsTitle}
-                  </h3>
-                  <p className="font-geist text-body text-graphite mt-2">
-                    {h.research.concernsLead}
-                  </p>
-
-                  <ul className="mt-8 grid gap-3 md:grid-cols-2">
-                    {h.research.concerns.map((q) => (
-                      <li key={q}>
-                        <Card className="h-full">
-                          <p className="font-geist text-body text-graphite italic">
-                            “{q}”
-                          </p>
-                        </Card>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <img
-                  src={h.research.illustration}
-                  alt="Two people talking about a property"
-                  loading="lazy"
-                  className="mx-auto w-full max-w-[300px] lg:sticky lg:top-28"
-                />
-              </div>
+              <h3 className={TYPE.h3}>{h.research.concernsTitle}</h3>
+              <p className="font-geist text-body text-graphite mt-2 max-w-2xl">
+                {h.research.concernsLead}
+              </p>
+              {/* The designed board carries all six voices and the
+                  illustration, so both are dropped from the markup rather
+                  than shown twice. */}
+              <img
+                src={h.research.concernsBoard}
+                alt={h.research.concernsBoardAlt}
+                loading="lazy"
+                className="rounded-cards border-ink/[0.08] mt-8 w-full border bg-white"
+              />
             </Rise>
 
             {/* the numbers */}
@@ -281,7 +201,15 @@ export default function HousingCase() {
                       {h.research.statsNote}
                     </p>
                   </div>
-                  <PreferenceBars stats={h.research.stats} />
+                  {/* The figures as they were charted in the study. The split
+                      is also stated in words above, so the reading does not
+                      depend on the picture. */}
+                  <img
+                    src={h.research.statsBoard}
+                    alt={h.research.statsBoardAlt}
+                    loading="lazy"
+                    className="w-full self-center"
+                  />
                 </div>
               </div>
             </Rise>
@@ -300,81 +228,22 @@ export default function HousingCase() {
               />
             </Rise>
 
-            <div className="mt-12 grid gap-4 lg:grid-cols-2">
+            {/* The persona boards as designed: role, demographics, bio,
+                goals, pains and motivations all live inside the artwork, so
+                rebuilding them as markup would print everything twice. The
+                full text of each board is carried in its alt. */}
+            <div className="mt-12 space-y-12">
               {h.personas.people.map((p, i) => (
                 <Rise key={p.name} delay={i * 0.06}>
-                  <Card className="flex h-full flex-col">
-                    <span className="font-geist text-caption text-iris-blue tracking-[0.11em] uppercase">
-                      {p.role}
-                    </span>
-                    <h3 className={`${TYPE.h3} mt-3`}>{p.name}</h3>
-                    <p className="font-geist text-body text-graphite mt-1">
-                      {p.tagline}
-                    </p>
-
-                    <dl className="border-ink/[0.08] mt-6 grid grid-cols-2 gap-x-6 gap-y-3 border-y py-5">
-                      {p.meta.map((m) => (
-                        <div key={m.k}>
-                          <dt className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-                            {m.k}
-                          </dt>
-                          <dd className="font-geist text-body-sm text-ink mt-1">
-                            {m.v}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
-
-                    <p className="font-geist text-body-sm text-graphite mt-5">
-                      {p.bio}
-                    </p>
-
-                    <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                      {[
-                        { k: "Goals and needs", items: p.goals },
-                        { k: "Pain points", items: p.pains },
-                      ].map((col) => (
-                        <div key={col.k}>
-                          <p className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-                            {col.k}
-                          </p>
-                          <ul className="mt-2.5 space-y-2">
-                            {col.items.map((it) => (
-                              <li
-                                key={it}
-                                className="font-geist text-body-sm text-graphite flex gap-2.5"
-                              >
-                                <span aria-hidden className="text-fog">
-                                  ·
-                                </span>
-                                {it}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-6">
-                      <p className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-                        Motivations
-                      </p>
-                      <ul className="mt-2.5 flex flex-wrap gap-2">
-                        {p.motivations.map((m) => (
-                          <li
-                            key={m}
-                            className="border-ink/[0.12] font-geist text-body-sm text-graphite rounded-full border px-3 py-1"
-                          >
-                            {m}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <p className="bg-mist-gray rounded-cards-sm font-geist text-body-sm text-ink mt-auto pt-0">
-                      <span className="block p-4">{p.takeaway}</span>
-                    </p>
-                  </Card>
+                  <img
+                    src={p.board}
+                    alt={p.boardAlt}
+                    loading="lazy"
+                    className="rounded-cards border-ink/[0.08] w-full border bg-white"
+                  />
+                  <p className="font-geist text-body text-ink mt-5 max-w-3xl">
+                    {p.takeaway}
+                  </p>
                 </Rise>
               ))}
             </div>
@@ -428,15 +297,15 @@ export default function HousingCase() {
                   ))}
                 </ul>
 
-                <div
-                  className={`mt-7 grid gap-5 sm:grid-cols-3 ${
-                    half.screens.length > 3 ? "lg:grid-cols-5" : "lg:grid-cols-4"
-                  }`}
-                >
-                  {half.screens.map((s) => (
-                    <Screen key={s.src} src={s.src} title={s.title} />
-                  ))}
-                </div>
+                {/* The designed board: the screens already sit framed and in
+                    sequence on it, so laying them out again as a grid would
+                    only reflow the same picture worse. */}
+                <img
+                  src={half.board}
+                  alt={half.boardAlt}
+                  loading="lazy"
+                  className="rounded-cards border-ink/[0.08] mt-7 w-full border bg-white"
+                />
               </Rise>
             ))}
 

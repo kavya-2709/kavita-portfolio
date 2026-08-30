@@ -43,8 +43,6 @@ export default function Clean4WheelsCase() {
     { id: `section-${c.system.n}`, n: c.system.n, label: c.system.eyebrow },
     { id: `section-${c.learnings.n}`, n: c.learnings.n, label: c.learnings.eyebrow },
   ];
-  const featured = c.booking.steps.filter((s) => "featured" in s && s.featured);
-  const compact = c.booking.steps.filter((s) => !("featured" in s));
 
   return (
     <>
@@ -231,46 +229,17 @@ export default function Clean4WheelsCase() {
               />
             </Rise>
 
-            <div className="mt-12 grid gap-4 md:grid-cols-2">
-              {c.context.gaps.map((g, i) => (
-                <Rise key={g.area} delay={i * 0.05}>
-                  <Card className="h-full">
-                    <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-                      {g.area}
-                    </span>
-                    <h3 className={`${TYPE.h3} mt-3`}>
-                      {g.title}
-                    </h3>
-                    <p className="font-geist text-body text-graphite mt-3">
-                      {g.body}
-                    </p>
-
-                    <dl className="border-ink/[0.08] mt-6 space-y-3 border-t pt-5">
-                      {[
-                        { k: "Pain point", v: g.pain },
-                        { k: "Opportunity", v: g.opportunity },
-                      ].map((row) => (
-                        <div
-                          key={row.k}
-                          className="grid gap-1 sm:grid-cols-[130px_minmax(0,1fr)] sm:gap-4"
-                        >
-                          <dt className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-                            {row.k}
-                          </dt>
-                          <dd className="font-geist text-body-sm text-graphite">
-                            {row.v}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
-
-                    <p className="font-geist text-body-sm text-iris-blue mt-5 font-medium">
-                      Potential impact: {g.impact}
-                    </p>
-                  </Card>
-                </Rise>
-              ))}
-            </div>
+            {/* The designed board, in place of the four cards this section
+                used to rebuild. The conclusion below stays as text: it is the
+                point of the section and should not live only inside a JPEG. */}
+            <Rise className="mt-12">
+              <img
+                src={c.context.board}
+                alt={c.context.boardAlt}
+                loading="lazy"
+                className="rounded-cards border-ink/[0.08] w-full border bg-white"
+              />
+            </Rise>
 
             <Rise className="mt-8">
               <div className="border-ink/[0.08] rounded-cards-sm border bg-white p-7 md:p-9">
@@ -456,54 +425,15 @@ export default function Clean4WheelsCase() {
                 {c.discovery.benchmark.title}
               </h3>
 
-              <div
-                role="region"
-                aria-label="Competitive benchmark"
-                tabIndex={0}
-                className="mt-6 -mx-6 overflow-x-auto px-6 md:mx-0 md:px-0"
-              >
-                <table className="w-full min-w-[720px] border-collapse text-left">
-                  <thead>
-                    <tr className="border-ink/[0.12] border-b">
-                      {c.discovery.benchmark.columns.map((h) => (
-                        <th
-                          key={h}
-                          scope="col"
-                          className="font-geist text-caption text-fog px-3 py-3 font-medium tracking-[0.11em] uppercase first:pl-0 last:pr-0"
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {c.discovery.benchmark.rows.map((r) => (
-                      <tr
-                        key={r.feature}
-                        className="border-ink/[0.06] border-b align-top"
-                      >
-                        <th
-                          scope="row"
-                          className="font-geist text-body-sm text-ink px-3 py-4 pl-0 text-left font-medium"
-                        >
-                          {r.feature}
-                        </th>
-                        {/* Words, not symbols: a bare ✓/✗/◑ is unreadable to
-                            a screen reader and ambiguous to everyone else. */}
-                        <td className="font-geist text-body-sm text-graphite px-3 py-4">
-                          {MARK[r.ours]}
-                        </td>
-                        <td className="font-geist text-body-sm text-graphite px-3 py-4">
-                          {MARK[r.theirs]}
-                        </td>
-                        <td className="font-geist text-body-sm text-graphite px-3 py-4 pr-0">
-                          {r.opportunity}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              {/* The designed comparison matrix. It replaces a rebuilt table;
+                  the three findings and the closing gap line stay as text,
+                  because those are the argument, not the artwork. */}
+              <img
+                src={c.discovery.benchmark.board}
+                alt={c.discovery.benchmark.boardAlt}
+                loading="lazy"
+                className="rounded-cards border-ink/[0.08] mt-6 w-full border bg-white"
+              />
 
               <div className="mt-8 grid gap-4 md:grid-cols-3">
                 {c.discovery.benchmark.notes.map((n) => (
@@ -597,86 +527,38 @@ export default function Clean4WheelsCase() {
                 lead={c.booking.lead}
               />
             </Rise>
+            {/* The designed flow, end to end. It replaces the rebuilt step
+                blocks; the decision behind each step stays as text below, so
+                the reasoning is still readable and searchable rather than
+                living only inside the artwork. */}
+            <Rise className="mt-14">
+              <img
+                src={c.booking.board}
+                alt={c.booking.boardAlt}
+                loading="lazy"
+                className="rounded-cards border-ink/[0.08] w-full border bg-white"
+              />
+            </Rise>
 
-            {/* Six steps given equal weight read as six equally easy
-                decisions, which hides the judgement. The three that carry the
-                argument get the full treatment; the rest are summarised, so
-                the journey stays complete without flattening it. */}
-            <div className="mt-14 space-y-16 md:space-y-24">
-              {featured.map((s, i) => (
-                <Rise key={s.n}>
-                  <div
-                    className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-16 ${
-                      i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-                    }`}
-                  >
-                    <DeviceFrame kind="browser">
-                      <img
-                        src={s.image}
-                        alt={`Booking step ${s.n}, ${s.title}`}
-                        loading="lazy"
-                        className="block w-full"
-                      />
-                    </DeviceFrame>
-
-                    <div>
-                      <span className="font-geist text-caption text-fog tracking-[0.11em] uppercase">
-                        Booking · step {s.n} of 06
+            <Rise className="mt-12">
+              <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {c.booking.steps.map((s) => (
+                  <li key={s.n}>
+                    <Card className="h-full">
+                      <span className="font-geist text-caption tracking-[0.11em] uppercase text-[color:var(--brand)]">
+                        Step {s.n}
                       </span>
-                      <h3 className={`${TYPE.h3} mt-3`}>
-                        {s.title}
-                      </h3>
-
-                      <dl className="mt-7 space-y-5">
-                        {[
-                          { k: "Why", v: s.why },
-                          { k: "Decision", v: s.decision },
-                          { k: "Outcome", v: s.outcome },
-                        ].map((row) => (
-                          <div key={row.k}>
-                            <dt className="font-geist text-caption text-iris-blue tracking-[0.11em] uppercase">
-                              {row.k}
-                            </dt>
-                            <dd className="font-geist text-body text-graphite mt-1.5">
-                              {row.v}
-                            </dd>
-                          </div>
-                        ))}
-                      </dl>
-                    </div>
-                  </div>
-                </Rise>
-              ))}
-            </div>
-
-            <Rise className="mt-16">
-              <p className="font-geist text-body-sm text-fog tracking-[0.11em] uppercase">
-                The other three steps
-              </p>
-              <div className="mt-6 grid gap-4 md:grid-cols-3">
-                {compact.map((s) => (
-                  <Card key={s.n} className="flex h-full flex-col">
-                    <img
-                      src={s.image}
-                      alt={`Booking step ${s.n}, ${s.title}`}
-                      loading="lazy"
-                      className="rounded-cards-sm border-ink/[0.08] w-full border"
-                    />
-                    <span className="font-geist text-caption text-fog mt-5 tracking-[0.11em] uppercase">
-                      Step {s.n}
-                    </span>
-                    <h3 className={`${TYPE.h3} mt-1.5`}>
-                      {s.title}
-                    </h3>
-                    <p className="font-geist text-body-sm text-graphite mt-3">
-                      {s.decision}
-                    </p>
-                    <p className="font-geist text-body-sm text-iris-blue mt-auto pt-4">
-                      {s.outcome}
-                    </p>
-                  </Card>
+                      <h3 className={`${TYPE.h3} mt-2`}>{s.title}</h3>
+                      <p className="font-geist text-body-sm text-graphite mt-3">
+                        {s.decision}
+                      </p>
+                      <p className="font-geist text-body-sm mt-3 text-[color:var(--brand)]">
+                        {s.outcome}
+                      </p>
+                    </Card>
+                  </li>
                 ))}
-              </div>
+              </ol>
             </Rise>
           </Container>
         </section>
@@ -716,31 +598,14 @@ export default function Clean4WheelsCase() {
           <Container>
             <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
               <Rise>
-                <div className="grid gap-4">
-                  {/* The dashboard is a desktop tool; the two field screens
-                      are the valet's phone. Framing them differently is what
-                      says so without a caption. */}
-                  <DeviceFrame kind="browser">
-                    <img
-                      src={c.platform.images[0]}
-                      alt="Manager dashboard showing live service status"
-                      loading="lazy"
-                      className="block w-full"
-                    />
-                  </DeviceFrame>
-                  <div className="grid grid-cols-2 gap-4">
-                    {c.platform.images.slice(1).map((src, i) => (
-                      <DeviceFrame key={src} kind="phone">
-                        <img
-                          src={src}
-                          alt={`Valet field app screen ${i + 1}`}
-                          loading="lazy"
-                          className="block w-full"
-                        />
-                      </DeviceFrame>
-                    ))}
-                  </div>
-                </div>
+                {/* The designed platform board, in place of the three
+                    separate screenshots this section used to stack. */}
+                <img
+                  src={c.platform.board}
+                  alt={c.platform.boardAlt}
+                  loading="lazy"
+                  className="rounded-cards border-ink/[0.08] w-full border bg-white"
+                />
               </Rise>
 
               <Rise delay={0.08}>
@@ -844,12 +709,6 @@ export default function Clean4WheelsCase() {
   );
 }
 
-/** Benchmark cell wording. Spelled out rather than tick/cross glyphs. */
-const MARK: Record<string, string> = {
-  yes: "Yes",
-  no: "No",
-  partial: "Partial",
-};
 
 /** The research methods an insight came from. */
 function Sources({ items }: { items: string[] }) {

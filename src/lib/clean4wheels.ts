@@ -149,6 +149,10 @@ export const clean4Wheels = {
         impact: "15% more revenue per user",
       },
     ],
+    /** The designed four-quadrant board, replacing the rebuilt cards. */
+    board: "/work/clean4wheels/business-context.webp",
+    boardAlt:
+      "Operational gaps across four areas: customer experience, operations management, field workforce and business growth, each with its pain point, opportunity and potential impact",
     realisationLabel: "Core realisation",
     realisation:
       "Every stakeholder experienced a different symptom, but each issue originated from the same root cause: disconnected information flow across the service lifecycle.",
@@ -268,6 +272,9 @@ export const clean4Wheels = {
     benchmark: {
       label: "3.4 Competitive benchmark",
       title: "The market gap that became the product's differentiator",
+      board: "/work/clean4wheels/competitive-analysis.webp",
+      boardAlt:
+        "Competitive matrix comparing Clean4Wheels against competitors on guided booking, package comparison, saved addresses, real-time slots, service tracking and photo proof",
       columns: ["Feature", "Clean4Wheels", "Competitors", "Opportunity"],
       /** `has` values: "yes" | "no" | "partial", rendered as a legend-backed mark. */
       rows: [
@@ -370,6 +377,9 @@ export const clean4Wheels = {
     n: "5",
     eyebrow: "Booking redesign",
     title: "Designing for decisions, not forms",
+    board: "/work/clean4wheels/booking-flow.webp",
+    boardAlt:
+      "The redesigned six-step booking flow end to end, from vehicle context through location, package, scheduling and review to the post-booking tracking loop",
     lead: "The booking journey was optimised for collecting information rather than helping users make confident decisions. I reframed it as a six-decision journey.",
     steps: [
       {
@@ -457,6 +467,9 @@ export const clean4Wheels = {
     n: "7",
     eyebrow: "Cleaner platform",
     title: "The valet is a user, not an admin",
+    board: "/work/clean4wheels/cleaner-platform.webp",
+    boardAlt:
+      "The valet and manager platform: daily assignments, booking status, photo verification and the operational dashboard",
     lead: "Valets and managers were treated as primary users, not admin accounts. Their daily efficiency was what the customer ultimately felt.",
     images: [
       "/work/clean4wheels/valet-dashboard.webp",

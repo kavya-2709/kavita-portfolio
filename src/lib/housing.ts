@@ -99,6 +99,9 @@ export const housing = {
     lead: "Through a dual lens of numbers and narratives, I looked at both the scale of the frustration and the emotion driving it, so the solution would be data-backed and still recognisably human.",
     concernsTitle: "Concerns that shape design",
     concernsLead: "Real voices reveal the everyday frustrations of people navigating property conversations.",
+    concernsBoard: "/work/housing-chats/concerns.webp",
+    concernsBoardAlt:
+      "Six recorded user concerns about waiting for replies, being forced to call, lack of expressive replies, spam enquiries, sharing a phone number, and losing track of which property a chat refers to",
     illustration: "/work/housing-chats/illustration.webp",
     concerns: [
       "Why do I have to wait so long for responses or repeat the same questions again and again?",
@@ -110,6 +113,9 @@ export const housing = {
     ],
     statsTitle: "Connecting the dots with data",
     statsLead: "Every number adds context. Together these outline the shift toward safer, more expressive digital conversations.",
+    statsBoard: "/work/housing-chats/data.webp",
+    statsBoardAlt:
+      "Channel preference split: in-app chat 62 percent, messaging apps 23 percent, direct calls 15 percent",
     stats: [
       { label: "In-app chat", value: 62 },
       { label: "Messaging apps", value: 23 },
@@ -147,6 +153,9 @@ export const housing = {
           "Direct calls feel intrusive, especially during work hours.",
         ],
         motivations: ["Privacy and security", "Speed of response", "Price"],
+        board: "/work/housing-chats/persona-renter.webp",
+        boardAlt:
+          "Persona board for Rohan Mehta, 28, IT consultant in Bangalore on 8 to 10 lakh a year. Goals: find a 1BHK quickly within budget, keep all property details in one place, and reach sellers instantly. Pains: his number being shared with strangers, repeating the same questions about rent and amenities, and intrusive calls during work hours. Motivated by privacy and security, speed of response, and price.",
         takeaway:
           "Designing for Rohan means a secure, intuitive channel where he can browse, connect and decide with confidence.",
       },
@@ -171,6 +180,9 @@ export const housing = {
           "Hesitant to share her mobile number publicly due to privacy risks.",
         ],
         motivations: ["Quick deals", "Engagement with buyers", "Privacy and security"],
+        board: "/work/housing-chats/persona-seller.webp",
+        boardAlt:
+          "Persona board for Neha Sharma, 34, property owner renting for extra income. Goals: reach genuine buyers without spam calls, stop repeating property details, and present the listing clearly. Pains: explaining the same features over and over, non-serious enquiries, and hesitancy about sharing her number publicly. Motivated by quick deals, buyer engagement, and privacy and security.",
         takeaway:
           "Designing for Neha means a streamlined, trustworthy experience that cuts her effort while increasing meaningful engagement.",
       },
@@ -193,6 +205,9 @@ export const housing = {
         "WhatsApp takes users out of the app.",
         "Contact exposes the user to unwanted calls.",
       ],
+      board: "/work/housing-chats/old-ui.webp",
+      boardAlt:
+        "The old Housing.com flow across five screens: a listing with no welcome or direction, a call-first contact prompt, a bare chat interface, a contact sheet offering phone and WhatsApp, and the property listing itself. Every route out of the listing asks the user to give up a phone number.",
       screens: [
         { src: "/work/housing-chats/before-1.webp", title: "No welcome, no direction" },
         { src: "/work/housing-chats/before-2.webp", title: "Forced to call" },
@@ -208,6 +223,9 @@ export const housing = {
         "Property context stays visible throughout the conversation.",
         "Expressive replies reduce friction and keep users inside the app.",
       ],
+      board: "/work/housing-chats/new-ui.webp",
+      boardAlt:
+        "The redesigned flow across four screens: search your way, know before you go, conversations made simple with property context pinned above the thread, and action at first sight. Chat happens inside the app, with stickers and quick replies, and no number is exchanged.",
       screens: [
         { src: "/work/housing-chats/after-1.webp", title: "Search your way" },
         { src: "/work/housing-chats/after-2.webp", title: "Know before you go" },
