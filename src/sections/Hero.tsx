@@ -26,8 +26,11 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, ease: EASE }}
-        className="relative w-full overflow-hidden"
-        style={{ height: "100svh" }}
+        // Short of a full viewport on phones so the section below shows at
+        // the bottom edge — a full-height hero on a small screen reads as the
+        // entire page, with nothing to signal there is more under it.
+        // Full height from md up, where that signal isn't needed.
+        className="relative h-[76svh] w-full overflow-hidden sm:h-[86svh] md:h-[100svh]"
       >
         {/* The canvas itself fades to transparent at the bottom, so the page
             gradient shows THROUGH it. Matching a colour by hand left a faint

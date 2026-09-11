@@ -468,6 +468,10 @@ export default function Pond({
       const [x, y] = toSim(e);
       drop(field, x, y, 10, 1.3);
     }
+    // pointercancel matters on touch: the browser fires it the moment a drag
+    // is claimed as a scroll. Without the reset, the next touch anywhere on
+    // the canvas would interpolate drops all the way from the abandoned
+    // point and draw a streak across the water.
     const onLeave = () => { lastX = -1; lastY = -1; };
 
     layout();
@@ -480,6 +484,7 @@ export default function Pond({
       canvas.addEventListener("pointermove", onMove);
       canvas.addEventListener("pointerdown", onDown);
       canvas.addEventListener("pointerleave", onLeave);
+      canvas.addEventListener("pointercancel", onLeave);
     }
 
     const ro = new ResizeObserver(layout);
@@ -509,6 +514,7 @@ export default function Pond({
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointerleave", onLeave);
+      canvas.removeEventListener("pointercancel", onLeave);
     };
   }, []);
 
@@ -517,7 +523,12 @@ export default function Pond({
       ref={canvasRef}
       aria-hidden="true"
       style={style}
-      className={`block h-full w-full touch-none ${className}`}
+      // `touch-action: pan-y`, NOT `none`. With `none` the canvas swallowed
+      // every touch gesture, so on a phone the hero could be rippled but the
+      // page could not be scrolled past it at all. `pan-y` hands vertical
+      // drags back to the browser as scrolls; taps and sideways drags still
+      // reach the water.
+      className={`block h-full w-full touch-pan-y ${className}`}
     />
   );
 }
