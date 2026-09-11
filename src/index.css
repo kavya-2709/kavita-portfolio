@@ -112,6 +112,14 @@
   to { transform: translateX(-50%); }
 }
 
+/* Cloud bands in the footer sky. Same trick as `marquee`: the element is
+   twice its container and holds two identical tiles, so translating it
+   exactly -50% lands tile 2 where tile 1 began and the loop is seamless. */
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-14px) rotate(3deg); }
