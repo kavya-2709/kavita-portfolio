@@ -34,9 +34,11 @@ export default function Nav() {
     const onScroll = () => {
       setScrolled(window.scrollY > 24);
       const hero = document.getElementById("hero");
-      const pondBottom = hero
-        ? hero.getBoundingClientRect().top + window.innerHeight
-        : 0;
+      // Measure the hero's own bottom rather than assuming it is one viewport
+      // tall. It isn't on phones, where the pond is deliberately shorter, and
+      // assuming 100vh left the header in its white-over-water state well
+      // after the water had scrolled away.
+      const pondBottom = hero ? hero.getBoundingClientRect().bottom : 0;
       setOverPond(pondBottom > 96);
     };
     onScroll();
