@@ -135,6 +135,9 @@ export function LiquidButton({
   to,
   href,
   as,
+  onClick,
+  disabled = false,
+  ariaLabel,
   tone = "outline",
   size = "md",
   download = false,
@@ -145,6 +148,14 @@ export function LiquidButton({
   href?: string;
   /** For cards that are already a link: an anchor inside an anchor is invalid. */
   as?: "span";
+  /**
+   * Makes this a real `<button>`. The playground needs undo, clear and post,
+   * which are actions rather than destinations, and a link that goes nowhere
+   * is the wrong element for a keyboard or a screen reader.
+   */
+  onClick?: () => void;
+  disabled?: boolean;
+  ariaLabel?: string;
   tone?: Tone;
   size?: "sm" | "md";
   download?: boolean;
@@ -170,6 +181,19 @@ export function LiquidButton({
       </span>
     </>
   );
+
+  if (onClick)
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        disabled={disabled}
+        aria-label={ariaLabel}
+        className={`${cls} disabled:pointer-events-none disabled:opacity-40`}
+      >
+        {inner}
+      </button>
+    );
 
   if (as === "span" || (!to && !href))
     return <span className={cls}>{inner}</span>;

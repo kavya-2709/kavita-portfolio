@@ -34,3 +34,6 @@ CV Video.mp4
 # unrecoverable, but outside public/ so it never reaches dist, and
 # untracked so it never reaches GitHub.
 assets-source/
+
+# TypeScript incremental build state
+*.tsbuildinfo

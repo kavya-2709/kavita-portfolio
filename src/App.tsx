@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import CaseStudy from "./sections/CaseStudy";
 import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
@@ -26,6 +26,14 @@ import Contact from "./sections/Contact";
 const Clean4WheelsCase = lazy(() => import("./pages/Clean4WheelsCase"));
 const NioCase = lazy(() => import("./pages/NioCase"));
 const HousingCase = lazy(() => import("./pages/HousingCase"));
+
+/**
+ * The playground carries a canvas and its own drawing logic, and the
+ * moderation view is for one person. Neither belongs in the bundle served to
+ * someone who came to read a case study.
+ */
+const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
+const PlaygroundAdmin = lazy(() => import("./pages/PlaygroundAdmin"));
 
 function Home() {
   return (
@@ -63,12 +71,13 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
-              {/* Playground is a section of Work now. The old route redirects
-                  rather than 404s, since it was linked from the work index. */}
-              <Route
-                path="/playground"
-                element={<Navigate to="/work" replace />}
-              />
+              {/* `/playground` is a real page again, but a different thing
+                  from the section that used to live here: that one was the
+                  motion reel, which stays at the foot of Work. This is the
+                  wall visitors draw on. */}
+              <Route path="/playground" element={<PlaygroundPage />} />
+              {/* Not linked from anywhere. Kavita's moderation view. */}
+              <Route path="/playground/admin" element={<PlaygroundAdmin />} />
               <Route path="/work" element={<WorkPage />} />
               {/* All three case studies are written. The :slug scaffold below
                 is now only a fallback for an unknown slug. */}

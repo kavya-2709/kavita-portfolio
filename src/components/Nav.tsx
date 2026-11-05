@@ -21,6 +21,7 @@ import { profile } from "../lib/content";
 const LINKS = [
   { id: "work", label: "Work", to: "/work" },
   { id: "about", label: "About", to: "/about" },
+  { id: "playground", label: "Playground", to: "/playground" },
 ] as const;
 
 export default function Nav() {
@@ -67,17 +68,29 @@ export default function Nav() {
         // outside the pill; at 320px it hung 63px out. Spanning the width and
         // spacing the contents apart means the capsule can never be narrower
         // than what it holds.
-        className={`pointer-events-auto mx-auto flex w-full items-center justify-between gap-1.5 rounded-full border p-1.5 transition-colors duration-500 sm:w-fit sm:justify-start sm:gap-2 sm:p-2 md:gap-3 ${
+        //
+        // With a third route the contents stopped fitting one phone row at
+        // all: avatar, three labels and Resume need about 400px at 360px wide.
+        // So on a phone the capsule is two rows, avatar and Resume on the
+        // first and the routes on the second, which keeps every destination
+        // visible rather than hiding them behind a menu tap. From sm up the
+        // wrapper dissolves with `contents` and it is one row again, exactly
+        // as before.
+        className={`pointer-events-auto mx-auto flex w-full flex-col items-stretch gap-1.5 rounded-3xl border p-1.5 transition-colors duration-500 sm:w-fit sm:flex-row sm:items-center sm:justify-start sm:gap-2 sm:rounded-full sm:p-2 md:gap-3 ${
           overPond
             ? "border-white/40 bg-white/15 backdrop-blur-md"
             : "border-ink/10 bg-paper-white/90 backdrop-blur-md"
         }`}
       >
+        {/* Phone row one. `sm:contents` dissolves this wrapper above the
+            breakpoint so the avatar and Resume become direct flex children
+            again and `order` puts them back either side of the middle. */}
+        <div className="flex items-center justify-between gap-2 sm:contents">
         {/* Avatar doubles as the home link, which is what the wordmark did. */}
         <Link
           to="/"
           aria-label={`${profile.name}, home`}
-          className="shrink-0 rounded-full"
+          className="shrink-0 rounded-full sm:order-1"
         >
           <img
             src="/avatar.webp"
@@ -90,6 +103,17 @@ export default function Nav() {
           />
         </Link>
 
+        <LiquidButton
+          href={profile.links.resume}
+          size="sm"
+          tone={overPond ? "light" : "solid"}
+          className="shrink-0 sm:order-3"
+        >
+          Resume
+          <ExternalIcon />
+        </LiquidButton>
+        </div>
+
         {/*
           The middle of the capsule swaps as you scroll: routes at the top of
           the page, the availability pill once you are into it.
@@ -99,7 +123,7 @@ export default function Nav() {
           and whichever is hidden loses pointer events and is taken out of the
           accessibility tree, so nothing invisible is still tabbable.
         */}
-        <div className="grid">
+        <div className="grid sm:order-2">
           <nav
             aria-hidden={scrolled}
             className={`col-start-1 row-start-1 flex items-center justify-center gap-1 transition-opacity duration-500 md:gap-2 ${
@@ -160,16 +184,6 @@ export default function Nav() {
             </span>
           </a>
         </div>
-
-        <LiquidButton
-          href={profile.links.resume}
-          size="sm"
-          tone={overPond ? "light" : "solid"}
-          className="shrink-0"
-        >
-          Resume
-          <ExternalIcon />
-        </LiquidButton>
       </div>
     </motion.header>
   );

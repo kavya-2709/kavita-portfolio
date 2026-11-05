@@ -545,6 +545,49 @@ export const playground = {
   reelLabel: "Interface motion reel",
 };
 
+/**
+ * The visitor wall at `/playground`.
+ *
+ * Separate from `playground` above, which is the motion reel that closes
+ * `/work`. This is the drawable page: a pad anyone can sketch on and a wall
+ * of what everyone has left. Drawings appear the moment they are posted and
+ * are removed from `/playground/admin`.
+ */
+export const sketchwall = {
+  badge: "Playground",
+  title: "Draw something,",
+  titleAccent: "leave it here.",
+  lead: "A pen, a blank page and a wall underneath it. Make whatever you like and post it, and it joins everything else people have drawn here.",
+
+  canvasLabel: "Drawing pad",
+  colourLabel: "Pen colour",
+  sizeLabel: "Nib size",
+  eraser: "Eraser",
+  undo: "Undo",
+  clear: "Clear",
+  post: "Post to the wall",
+  posting: "Posting",
+  signLabel: "Sign it",
+  signPlaceholder: "Your name",
+  hint: "Draw something first",
+
+  wallTitle: "The wall",
+  wallEmpty: "Nothing on the wall yet. Draw the first one",
+  wallLoading: "Loading the wall",
+  wallError: "The wall could not be loaded just now. The drawing pad above still works",
+  postError: "That drawing could not be posted. Have another go in a moment",
+  anonymous: "Anonymous",
+
+  adminTitle: "Moderation",
+  adminLead: "Everything on the wall, newest first. Removing one is immediate and cannot be undone.",
+  adminKeyLabel: "Moderation key",
+  adminUnlock: "Unlock",
+  adminDelete: "Delete",
+  adminDeleting: "Deleting",
+  adminWrongKey: "That key was not accepted",
+  adminEmpty: "Nothing posted yet",
+};
+
 export const skills = {
   "UX Design": [
     "User Research", "Design Thinking", "Journey Mapping", "UX Metrics & Validation",
