@@ -532,8 +532,13 @@ export const playground = {
    * pacing, so a caption under every frame would be describing motion the
    * viewer is watching happen.
    *
-   * Re-encoded to WebM in the browser: 13.6MB of MP4 became 1.7MB. The
-   * source stays in `assets-source/playground/`.
+   * 1280x720, 10s, 10.8MB of WebM. It is heavy, which is why `Reel` leaves
+   * `preload="none"` and only attaches `src` once the section is within
+   * 600px of the viewport. Source stays in `assets-source/playground/`.
+   *
+   * The poster is frame 0 of this exact file, not a chosen frame: it has to
+   * match what the video shows on its first painted frame, or the clip
+   * visibly jumps the moment playback starts.
    */
   reel: "/work/playground/animation-rail.webm",
   reelPoster: "/work/playground/animation-rail-poster.webp",
