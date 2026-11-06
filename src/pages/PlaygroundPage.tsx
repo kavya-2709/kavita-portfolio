@@ -27,7 +27,16 @@ import Contact from "../sections/Contact";
  */
 export default function PlaygroundPage() {
   const [drawings, setDrawings] = useState<Drawing[] | null>(null);
-  const [wallError, setWallError] = useState<string | null>(null);
+  /**
+   * Whether the wall has somewhere to live.
+   *
+   * Until a Blob store is connected in Vercel the API answers 503, and a
+   * visitor should not be shown an error about infrastructure they do not
+   * have. The wall simply does not appear: the pad takes the full width and
+   * the page reads as a sketch pad that happens to have no gallery yet.
+   * Connect the store and the wall returns on its own.
+   */
+  const [wallUp, setWallUp] = useState(true);
   const [posting, setPosting] = useState(false);
   const [postError, setPostError] = useState<string | null>(null);
 
@@ -42,7 +51,7 @@ export default function PlaygroundPage() {
         if (alive) setDrawings(list);
       } catch {
         if (!alive) return;
-        setWallError(copy.wallError);
+        setWallUp(false);
         setDrawings([]);
       }
     })();
@@ -117,7 +126,9 @@ export default function PlaygroundPage() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
-            className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14"
+            className={`mt-12 grid gap-10 lg:gap-14 ${
+              wallUp ? "lg:grid-cols-2" : ""
+            }`}
           >
             <div>
               <DrawCanvas onPost={handlePost} posting={posting} />
@@ -131,6 +142,7 @@ export default function PlaygroundPage() {
               ) : null}
             </div>
 
+            {wallUp ? (
             <div className="flex min-w-0 flex-col">
               <div className="flex items-baseline justify-between gap-4">
                 <h2 className={TYPE.h3}>{copy.wallTitle}</h2>
@@ -143,8 +155,6 @@ export default function PlaygroundPage() {
 
               {drawings === null ? (
                 <p className={`${TYPE.small} mt-6`}>{copy.wallLoading}</p>
-              ) : wallError ? (
-                <p className={`${TYPE.small} mt-6`}>{wallError}</p>
               ) : drawings.length === 0 ? (
                 <p className={`${TYPE.small} mt-6`}>{copy.wallEmpty}</p>
               ) : (
@@ -176,6 +186,7 @@ export default function PlaygroundPage() {
                 </ul>
               )}
             </div>
+            ) : null}
           </motion.div>
         </Container>
 
