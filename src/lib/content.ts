@@ -545,6 +545,102 @@ export const playground = {
   reelLabel: "Interface motion reel",
 };
 
+/**
+ * The visitor wall at `/playground`.
+ *
+ * Separate from `playground` above, which is the motion reel that closes
+ * `/work`. This is the drawable page: a pad anyone can sketch on and a wall
+ * of what everyone has left. Drawings appear the moment they are posted and
+ * are removed from `/playground/admin`.
+ */
+/**
+ * AI explorations on `/fun`.
+ *
+ * Each one is framed as the question it started from rather than as a brag,
+ * which is the point of the layout: the heading's last word and the open
+ * question both follow whichever card you are looking at.
+ *
+ * The screenshots were captured from the live sites and are the weakest part
+ * of this: they are 717px wide, which is fine at thumbnail size and soft on a
+ * retina display at hero size. Replace them with full-resolution exports.
+ * The wording below is a first draft in Kavita's voice and is meant to be
+ * rewritten by her.
+ */
+export const explorations = {
+  eyebrow: "Explorations",
+  headingBefore: "Small things I build to understand people's",
+  lead: "Weekends and evenings, mostly built with AI in the loop. Each one started as a question I could not stop poking at, and each one is live if you want to try it.",
+  liveCta: "Live site",
+  items: [
+    {
+      id: "jalal",
+      tag: "memory",
+      question:
+        "How might a year of someone's life be something you walk through, rather than scroll past?",
+      title: "I built a little 3D world you walk through to replay a year.",
+      meta: "Solo, 2026",
+      hero: "/work/fun/jalal-hero.webp",
+      heroAlt:
+        "A night-time 3D camp scene with a signpost reading Jalal's Camp, 0.2 km",
+      thumbs: [
+        { src: "/work/fun/jalal-walk.webp", alt: "The character and the cat waiting by the signpost" },
+        { src: "/work/fun/jalal-intro.webp", alt: "The opening card: one year of Jalal, let's replay it" },
+      ],
+      live: "https://jalal-camp.vercel.app/",
+    },
+    {
+      id: "little-wins",
+      tag: "momentum",
+      question:
+        "How might someone notice what they did get done, on the days it feels like nothing happened?",
+      title: "I built a jar for the small wins people forget they had.",
+      meta: "Solo, 2026",
+      hero: "/work/fun/wins-hero.webp",
+      heroAlt:
+        "The Little Wins sign-in card: track what you forget, celebrate what you do",
+      thumbs: [
+        { src: "/work/fun/wins-phone.webp", alt: "Little Wins on a phone" },
+      ],
+      live: "https://little-wins-jar.vercel.app/",
+    },
+  ],
+};
+
+export const sketchwall = {
+  badge: "Fun",
+  title: "Draw something,",
+  titleAccent: "leave it here.",
+  lead: "A pen, a blank page and a wall underneath it. Make whatever you like and post it, and it joins everything else people have drawn here.",
+
+  canvasLabel: "Drawing pad",
+  colourLabel: "Pen colour",
+  sizeLabel: "Nib size",
+  eraser: "Eraser",
+  undo: "Undo",
+  clear: "Clear",
+  post: "Post to the wall",
+  posting: "Posting",
+  signLabel: "Sign it",
+  signPlaceholder: "Your name",
+  hint: "Draw something first",
+
+  wallTitle: "The wall",
+  wallEmpty: "Nothing on the wall yet. Draw the first one",
+  wallLoading: "Loading the wall",
+  wallError: "The wall could not be loaded just now. The drawing pad above still works",
+  postError: "That drawing could not be posted. Have another go in a moment",
+  anonymous: "Anonymous",
+
+  adminTitle: "Moderation",
+  adminLead: "Everything on the wall, newest first. Removing one is immediate and cannot be undone.",
+  adminKeyLabel: "Moderation key",
+  adminUnlock: "Unlock",
+  adminDelete: "Delete",
+  adminDeleting: "Deleting",
+  adminWrongKey: "That key was not accepted",
+  adminEmpty: "Nothing posted yet",
+};
+
 export const skills = {
   "UX Design": [
     "User Research", "Design Thinking", "Journey Mapping", "UX Metrics & Validation",

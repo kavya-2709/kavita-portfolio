@@ -32,13 +32,29 @@ Scripts: `dev` (port 5173), `build` (`tsc -b && vite build`), `preview`, `lint`,
 | `/work/clean4wheels` | Built | `pages/Clean4WheelsCase.tsx` |
 | `/work/niopractice` | Built | `pages/NioCase.tsx` |
 | `/work/housing` | Built | `pages/HousingCase.tsx` |
-| `/playground` | Redirect | Now a section of `/work`; the old path redirects rather than 404s |
+| `/playground` | Built | The visitor drawing wall. `pages/PlaygroundPage.tsx`. Not the motion reel, which is still a section of `/work` |
+| `/playground/admin` | Built | Moderation. Unlinked, key-gated. `pages/PlaygroundAdmin.tsx` |
 | `/work/:slug` | Fallback | Generic scaffold, reached only by an unknown slug |
 
-**Nav is two items, Work and About.** Playground had its own route and its own
-top-level slot for a page that is one section long, which sent people looking for
-case studies down a second path. It now closes `/work`, keeping its `#playground`
-id so `/work#playground` still lands on it.
+**Nav is three items, Work, About and Playground.** The motion reel still closes
+`/work` and keeps its `#playground` id, so `/work#playground` still lands on it.
+What `/playground` means now is different: a page visitors draw on, which is a
+destination in its own right rather than a second path to the case studies.
+
+The third label stopped the capsule fitting one phone row (avatar, three labels
+and Resume need about 400px at 360px wide), so below `sm` the capsule is two
+rows, avatar and Resume on the first and the routes on the second. From `sm` up
+a `contents` wrapper dissolves and it is one row again.
+
+**The visitor wall has a backend**, the site's first. `api/drawings.ts` is an edge
+function over Vercel Blob with no database: everything the wall needs is encoded
+in the blob pathname, `playground/<epoch-ms>__<id>__<name>.png`. It needs two
+things set in the Vercel dashboard, a Blob store (which provides
+`BLOB_READ_WRITE_TOKEN`) and `PLAYGROUND_ADMIN_KEY`. Without them the API answers
+503 and the page degrades to a working pad with an unavailable wall.
+
+`vercel.json` rewrites everything **except `/api/`** to `index.html`. Dropping that
+exclusion makes every API call return the HTML shell instead.
 
 `/work` runs: **Selected work** (same heading, words and card surfaces as the
 homepage section, listed flat instead of stacked) → **Also shipped** (`liveWork`,

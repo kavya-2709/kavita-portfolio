@@ -27,6 +27,14 @@ const Clean4WheelsCase = lazy(() => import("./pages/Clean4WheelsCase"));
 const NioCase = lazy(() => import("./pages/NioCase"));
 const HousingCase = lazy(() => import("./pages/HousingCase"));
 
+/**
+ * The playground carries a canvas and its own drawing logic, and the
+ * moderation view is for one person. Neither belongs in the bundle served to
+ * someone who came to read a case study.
+ */
+const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
+const PlaygroundAdmin = lazy(() => import("./pages/PlaygroundAdmin"));
+
 function Home() {
   return (
     <>
@@ -63,12 +71,15 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
-              {/* Playground is a section of Work now. The old route redirects
-                  rather than 404s, since it was linked from the work index. */}
-              <Route
-                path="/playground"
-                element={<Navigate to="/work" replace />}
-              />
+              {/* The self-directed half of the site, called Fun rather than
+                  Playground: the word the work itself is about. The files are
+                  still named Playground* internally. */}
+              <Route path="/fun" element={<PlaygroundPage />} />
+              {/* Not linked from anywhere. Kavita's moderation view. */}
+              <Route path="/fun/admin" element={<PlaygroundAdmin />} />
+              {/* `/playground` was a real URL before this, redirecting to
+                  Work. It now points at what replaced it. */}
+              <Route path="/playground" element={<Navigate to="/fun" replace />} />
               <Route path="/work" element={<WorkPage />} />
               {/* All three case studies are written. The :slug scaffold below
                 is now only a fallback for an unknown slug. */}

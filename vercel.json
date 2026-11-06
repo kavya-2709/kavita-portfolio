@@ -1,4 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "comment": "Client-side routing: everything that is not a real file and not an API function falls through to the app. The api/ exclusion matters, or POSTing a drawing would be answered with index.html.",
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

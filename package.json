@@ -12,6 +12,7 @@
     "test:noise": "tsx src/lib/noise.test.ts"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.2",
     "framer-motion": "^13.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

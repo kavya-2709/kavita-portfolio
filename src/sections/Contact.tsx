@@ -4,6 +4,7 @@ import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
 import { LinkedInIcon, MailIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
+import ConvergeText from "../components/ConvergeText";
 import FooterScene from "../components/FooterScene";
 
 const SOCIALS = [
@@ -51,7 +52,9 @@ export default function Contact() {
             transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}
             className={`${TYPE.h1} mt-6`}
           >
-            Let's build something worth using
+            {/* The last line on every page, so it is worth a moment. The
+                fade-up that was here read as one more block arriving. */}
+            <ConvergeText text="Let's build something worth using" />
           </motion.h2>
 
           <motion.div
