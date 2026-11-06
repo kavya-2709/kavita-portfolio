@@ -24,7 +24,16 @@ import { explorations as copy } from "../../lib/content";
  * interaction at all: the first card is open by default.
  */
 export default function Explorations() {
-  const [active, setActive] = useState(0);
+  /**
+   * Nothing is open until you point at something.
+   *
+   * The first card used to be expanded by default, which meant the page
+   * arrived already asserting one project's question before the reader had
+   * chosen anything. At rest every card is just its one-word tag and the
+   * heading ends on a word of its own; hovering, focusing or tapping a card
+   * opens that card's question, and leaving puts it back.
+   */
+  const [active, setActive] = useState<number | null>(null);
 
   return (
     <section className="pb-14 md:pb-20">
@@ -36,13 +45,16 @@ export default function Explorations() {
             <h1 className={TYPE.h1}>
               {copy.headingBefore}{" "}
               <span className="font-serif-display text-[color:#ef5a22] italic">
-                {copy.items[active].tag}
+                {active === null ? copy.restingTag : copy.items[active].tag}
               </span>
             </h1>
             <p className={`${TYPE.body} mt-6`}>{copy.lead}</p>
           </div>
 
-          <ul className="grid gap-6 sm:grid-cols-2 lg:gap-7">
+            <ul
+            className="grid gap-6 sm:grid-cols-2 lg:gap-7"
+            onMouseLeave={() => setActive(null)}
+          >
             {copy.items.map((it, i) => {
               const open = active === i;
               return (
@@ -50,7 +62,9 @@ export default function Explorations() {
                   key={it.id}
                   onMouseEnter={() => setActive(i)}
                   onFocusCapture={() => setActive(i)}
-                  onClick={() => setActive(i)}
+                  onBlurCapture={() => setActive(null)}
+                  // Tap toggles, so a touch user can close it again.
+                  onClick={() => setActive((p) => (p === i ? null : i))}
                   className="flex h-full flex-col"
                 >
                   {/* The tag, which grows into the question for the open

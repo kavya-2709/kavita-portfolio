@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { EASE } from "./ui";
 
 /**
@@ -29,6 +29,20 @@ import { EASE } from "./ui";
  * `aria-label` and every span is hidden, or a screen reader would read the
  * line out one character at a time.
  */
+/**
+ * `custom` is the letter's position in the line, -1 at the first character
+ * and +1 at the last, so one pair of variants describes every letter.
+ */
+const LETTER: Variants = {
+  hidden: ({ t, spread }: { t: number; spread: number }) => ({
+    x: t * spread,
+    y: Math.abs(t) * 24,
+    rotate: t * 9,
+    opacity: 0,
+  }),
+  show: { x: 0, y: 0, rotate: 0, opacity: 1 },
+};
+
 export default function ConvergeText({
   text,
   className = "",
@@ -45,6 +59,7 @@ export default function ConvergeText({
 }) {
   const reduced = useReducedMotion();
   const words = text.split(" ");
+  const MotionTag = motion[Tag];
 
   if (reduced) return <Tag className={className}>{text}</Tag>;
 
@@ -66,7 +81,18 @@ export default function ConvergeText({
     // while they converge: a centred statement on a phone added 46px of
     // horizontal scroll, which is a page-wide bug from a decorative effect.
     // `clip` rather than `hidden`, so this never becomes a scroll container.
-    <Tag className={`block overflow-x-clip ${className}`} aria-label={text}>
+    // One viewport trigger, on the line. Each letter used to carry its own
+    // `whileInView`, which meant a letter that never satisfied the threshold
+    // on its own never animated and sat at opacity 0 forever: with the clip
+    // above, the outermost letters begin outside the box and some of them
+    // were simply never shown. The line decides, the letters follow.
+    <MotionTag
+      className={`block overflow-x-clip ${className}`}
+      aria-label={text}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
+    >
       {words.map((word, w) => {
         const chars = [...word];
         const node = (
@@ -79,14 +105,8 @@ export default function ConvergeText({
                 <motion.span
                   key={`${ch}-${c}`}
                   className="inline-block"
-                  initial={{
-                    x: t * spread,
-                    y: Math.abs(t) * 24,
-                    rotate: t * 9,
-                    opacity: 0,
-                  }}
-                  whileInView={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.4 }}
+                  custom={{ t, spread }}
+                  variants={LETTER}
                   transition={{
                     duration: 0.85,
                     ease: EASE,
@@ -110,6 +130,6 @@ export default function ConvergeText({
           node
         );
       })}
-    </Tag>
+    </MotionTag>
   );
 }

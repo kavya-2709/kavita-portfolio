@@ -33,7 +33,6 @@ const HousingCase = lazy(() => import("./pages/HousingCase"));
  * someone who came to read a case study.
  */
 const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
-const PlaygroundAdmin = lazy(() => import("./pages/PlaygroundAdmin"));
 
 function Home() {
   return (
@@ -75,8 +74,6 @@ function App() {
                   Playground: the word the work itself is about. The files are
                   still named Playground* internally. */}
               <Route path="/fun" element={<PlaygroundPage />} />
-              {/* Not linked from anywhere. Kavita's moderation view. */}
-              <Route path="/fun/admin" element={<PlaygroundAdmin />} />
               {/* `/playground` was a real URL before this, redirecting to
                   Work. It now points at what replaced it. */}
               <Route path="/playground" element={<Navigate to="/fun" replace />} />

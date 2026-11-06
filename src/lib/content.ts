@@ -569,6 +569,8 @@ export const playground = {
 export const explorations = {
   eyebrow: "Explorations",
   headingBefore: "Small things I build to understand people's",
+  /** The word the heading rests on when no card is being pointed at. */
+  restingTag: "curiosity",
   lead: "Weekends and evenings, mostly built with AI in the loop. Each one started as a question I could not stop poking at, and each one is live if you want to try it.",
   liveCta: "Live site",
   items: [
@@ -581,10 +583,10 @@ export const explorations = {
       meta: "Solo, 2026",
       hero: "/work/fun/jalal-hero.webp",
       heroAlt:
-        "A night-time 3D camp scene with a signpost reading Jalal's Camp, 0.2 km",
+        "The lit campfire scene, titled Our little lion, Jalal: one year of noise, mess, naps and you sitting on my stuff",
       thumbs: [
-        { src: "/work/fun/jalal-walk.webp", alt: "The character and the cat waiting by the signpost" },
-        { src: "/work/fun/jalal-intro.webp", alt: "The opening card: one year of Jalal, let's replay it" },
+        { src: "/work/fun/jalal-camp.webp", alt: "The campsite before the fire is lit, with a tent, a cake and strung lights" },
+        { src: "/work/fun/jalal-walk.webp", alt: "The signpost to Jalal's Camp, with the character and the cat" },
       ],
       live: "https://jalal-camp.vercel.app/",
     },
@@ -606,39 +608,12 @@ export const explorations = {
   ],
 };
 
+/**
+ * `/fun` page chrome. What is left after the drawing pad and the visitor
+ * wall were removed: the page's own copy now lives in `explorations`.
+ */
 export const sketchwall = {
   badge: "Fun",
-  title: "Draw something,",
-  titleAccent: "leave it here.",
-  lead: "A pen, a blank page and a wall underneath it. Make whatever you like and post it, and it joins everything else people have drawn here.",
-
-  canvasLabel: "Drawing pad",
-  colourLabel: "Pen colour",
-  sizeLabel: "Nib size",
-  eraser: "Eraser",
-  undo: "Undo",
-  clear: "Clear",
-  post: "Post to the wall",
-  posting: "Posting",
-  signLabel: "Sign it",
-  signPlaceholder: "Your name",
-  hint: "Draw something first",
-
-  wallTitle: "The wall",
-  wallEmpty: "Nothing on the wall yet. Draw the first one",
-  wallLoading: "Loading the wall",
-  wallError: "The wall could not be loaded just now. The drawing pad above still works",
-  postError: "That drawing could not be posted. Have another go in a moment",
-  anonymous: "Anonymous",
-
-  adminTitle: "Moderation",
-  adminLead: "Everything on the wall, newest first. Removing one is immediate and cannot be undone.",
-  adminKeyLabel: "Moderation key",
-  adminUnlock: "Unlock",
-  adminDelete: "Delete",
-  adminDeleting: "Deleting",
-  adminWrongKey: "That key was not accepted",
-  adminEmpty: "Nothing posted yet",
 };
 
 export const skills = {
