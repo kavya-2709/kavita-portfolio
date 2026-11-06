@@ -573,14 +573,25 @@ export const explorations = {
   restingTag: "curiosity",
   lead: "Weekends and evenings, mostly built with AI in the loop. Each one started as a question I could not stop poking at, and each one is live if you want to try it.",
   liveCta: "Live site",
+  demoCta: "Demo video",
   items: [
     {
       id: "jalal",
       tag: "memory",
-      question:
-        "How might a year of someone's life be something you walk through, rather than scroll past?",
-      title: "I built a little 3D world you walk through to replay a year.",
-      meta: "Solo, 2026",
+      /**
+       * Split rather than one string so the verb can be set in bold without
+       * putting markup in the content file. `before + strong + after` is
+       * also what the accessible label is assembled from.
+       */
+      q: {
+        before: "How might we turn a year of someone's life into a place you ",
+        strong: "walk through",
+        after: ", instead of a gallery you scroll past?",
+      },
+      title: "A birthday card you can walk around in.",
+      blurb:
+        "A year of one very opinionated cat, rebuilt as a campsite you move through at night. Light the fire and the story starts: scenes, a soundtrack, and the whole thing paced like a walk rather than a feed.",
+      meta: "Solo · 3D, sound and scroll · 2026",
       hero: "/work/fun/jalal-hero.webp",
       heroAlt:
         "The lit campfire scene, titled Our little lion, Jalal: one year of noise, mess, naps and you sitting on my stuff",
@@ -589,14 +600,21 @@ export const explorations = {
         { src: "/work/fun/jalal-walk.webp", alt: "The signpost to Jalal's Camp, with the character and the cat" },
       ],
       live: "https://jalal-camp.vercel.app/",
+      /** No demo video yet. The CTA appears as soon as this has a URL. */
+      demo: "",
     },
     {
       id: "little-wins",
       tag: "momentum",
-      question:
-        "How might someone notice what they did get done, on the days it feels like nothing happened?",
-      title: "I built a jar for the small wins people forget they had.",
-      meta: "Solo, 2026",
+      q: {
+        before: "How might we help someone ",
+        strong: "notice",
+        after: " what they did get done, on the days it feels like nothing happened?",
+      },
+      title: "A jar for the wins too small to celebrate.",
+      blurb:
+        "Most trackers measure the gap between you and the plan. This one only collects what actually happened, however small, so a bad week reads back as a list of things you did rather than things you missed.",
+      meta: "Solo · Product, accounts and data · 2026",
       hero: "/work/fun/wins-hero.webp",
       heroAlt:
         "The Little Wins sign-in card: track what you forget, celebrate what you do",
@@ -604,17 +622,12 @@ export const explorations = {
         { src: "/work/fun/wins-phone.webp", alt: "Little Wins on a phone" },
       ],
       live: "https://little-wins-jar.vercel.app/",
+      demo: "",
     },
   ],
 };
 
-/**
- * `/fun` page chrome. What is left after the drawing pad and the visitor
- * wall were removed: the page's own copy now lives in `explorations`.
- */
-export const sketchwall = {
-  badge: "Fun",
-};
+
 
 export const skills = {
   "UX Design": [

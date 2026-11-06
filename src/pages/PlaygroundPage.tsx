@@ -1,6 +1,3 @@
-import { motion } from "framer-motion";
-import { Container, EASE } from "../components/ui";
-import { sketchwall as copy } from "../lib/content";
 import Explorations from "../components/playground/Explorations";
 import Reel from "../sections/Playground";
 import Contact from "../sections/Contact";
@@ -24,21 +21,7 @@ export default function PlaygroundPage() {
   return (
     <>
       <main className="pt-28 md:pt-32">
-        <Container>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE }}
-          >
-            <span className="bg-ink text-paper-white font-geist text-caption inline-flex rounded-full px-3.5 py-1.5 tracking-[0.11em] uppercase">
-              {copy.badge}
-            </span>
-          </motion.div>
-        </Container>
-
-        <div className="mt-8">
-          <Explorations />
-        </div>
+        <Explorations />
 
         {/* The motion reel, moved here from the foot of Work. It is the same
             kind of thing as the explorations, self-directed and curious, and

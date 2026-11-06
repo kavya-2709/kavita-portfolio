@@ -35,6 +35,16 @@ export function ExternalIcon({ className = "" }: IconProps) {
   );
 }
 
+/** Plays a recording. Used by the demo-video buttons on /fun. */
+export function PlayIcon({ className = "" }: IconProps) {
+  return (
+    <svg {...common} className={base(className)}>
+      {/* Filled, because a hollow triangle at 1.05em reads as a chevron. */}
+      <path d="M8 5.5v13l11-6.5z" fill="currentColor" strokeWidth={1.4} />
+    </svg>
+  );
+}
+
 /** Goes somewhere else on this site. */
 export function ArrowRightIcon({ className = "" }: IconProps) {
   return (
