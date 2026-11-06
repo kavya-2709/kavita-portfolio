@@ -8,7 +8,6 @@ import { ArrowUpRightIcon } from "../components/icons";
 import { themeFor } from "../lib/surfaces";
 import { TYPE } from "../lib/type";
 import Contact from "../sections/Contact";
-import Playground from "../sections/Playground";
 import { Clean4Wheels, NioPractice } from "../components/scenes/mockups";
 
 /**
@@ -263,9 +262,9 @@ export default function WorkPage() {
           <LiveWork />
         </Reveal>
 
-        {/* Playground closes the page rather than owning a route of its own.
-            It carries its own header and ground, so it needs no separator. */}
-        <Playground />
+        {/* The motion reel used to close this page. It now lives on /fun with
+            the rest of the self-directed work, so Work is case studies and
+            shipped products only and the case studies keep the page. */}
       </main>
       <Contact />
     </>

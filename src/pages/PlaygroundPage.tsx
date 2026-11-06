@@ -9,6 +9,8 @@ import {
   type Drawing,
 } from "../lib/playground";
 import DrawCanvas from "../components/playground/DrawCanvas";
+import Explorations from "../components/playground/Explorations";
+import Reel from "../sections/Playground";
 import Contact from "../sections/Contact";
 
 /**
@@ -77,13 +79,33 @@ export default function PlaygroundPage() {
               {copy.badge}
             </span>
             <h1 className={`${TYPE.h1} mt-6 max-w-3xl`}>
+              {copy.pageTitle}{" "}
+              <span className="font-serif-display text-[color:#ef5a22] italic">
+                {copy.pageTitleAccent}
+              </span>
+            </h1>
+            <p className={`${TYPE.lead} mt-6 max-w-2xl`}>{copy.pageLead}</p>
+          </motion.div>
+        </Container>
+
+        {/* What she made. */}
+        <Explorations />
+
+        {/* The motion reel, moved here from the foot of Work. It is the same
+            kind of thing as the explorations, self-directed and curious, and
+            Work is stronger as case studies plus shipped products alone. */}
+        <Reel />
+
+        <Container>
+          <div className="border-ink/[0.08] mt-6 border-t pt-14 md:pt-20">
+            <h2 className={TYPE.h2}>
               {copy.title}{" "}
               <span className="font-serif-display text-[color:#ef5a22] italic">
                 {copy.titleAccent}
               </span>
-            </h1>
-            <p className={`${TYPE.lead} mt-6 max-w-2xl`}>{copy.lead}</p>
-          </motion.div>
+            </h2>
+            <p className={`${TYPE.lead} mt-5 max-w-2xl`}>{copy.lead}</p>
+          </div>
 
           {/* Pad on the left, wall on the right, side by side from lg up.
               Stacked below that, because a 500px-wide pad on a phone is not
