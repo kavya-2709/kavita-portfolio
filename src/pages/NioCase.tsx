@@ -5,7 +5,6 @@ import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
 import { ArrowRightIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
-import ConvergeText from "../components/ConvergeText";
 import { themeVars } from "../lib/surfaces";
 import { ProgressRail } from "../components/ProgressRail";
 import { DeviceFrame } from "../components/DeviceFrame";
@@ -297,7 +296,7 @@ export default function NioCase() {
           <Container>
             <Rise>
               <p className="font-serif-display text-paper-white mx-auto max-w-4xl text-center text-[clamp(1.5rem,3.2vw,2.5rem)] leading-[1.35]">
-                <ConvergeText text={n.statement} spread={70} />
+                {n.statement}
               </p>
             </Rise>
           </Container>
