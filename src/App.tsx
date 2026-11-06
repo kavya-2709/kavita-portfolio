@@ -84,6 +84,10 @@ function App() {
               <Route path="/work/niopractice" element={<NioCase />} />
               <Route path="/work/housing" element={<HousingCase />} />
               <Route path="/work/:slug" element={<CaseStudy />} />
+              {/* Anything unmatched goes home rather than rendering a page
+                  with a nav and nothing under it. Removing /fun/admin made
+                  this reachable, but a mistyped URL always could. */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>
         </>
