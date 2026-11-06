@@ -589,8 +589,6 @@ export const explorations = {
         after: ", instead of a gallery you scroll past?",
       },
       title: "A birthday card you can walk around in.",
-      blurb:
-        "A year of one very opinionated cat, rebuilt as a campsite you move through at night. Light the fire and the story starts: scenes, a soundtrack, and the whole thing paced like a walk rather than a feed.",
       meta: "Solo · 3D, sound and scroll · 2026",
       hero: "/work/fun/jalal-hero.webp",
       heroAlt:
@@ -612,17 +610,18 @@ export const explorations = {
         after: " what they did get done, on the days it feels like nothing happened?",
       },
       title: "A jar for the wins too small to celebrate.",
-      blurb:
-        "Most trackers measure the gap between you and the plan. This one only collects what actually happened, however small, so a bad week reads back as a list of things you did rather than things you missed.",
       meta: "Solo · Product, accounts and data · 2026",
       hero: "/work/fun/wins-hero.webp",
       heroAlt:
-        "The Little Wins sign-in card: track what you forget, celebrate what you do",
+        "The rewards screen: 28 stars in the jar, against rewards for a cafe pastry, a new book and a trip",
       thumbs: [
-        { src: "/work/fun/wins-phone.webp", alt: "Little Wins on a phone" },
+        { src: "/work/fun/wins-jar-full.webp", alt: "The jar part-filled with stars, 31 of 60 towards the next reward" },
+        { src: "/work/fun/wins-jar-mid.webp", alt: "The same jar after spending stars, back down to 28" },
       ],
       live: "https://little-wins-jar.vercel.app/",
-      demo: "",
+      /** Opens Kavita's Instagram in a new tab. Canonical reel URL: the
+          share link carried rpxt and srtk tracking tokens. */
+      demo: "https://www.instagram.com/reel/DdwGw6DT_AF/",
     },
   ],
 };

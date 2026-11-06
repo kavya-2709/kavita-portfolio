@@ -36,7 +36,7 @@ export default function Explorations() {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <section className="pb-14 md:pb-20">
+    <section className="py-14 md:py-20">
       <Container>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-14">
           {/* The statement. Sticky so it holds the thought while you read
@@ -116,8 +116,7 @@ export default function Explorations() {
                   </figure>
 
                   <h2 className={`${TYPE.h3} mt-5`}>{it.title}</h2>
-                  <p className={`${TYPE.body} mt-2.5`}>{it.blurb}</p>
-                  <p className={`${TYPE.small} mt-3`}>{it.meta}</p>
+                  <p className={`${TYPE.small} mt-2`}>{it.meta}</p>
 
                   <div className="mt-auto flex flex-wrap gap-2 pt-5">
                     <LiquidButton href={it.live} size="sm">

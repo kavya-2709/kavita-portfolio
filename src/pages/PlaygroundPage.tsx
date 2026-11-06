@@ -20,7 +20,7 @@ import Contact from "../sections/Contact";
 export default function PlaygroundPage() {
   return (
     <>
-      <main className="pt-28 md:pt-32">
+      <main className="pt-28 md:pt-36">
         <Explorations />
 
         {/* The motion reel, moved here from the foot of Work. It is the same
