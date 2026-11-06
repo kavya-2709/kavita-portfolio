@@ -608,10 +608,6 @@ export const explorations = {
 
 export const sketchwall = {
   badge: "Fun",
-  pageTitle: "Side quests,",
-  pageTitleAccent: "and one you can take.",
-  pageLead:
-    "Small things I build when nobody asked for them, mostly to find out how something should feel. At the end there is a pen and a blank page, so you can leave something too.",
   title: "Draw something,",
   titleAccent: "leave it here.",
   lead: "A pen, a blank page and a wall underneath it. Make whatever you like and post it, and it joins everything else people have drawn here.",

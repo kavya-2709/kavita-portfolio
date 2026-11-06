@@ -78,18 +78,19 @@ export default function PlaygroundPage() {
             <span className="bg-ink text-paper-white font-geist text-caption inline-flex rounded-full px-3.5 py-1.5 tracking-[0.11em] uppercase">
               {copy.badge}
             </span>
-            <h1 className={`${TYPE.h1} mt-6 max-w-3xl`}>
-              {copy.pageTitle}{" "}
-              <span className="font-serif-display text-[color:#ef5a22] italic">
-                {copy.pageTitleAccent}
-              </span>
-            </h1>
-            <p className={`${TYPE.lead} mt-6 max-w-2xl`}>{copy.pageLead}</p>
           </motion.div>
         </Container>
 
-        {/* What she made. */}
-        <Explorations />
+        {/* One opening, then two quiet sections.
+
+            The page had four headings competing: a page title, then a serif
+            heading for the explorations, the reel and the wall, each with
+            its own badge. The explorations statement is the only large type
+            on the page now and doubles as its title; everything below is a
+            label and a line. */}
+        <div className="mt-8">
+          <Explorations />
+        </div>
 
         {/* The motion reel, moved here from the foot of Work. It is the same
             kind of thing as the explorations, self-directed and curious, and
@@ -97,14 +98,14 @@ export default function PlaygroundPage() {
         <Reel />
 
         <Container>
-          <div className="border-ink/[0.08] mt-6 border-t pt-14 md:pt-20">
-            <h2 className={TYPE.h2}>
+          <div className="border-ink/[0.08] border-t pt-10">
+            <h2 className={TYPE.h3}>
               {copy.title}{" "}
               <span className="font-serif-display text-[color:#ef5a22] italic">
                 {copy.titleAccent}
               </span>
             </h2>
-            <p className={`${TYPE.lead} mt-5 max-w-2xl`}>{copy.lead}</p>
+            <p className={`${TYPE.small} mt-3 max-w-md`}>{copy.lead}</p>
           </div>
 
           {/* Pad on the left, wall on the right, side by side from lg up.

@@ -15,33 +15,31 @@ import { TYPE } from "../lib/type";
  */
 export default function Playground() {
   return (
-    <section id="playground" className="relative py-16 md:py-24">
+    <section id="playground" className="relative py-14 md:py-20">
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
+        {/* A label and a line, not a second title. This sits below the one
+            big statement at the top of /fun, and when every section carried
+            its own badge and serif heading the page read as four openings
+            stacked on each other rather than one page. */}
+        <div className="border-ink/[0.08] flex flex-wrap items-start justify-between gap-6 border-t pt-10">
           <div>
-            <span className="bg-ink text-paper-white font-geist text-caption inline-flex rounded-full px-4 py-1.5 tracking-[0.11em] uppercase">
-              {p.badge}
-            </span>
-
-            <h2 className={`${TYPE.h2} mt-7`}>
-              {p.title}
-              <br />
-              <span className="text-clay italic">{p.titleAccent}</span>
+            <h2 className={TYPE.h3}>
+              {p.title} <span className="text-clay italic">{p.titleAccent}</span>
             </h2>
           </div>
 
-          <div className="flex items-start gap-5 lg:pt-3">
+          <div className="flex items-start gap-5">
             <img
               src={p.sticker}
               alt=""
               aria-hidden
               width={96}
               height={96}
-              className="h-[72px] w-auto shrink-0 -rotate-6 md:h-[88px]"
+              className="h-[56px] w-auto shrink-0 -rotate-6"
             />
-            <p className={`${TYPE.body} max-w-sm`}>
+            <p className={`${TYPE.small} max-w-sm`}>
               {p.blurbBefore}
-              <em className="font-serif-display text-ink text-body-lg not-italic">
+              <em className="font-serif-display text-ink not-italic">
                 <span className="italic">{p.blurbEmphasis}</span>
               </em>
               {p.blurbAfter}
@@ -49,7 +47,9 @@ export default function Playground() {
           </div>
         </div>
 
-        <Reel />
+        <div className="mt-8">
+          <Reel />
+        </div>
       </Container>
     </section>
   );
