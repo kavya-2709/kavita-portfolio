@@ -554,7 +554,7 @@ export const playground = {
  * are removed from `/playground/admin`.
  */
 export const sketchwall = {
-  badge: "Playground",
+  badge: "Fun",
   title: "Draw something,",
   titleAccent: "leave it here.",
   lead: "A pen, a blank page and a wall underneath it. Make whatever you like and post it, and it joins everything else people have drawn here.",

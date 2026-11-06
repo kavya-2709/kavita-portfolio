@@ -21,7 +21,7 @@ import { profile } from "../lib/content";
 const LINKS = [
   { id: "work", label: "Work", to: "/work" },
   { id: "about", label: "About", to: "/about" },
-  { id: "playground", label: "Playground", to: "/playground" },
+  { id: "fun", label: "Fun", to: "/fun" },
 ] as const;
 
 export default function Nav() {

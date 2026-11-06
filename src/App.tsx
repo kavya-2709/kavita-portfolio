@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import CaseStudy from "./sections/CaseStudy";
 import AboutPage from "./pages/AboutPage";
 import WorkPage from "./pages/WorkPage";
@@ -71,13 +71,15 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<AboutPage />} />
-              {/* `/playground` is a real page again, but a different thing
-                  from the section that used to live here: that one was the
-                  motion reel, which stays at the foot of Work. This is the
-                  wall visitors draw on. */}
-              <Route path="/playground" element={<PlaygroundPage />} />
+              {/* The self-directed half of the site, called Fun rather than
+                  Playground: the word the work itself is about. The files are
+                  still named Playground* internally. */}
+              <Route path="/fun" element={<PlaygroundPage />} />
               {/* Not linked from anywhere. Kavita's moderation view. */}
-              <Route path="/playground/admin" element={<PlaygroundAdmin />} />
+              <Route path="/fun/admin" element={<PlaygroundAdmin />} />
+              {/* `/playground` was a real URL before this, redirecting to
+                  Work. It now points at what replaced it. */}
+              <Route path="/playground" element={<Navigate to="/fun" replace />} />
               <Route path="/work" element={<WorkPage />} />
               {/* All three case studies are written. The :slug scaffold below
                 is now only a fallback for an unknown slug. */}
