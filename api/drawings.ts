@@ -18,9 +18,6 @@ import { put, list, del } from "@vercel/blob";
  * safe character set before it is ever put in a pathname, and both are capped.
  */
 
-/** Web-standard Request/Response, which is what the edge runtime speaks. */
-export const config = { runtime: "edge" };
-
 const PREFIX = "playground/";
 const MAX_PNG_BYTES = 400_000;
 const MAX_NAME_LEN = 24;
