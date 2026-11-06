@@ -5,6 +5,7 @@ import { Container, EASE } from "../components/ui";
 import { LiquidButton } from "../components/LiquidButton";
 import { ArrowRightIcon, ExternalIcon } from "../components/icons";
 import { TYPE } from "../lib/type";
+import ConvergeText from "../components/ConvergeText";
 import { themeVars } from "../lib/surfaces";
 import { ProgressRail } from "../components/ProgressRail";
 import {
@@ -510,7 +511,7 @@ export default function Clean4WheelsCase() {
           <Container>
             <Rise>
               <p className="font-serif-display text-paper-white mx-auto max-w-4xl text-center text-[clamp(1.5rem,3.2vw,2.5rem)] leading-[1.35]">
-                {c.statement}
+                <ConvergeText text={c.statement} spread={70} />
               </p>
             </Rise>
           </Container>
