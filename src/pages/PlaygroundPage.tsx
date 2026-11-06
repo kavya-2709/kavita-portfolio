@@ -85,64 +85,78 @@ export default function PlaygroundPage() {
             <p className={`${TYPE.lead} mt-6 max-w-2xl`}>{copy.lead}</p>
           </motion.div>
 
+          {/* Pad on the left, wall on the right, side by side from lg up.
+              Stacked below that, because a 500px-wide pad on a phone is not
+              a pad. The wall scrolls inside its own column rather than
+              running the page on forever, so the pad stays on screen while
+              you look through what other people left. */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
-            className="mt-12"
+            className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-14"
           >
-            <DrawCanvas onPost={handlePost} posting={posting} />
-            {postError ? (
-              <p
-                role="status"
-                className="font-geist text-body-sm mt-4 text-[color:#98002e]"
-              >
-                {postError}
-              </p>
-            ) : null}
+            <div>
+              <DrawCanvas onPost={handlePost} posting={posting} />
+              {postError ? (
+                <p
+                  role="status"
+                  className="font-geist text-body-sm mt-4 text-[color:#98002e]"
+                >
+                  {postError}
+                </p>
+              ) : null}
+            </div>
+
+            <div className="flex min-w-0 flex-col">
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 className={TYPE.h3}>{copy.wallTitle}</h2>
+                {drawings && drawings.length > 0 ? (
+                  <span className="font-geist text-body-sm text-fog">
+                    {drawings.length}
+                  </span>
+                ) : null}
+              </div>
+
+              {drawings === null ? (
+                <p className={`${TYPE.small} mt-6`}>{copy.wallLoading}</p>
+              ) : wallError ? (
+                <p className={`${TYPE.small} mt-6`}>{wallError}</p>
+              ) : drawings.length === 0 ? (
+                <p className={`${TYPE.small} mt-6`}>{copy.wallEmpty}</p>
+              ) : (
+                <ul className="mt-5 grid grid-cols-2 gap-4 lg:max-h-[34rem] lg:overflow-y-auto lg:pr-2">
+                  {drawings.map((d) => (
+                    <li key={d.id}>
+                      <figure className="m-0">
+                        <img
+                          src={d.url}
+                          alt={`Drawing by ${d.name}`}
+                          loading="lazy"
+                          className="rounded-cards-sm border-ink/[0.08] w-full border bg-white"
+                        />
+                        <figcaption className="font-geist text-body-sm text-graphite mt-2 flex items-baseline justify-between gap-2">
+                          <span className="text-ink truncate">{d.name}</span>
+                          <time
+                            dateTime={new Date(d.at).toISOString()}
+                            className="text-fog shrink-0"
+                          >
+                            {new Date(d.at).toLocaleDateString(undefined, {
+                              day: "numeric",
+                              month: "short",
+                            })}
+                          </time>
+                        </figcaption>
+                      </figure>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </motion.div>
         </Container>
 
-        <section className="py-14 md:py-20">
-          <Container>
-            <h2 className={TYPE.h2}>{copy.wallTitle}</h2>
-
-            {drawings === null ? (
-              <p className={`${TYPE.small} mt-6`}>{copy.wallLoading}</p>
-            ) : wallError ? (
-              <p className={`${TYPE.small} mt-6`}>{wallError}</p>
-            ) : drawings.length === 0 ? (
-              <p className={`${TYPE.small} mt-6`}>{copy.wallEmpty}</p>
-            ) : (
-              <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {drawings.map((d) => (
-                  <li key={d.id}>
-                    <figure className="m-0">
-                      <img
-                        src={d.url}
-                        alt={`Drawing by ${d.name}`}
-                        loading="lazy"
-                        className="rounded-cards-sm border-ink/[0.08] w-full border bg-white"
-                      />
-                      <figcaption className="font-geist text-body-sm text-graphite mt-2.5 flex items-baseline justify-between gap-3">
-                        <span className="text-ink">{d.name}</span>
-                        <time
-                          dateTime={new Date(d.at).toISOString()}
-                          className="text-fog"
-                        >
-                          {new Date(d.at).toLocaleDateString(undefined, {
-                            day: "numeric",
-                            month: "short",
-                          })}
-                        </time>
-                      </figcaption>
-                    </figure>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </Container>
-        </section>
+        <div className="h-14 md:h-20" />
       </main>
       <Contact />
     </>

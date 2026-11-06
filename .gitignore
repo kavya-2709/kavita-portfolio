@@ -37,3 +37,6 @@ assets-source/
 
 # TypeScript incremental build state
 *.tsbuildinfo
+
+# Local-only drawings for the dev wall stub
+.dev-wall/
