@@ -89,30 +89,39 @@ export default function Explorations() {
                     )}
                   </div>
 
-                  <figure className="m-0 mt-4">
+                  {/* A bento of three: the hero across the top, the two
+                      supporting shots beneath it.
+
+                      The whole block is pinned to one aspect ratio and every
+                      tile is `object-cover`, so the two projects occupy
+                      exactly the same height whatever their screenshots
+                      happen to measure. Before this the cards ran to
+                      different lengths purely because one site is 16:10 and
+                      the other is nearly 2:1.
+
+                      One radius on every tile and a gap that matches it, so
+                      the three read as pieces of one object rather than
+                      three images that happen to be stacked. */}
+                  <figure className="mt-4 mb-0 grid aspect-[4/3] min-h-0 grid-cols-2 grid-rows-[minmax(0,1.85fr)_minmax(0,1fr)] gap-2.5">
                     <img
                       src={it.hero}
                       alt={it.heroAlt}
                       loading="lazy"
-                      className="rounded-cards border-ink/[0.08] w-full border bg-white"
+                      className="rounded-images border-ink/[0.08] col-span-2 h-full min-h-0 w-full border bg-white object-cover object-top"
                     />
-                    {it.thumbs.length > 0 ? (
-                      <div
-                        className={`mt-3 grid gap-3 ${
-                          it.thumbs.length === 1 ? "grid-cols-1" : "grid-cols-2"
+                    {it.thumbs.map((t) => (
+                      <img
+                        key={t.src}
+                        src={t.src}
+                        alt={t.alt}
+                        loading="lazy"
+                        // A single supporting shot spans the row rather than
+                        // leaving a hole beside itself.
+                        className={`rounded-images border-ink/[0.08] h-full min-h-0 w-full border bg-white object-cover object-top ${
+                          it.thumbs.length === 1 ? "col-span-2" : ""
                         }`}
-                      >
-                        {it.thumbs.map((t) => (
-                          <img
-                            key={t.src}
-                            src={t.src}
-                            alt={t.alt}
-                            loading="lazy"
-                            className="rounded-cards-sm border-ink/[0.08] h-28 w-full border bg-white object-cover object-top"
-                          />
-                        ))}
-                      </div>
-                    ) : null}
+                      />
+                    ))}
                   </figure>
 
                   <h2 className={`${TYPE.h3} mt-5`}>{it.title}</h2>

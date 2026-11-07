@@ -613,7 +613,7 @@ export const explorations = {
       meta: "Solo · Product, accounts and data · 2026",
       hero: "/work/fun/wins-hero.webp",
       heroAlt:
-        "The rewards screen: 28 stars in the jar, against rewards for a cafe pastry, a new book and a trip",
+        "The home screen: the star jar at 28 of 60, beside the day's wins waiting to be collected",
       thumbs: [
         { src: "/work/fun/wins-jar-full.webp", alt: "The jar part-filled with stars, 31 of 60 towards the next reward" },
         { src: "/work/fun/wins-jar-mid.webp", alt: "The same jar after spending stars, back down to 28" },
