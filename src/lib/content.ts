@@ -571,7 +571,7 @@ export const explorations = {
   headingBefore: "Small things I build to understand people's",
   /** The word the heading rests on when no card is being pointed at. */
   restingTag: "curiosity",
-  lead: "Weekends and evenings, mostly built with AI in the loop. Each one started as a question I could not stop poking at, and each one is live if you want to try it.",
+  lead: "Weekends and evenings, mostly built with AI in the loop. Each one started as a question I could not stop poking at.",
   liveCta: "Live site",
   demoCta: "Demo video",
   items: [
@@ -616,7 +616,7 @@ export const explorations = {
         "The home screen: the star jar at 28 of 60, beside the day's wins waiting to be collected",
       thumbs: [
         { src: "/work/fun/wins-jar-full.webp", alt: "The jar part-filled with stars, 31 of 60 towards the next reward" },
-        { src: "/work/fun/wins-jar-mid.webp", alt: "The same jar after spending stars, back down to 28" },
+        { src: "/work/fun/wins-rewards.webp", alt: "The rewards screen: stars saved towards a cafe pastry, a new book and a trip" },
       ],
       live: "https://little-wins-jar.vercel.app/",
       /** Opens Kavita's Instagram in a new tab. Canonical reel URL: the

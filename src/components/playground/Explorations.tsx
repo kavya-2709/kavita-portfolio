@@ -107,7 +107,7 @@ export default function Explorations() {
                       src={it.hero}
                       alt={it.heroAlt}
                       loading="lazy"
-                      className="rounded-images border-ink/[0.08] col-span-2 h-full min-h-0 w-full border bg-white object-cover object-top"
+                      className="rounded-cards-sm border-ink/[0.08] col-span-2 h-full min-h-0 w-full border bg-white object-cover object-top"
                     />
                     {it.thumbs.map((t) => (
                       <img
@@ -117,7 +117,7 @@ export default function Explorations() {
                         loading="lazy"
                         // A single supporting shot spans the row rather than
                         // leaving a hole beside itself.
-                        className={`rounded-images border-ink/[0.08] h-full min-h-0 w-full border bg-white object-cover object-top ${
+                        className={`rounded-cards-sm border-ink/[0.08] h-full min-h-0 w-full border bg-white object-cover object-top ${
                           it.thumbs.length === 1 ? "col-span-2" : ""
                         }`}
                       />
